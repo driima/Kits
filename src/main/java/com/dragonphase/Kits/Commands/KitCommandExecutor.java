@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import com.dragonphase.Kits.Kits;
 import com.dragonphase.Kits.Permissions.Permissions;
 import com.dragonphase.Kits.Util.Collections;
 import com.dragonphase.Kits.Util.Kit;
@@ -28,11 +27,8 @@ import com.dragonphase.Kits.Util.Utils;
 import com.dragonphase.Kits.Util.Message.MessageType;
 
 public class KitCommandExecutor implements CommandExecutor{
-    private Kits plugin;
     
-    public KitCommandExecutor(Kits instance){
-        plugin = instance;
-    }
+    public KitCommandExecutor(){}
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {

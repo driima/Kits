@@ -54,7 +54,7 @@ public class EventListener implements Listener{
         List<String> lines = new ArrayList<String>(Arrays.asList(StringUtils.join(sign.getLines(), " ").split(" ")));
         lines.removeAll(Arrays.asList("", null));
         
-        new KitCommandExecutor(plugin).SpawnKit(event.getPlayer(), Utils.Trim(lines.toArray(new String[lines.size()])));
+        new KitCommandExecutor().SpawnKit(event.getPlayer(), Utils.Trim(lines.toArray(new String[lines.size()])));
         event.getPlayer().updateInventory();
     }
     

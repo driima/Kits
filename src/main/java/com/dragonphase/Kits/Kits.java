@@ -32,7 +32,7 @@ public class Kits extends JavaPlugin{
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
         
         getCommand("kits").setExecutor(new KitsCommandExecutor(this));
-        getCommand("kit").setExecutor(new KitCommandExecutor(this));
+        getCommand("kit").setExecutor(new KitCommandExecutor());
     }
     
     public void reload(){
