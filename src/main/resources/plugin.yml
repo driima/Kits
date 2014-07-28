@@ -1,0 +1,16 @@
+name: Kits
+main: com.dragonphase.Kits.Kits
+version: ${project.version}
+website: http://dragonphase.com/
+depend: []
+description: >
+             Kits allows you to create a collection of items that can be retrieved ingame using commands.
+commands:
+  kit:
+    description: Spawn an available kit
+  kits:
+    description: Display a list of available kits
+permissions:
+  kits.reload:
+    description: Allows players to reload Kits
+    default: op
