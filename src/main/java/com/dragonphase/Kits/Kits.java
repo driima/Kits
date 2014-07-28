@@ -12,17 +12,17 @@ import com.dragonphase.Kits.Util.Kit;
 import com.dragonphase.Kits.Util.Message;
 
 public class Kits extends JavaPlugin{
-	
-	static{
-		ConfigurationSerialization.registerClass(Kit.class);
-		ConfigurationSerialization.registerClass(DelayedPlayer.class);
-	}
+    
+    static{
+        ConfigurationSerialization.registerClass(Kit.class);
+        ConfigurationSerialization.registerClass(DelayedPlayer.class);
+    }
     
     @Override
     public void onDisable(){
         Collections.Save();
     }
-
+    
     @Override
     public void onEnable(){
         Message.setParent(this);
@@ -34,10 +34,6 @@ public class Kits extends JavaPlugin{
         getCommand("kits").setExecutor(new KitsCommandExecutor(this));
         getCommand("kit").setExecutor(new KitCommandExecutor(this));
     }
-    public final class Test{
-    	
-    }
-    
     
     public void reload(){
     	Collections.Reload(this);

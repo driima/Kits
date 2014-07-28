@@ -211,7 +211,7 @@ public class KitCommandExecutor implements CommandExecutor{
     
     //Spawn Kit
     
-    private void SpawnKit(CommandSender sender, String[] args){
+    public void SpawnKit(CommandSender sender, String[] args){
     	if (sender instanceof Player){
     		SpawnKit((Player)sender, args);
     		return;
