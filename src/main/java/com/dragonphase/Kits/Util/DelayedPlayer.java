@@ -27,7 +27,7 @@ public class DelayedPlayer implements ConfigurationSerializable{
 	}
 	
 	public OfflinePlayer GetPlayer(){
-		return player.isOnline() ? player.getPlayer() : player;
+		return player.isOnline() ? (Player)player.getPlayer() : player;
 	}
 	
 	public void AddKit(Kit kit){
@@ -47,7 +47,7 @@ public class DelayedPlayer implements ConfigurationSerializable{
 		Iterator<Entry<String,Long>> iter = kits.entrySet().iterator();
 		while (iter.hasNext()) {
 		    Entry<String,Long> entry = iter.next();
-		    if (System.currentTimeMillis() - entry.getValue() >= Collections.GetKit(entry.getKey()).GetDelay()){
+		    if (Collections.GetKit(entry.getKey()) == null || (System.currentTimeMillis() - entry.getValue() >= Collections.GetKit(entry.getKey()).GetDelay())){
 		        iter.remove();
 		    }
 		}
