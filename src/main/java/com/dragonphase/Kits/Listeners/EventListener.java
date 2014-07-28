@@ -11,12 +11,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.dragonphase.Kits.Kits;
 import com.dragonphase.Kits.Commands.KitCommandExecutor;
+import com.dragonphase.Kits.Permissions.Permissions;
 import com.dragonphase.Kits.Util.Collections;
 import com.dragonphase.Kits.Util.Kit;
 import com.dragonphase.Kits.Util.Message;
@@ -58,6 +60,12 @@ public class EventListener implements Listener{
         event.getPlayer().updateInventory();
     }
     
+    @EventHandler
+    public void onSignChange(SignChangeEvent event){
+        if (event.getLine(0).equalsIgnoreCase("[kit]") && !Permissions.CheckPermission(event.getPlayer(), Permissions.KITS_SIGN))
+            event.setCancelled(true);
+    }
+    
     //Helper methods
     
     public void CreateKit(Player player, Inventory inventory){
@@ -66,6 +74,7 @@ public class EventListener implements Listener{
     	String name = Utils.Capitalize(inventoryName);
     	
     	Kit kit = new Kit(name, inventory.getContents(), 0, true, true);
+    	Kit.AddKit(kit);
     	
     	player.sendMessage(Message.Show("Kit " + kit.GetName() + " created.", MessageType.INFO));
     	

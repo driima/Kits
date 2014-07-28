@@ -20,7 +20,6 @@ public class Kit implements ConfigurationSerializable{
 		this.overwrite = overwrite;
 		this.announce = announce;
 		this.items = items;
-		AddKit(this);
 	}
 	
 	public String GetName(){
@@ -95,6 +94,6 @@ public class Kit implements ConfigurationSerializable{
 	
 	@SuppressWarnings("unchecked")
 	public static Kit deserialize(Map<String, Object> args){
-		return new Kit((String)args.get("name"), ((ArrayList<ItemStack>)args.get("items")).toArray(new ItemStack[((ArrayList<ItemStack>)args.get("items")).size()]), (Integer)args.get("delay"), (Boolean)args.get("overwrite"), (Boolean) args.get("announce"));
+		return new Kit((String)args.get("name"), ((ArrayList<ItemStack>)args.get("items")).toArray(new ItemStack[((ArrayList<ItemStack>)args.get("items")).size()]), (Integer) args.get("delay"), (Boolean) args.get("overwrite"), (Boolean) args.get("announce"));
 	}
 }

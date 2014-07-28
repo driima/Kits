@@ -1,6 +1,5 @@
 package com.dragonphase.Kits.Api;
 
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.dragonphase.Kits.Util.Collections;
@@ -32,8 +31,9 @@ public class KitManager {
      */
     public static Kit createKit(String kitName, ItemStack[] contents, long delay, boolean overwrite, boolean announce){
         String name = Utils.Capitalize(kitName);
-        
-        return new Kit(name, contents, delay, overwrite, announce);
+        Kit kit = new Kit(name, contents, delay, overwrite, announce);
+        Kit.AddKit(kit);
+        return kit;
     }
     
     /**

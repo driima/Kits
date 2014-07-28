@@ -28,18 +28,16 @@ public class Config extends YamlConfiguration{
                 }
             }else{
                 load(file);
-                save(file);
+                try{
+                    save(file);
+                }catch(Exception ex){ }
             }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        } catch (Exception ex) { }
     }
     
     public void save(){
     	try {
 			save(new File(plugin.getDataFolder(), fileName));
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		} catch (Exception ex) { }
     }
 }

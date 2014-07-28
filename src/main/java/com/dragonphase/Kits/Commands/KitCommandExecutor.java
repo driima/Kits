@@ -48,10 +48,24 @@ public class KitCommandExecutor implements CommandExecutor{
     
     private void HandleBaseCommand(CommandSender sender){
     	if (sender instanceof Player){
-    		
+            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit create " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Create a new kit with the specific name.");
+            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Edit an existing kit with the specific name.");
+            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname [flagname] <flagvalue>", MessageType.INFO), "Edit an existing kit's flags with the specific names.");
+            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit remove " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Remove an existing kit with the specific name.");
+            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Spawn the kit with the specified name.");
+            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname [flags]", MessageType.INFO), "Spawn the kit with the specified name.", "With the specified flags. Example:", "/kit basic -announce");
+            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername", MessageType.INFO), "Spawn the kit with the specified name.", "For the player with the specified name.");
+            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername [flags]", MessageType.INFO), "Spawn the kit with the specified name.", "For the player with the specified name.", "With the specified flags. Example:", "/kit basic bob -announce");
     	}
     	else{
-    		
+            sender.sendMessage(Message.Show("Usage", "/kit create " + ChatColor.ITALIC + "kitname", MessageType.INFO));
+            sender.sendMessage(Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname", MessageType.INFO));
+            sender.sendMessage(Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname [flagname] <flagvalue>", MessageType.INFO));
+            sender.sendMessage(Message.Show("Usage", "/kit remove " + ChatColor.ITALIC + "kitname", MessageType.INFO));
+            sender.sendMessage(Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname", MessageType.INFO));
+            sender.sendMessage(Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname [flags]", MessageType.INFO));
+            sender.sendMessage(Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername", MessageType.INFO));
+            sender.sendMessage(Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername [flags]", MessageType.INFO));
     	}
 
         return;
@@ -67,7 +81,7 @@ public class KitCommandExecutor implements CommandExecutor{
     	if (!Permissions.CheckPermission(player, Permissions.KITS_ADMIN)) return;
     	
     	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("/kit create " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Create a new kit with the specific name.");
+    		Message.ShowMessage(player, Message.Show("Usage", "/kit create " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Create a new kit with the specific name.");
     		return;
     	}
     	
@@ -102,8 +116,8 @@ public class KitCommandExecutor implements CommandExecutor{
     	if (!Permissions.CheckPermission(player, Permissions.KITS_ADMIN)) return;
     	
     	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("/kit edit " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Edit an existing kit with the specific name.");
-    		Message.ShowMessage(player, Message.Show("/kit edit " + ChatColor.ITALIC + "kitname flagname", MessageType.INFO), "Edit an existing kit's flags with the specific names.");
+    		Message.ShowMessage(player, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Edit an existing kit with the specific name.");
+    		Message.ShowMessage(player, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname flagname", MessageType.INFO), "Edit an existing kit's flags with the specific names.");
     		return;
     	}
     	
@@ -145,7 +159,7 @@ public class KitCommandExecutor implements CommandExecutor{
     
     public void EditKitOverwrite(Player player, Kit kit, String[] args){
     	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("/kit edit " + ChatColor.ITALIC + kit.GetName() + " overwrite [true|false]", MessageType.INFO), "Change the overwrite flag of " + kit.GetName() + " to true or false.", "Current overwrite value: " + kit.GetOverwrite() + ".");
+    		Message.ShowMessage(player, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + kit.GetName() + " overwrite [true|false]", MessageType.INFO), "Change the overwrite flag of " + kit.GetName() + " to true or false.", "Current overwrite value: " + kit.GetOverwrite() + ".");
     		return;
     	}
     	
@@ -156,7 +170,7 @@ public class KitCommandExecutor implements CommandExecutor{
     
     public void EditKitAnnounce(Player player, Kit kit, String[] args){
     	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("/kit edit " + ChatColor.ITALIC + kit.GetName() + " announce [true|false]", MessageType.INFO), "Change the announce flag of " + kit.GetName() + " to true or false.", "Current announce value: " + kit.GetAnnounce() + ".");
+    		Message.ShowMessage(player, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + kit.GetName() + " announce [true|false]", MessageType.INFO), "Change the announce flag of " + kit.GetName() + " to true or false.", "Current announce value: " + kit.GetAnnounce() + ".");
     		return;
     	}
     	
@@ -167,7 +181,7 @@ public class KitCommandExecutor implements CommandExecutor{
     
     public void EditKitDelay(Player player, Kit kit, String[] args){
     	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("/kit edit " + ChatColor.ITALIC + kit.GetName() + " delay [delay]", MessageType.INFO), "Change the delay flag of " + kit.GetName() + ".", "Example: 1h30m for 1 hour 30 minute delay.");
+    		Message.ShowMessage(player, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + kit.GetName() + " delay [delay]", MessageType.INFO), "Change the delay flag of " + kit.GetName() + ".", "Example: 1h30m for 1 hour 30 minute delay.");
     		return;
     	}
     	
@@ -190,7 +204,7 @@ public class KitCommandExecutor implements CommandExecutor{
     	if (!Permissions.CheckPermission(player, Permissions.KITS_ADMIN)) return;
     	
     	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("/kit remove " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Remove an existing kit with the specific name.");
+    		Message.ShowMessage(player, Message.Show("Usage", "/kit remove " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Remove an existing kit with the specific name.");
     		return;
     	}
     	
@@ -218,7 +232,8 @@ public class KitCommandExecutor implements CommandExecutor{
     		return;
     	}
     	
-    	SpawnKit(sender, args[0], args[1], StringUtils.join(Utils.Trim(Utils.Trim(args)), " "));
+    	if (SpawnKit(sender, args[0], args[1], StringUtils.join(Utils.Trim(Utils.Trim(args)), " ")))
+    	    sender.sendMessage(Message.Show("Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
     }
     
     private void SpawnKit(Player player, String[] args){
@@ -349,7 +364,6 @@ public class KitCommandExecutor implements CommandExecutor{
     	return true;
     }
     
-    @SuppressWarnings("deprecation")
 	private Player GetPlayer(String name){
     	for (Player player : Bukkit.getOnlinePlayers()){
     		if (player.getName().equalsIgnoreCase(name)) return player;

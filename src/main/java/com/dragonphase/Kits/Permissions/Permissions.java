@@ -15,6 +15,8 @@ public class Permissions {
 	public static final String KITS_SPAWN			= KITS_BASE + ".spawn";
 	public static final String KITS_SPAWN_OTHERS	= KITS_SPAWN + ".others";
 	
+	public static final String KITS_SIGN            = KITS_BASE + ".sign";
+	
 	public static final String KITS_FLAGS			= KITS_BASE + ".flags";
 	
 	public static final String KITS_DELAY			= KITS_BASE + ".delay";

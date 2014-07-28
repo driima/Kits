@@ -26,8 +26,8 @@ public class DelayedPlayer implements ConfigurationSerializable{
 		this.kits = kits;
 	}
 	
-	public Player GetPlayer(){
-		return player.isOnline() ? player.getPlayer() : null;
+	public OfflinePlayer GetPlayer(){
+		return player.isOnline() ? player.getPlayer() : player;
 	}
 	
 	public void AddKit(Kit kit){
