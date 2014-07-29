@@ -364,7 +364,8 @@ public class KitCommandExecutor implements CommandExecutor{
     	return true;
     }
     
-	private Player GetPlayer(String name){
+	@SuppressWarnings("deprecation")
+    private Player GetPlayer(String name){
     	for (Player player : Bukkit.getOnlinePlayers()){
     		if (player.getName().equalsIgnoreCase(name)) return player;
     	}

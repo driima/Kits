@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.dragonphase.Kits.Kits;
-import com.dragonphase.Kits.Commands.KitCommandExecutor;
+import com.dragonphase.Kits.Api.KitManager;
 import com.dragonphase.Kits.Permissions.Permissions;
 import com.dragonphase.Kits.Util.Collections;
 import com.dragonphase.Kits.Util.Kit;
@@ -52,11 +52,14 @@ public class EventListener implements Listener{
         
         if (sign.getLines().length < 2) return;
         if (!sign.getLine(0).equalsIgnoreCase("[kit]")) return;
+        if (!Permissions.CheckPermission(event.getPlayer(), Permissions.KITS_SIGN)) return;
         
         List<String> lines = new ArrayList<String>(Arrays.asList(StringUtils.join(sign.getLines(), " ").split(" ")));
         lines.removeAll(Arrays.asList("", null));
         
-        new KitCommandExecutor().SpawnKit(event.getPlayer(), Utils.Trim(lines.toArray(new String[lines.size()])));
+        String[] arrayLines = Utils.Trim(lines.toArray(new String[lines.size()]));
+        
+        KitManager.spawnKit(event.getPlayer(), arrayLines[0], Utils.Trim(arrayLines));
         event.getPlayer().updateInventory();
     }
     
