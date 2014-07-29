@@ -5,12 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import mkremins.fanciful.FancyMessage;
-import net.minecraft.server.v1_7_R3.ChatSerializer;
-import net.minecraft.server.v1_7_R3.PacketPlayOutChat;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_7_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -102,6 +99,6 @@ public class Message {
     }
     
 	public static void SendJSONMessage(Player player, FancyMessage message){
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutChat(ChatSerializer.a(message.toJSONString()), true));
+	    message.send(player);
 	}
 }
