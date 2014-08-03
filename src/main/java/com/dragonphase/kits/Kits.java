@@ -7,7 +7,7 @@ import com.dragonphase.kits.api.Kit;
 import com.dragonphase.kits.api.KitManager;
 import com.dragonphase.kits.commands.KitCommandExecutor;
 import com.dragonphase.kits.commands.KitsCommandExecutor;
-import com.dragonphase.kits.configuration.Collections;
+import com.dragonphase.kits.configuration.CollectionManager;
 import com.dragonphase.kits.listeners.EventListener;
 import com.dragonphase.kits.util.DelayedPlayer;
 import com.dragonphase.kits.util.Message;
@@ -15,6 +15,7 @@ import com.dragonphase.kits.util.Message;
 public class Kits extends JavaPlugin{
     
     private KitManager kitManager;
+    private CollectionManager collectionManager;
     
     static{
         ConfigurationSerialization.registerClass(Kit.class);
@@ -23,7 +24,7 @@ public class Kits extends JavaPlugin{
     
     @Override
     public void onDisable(){
-        Collections.save();
+        getCollectionManager().save();
     }
     
     @Override
@@ -31,6 +32,7 @@ public class Kits extends JavaPlugin{
         Message.setParent(this);
         
         kitManager = new KitManager(this);
+        collectionManager = new CollectionManager();
         
         reload();
         
@@ -41,7 +43,7 @@ public class Kits extends JavaPlugin{
     }
     
     public void reload(){
-    	Collections.reload(this);
+        getCollectionManager().reload(this);
     }
     
     public String getPluginDetails(){
@@ -58,5 +60,9 @@ public class Kits extends JavaPlugin{
     
     public KitManager getKitManager(){
         return kitManager;
+    }
+    
+    public CollectionManager getCollectionManager(){
+        return collectionManager;
     }
 }

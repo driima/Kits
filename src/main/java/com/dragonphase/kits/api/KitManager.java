@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.dragonphase.kits.Kits;
-import com.dragonphase.kits.configuration.Collections;
 import com.dragonphase.kits.permissions.Permissions;
 import com.dragonphase.kits.util.Message;
 import com.dragonphase.kits.util.Utils;
@@ -51,7 +50,7 @@ public class KitManager {
     public Kit createKit(String kitName, ItemStack[] contents, long delay, boolean overwrite, boolean announce){
         String name = Utils.capitalize(kitName);
         Kit kit = new Kit(name, contents, delay, overwrite, announce);
-        Kit.addKit(kit);
+        plugin.getCollectionManager().addKit(kit);
         return kit;
     }
     
@@ -92,7 +91,7 @@ public class KitManager {
      * @return The Kit value or null if the Kit does not exist.
      */
     public Kit getKit(String kitName){
-        return Collections.getKit(Utils.capitalize(kitName.toLowerCase()));
+        return plugin.getCollectionManager().getKit(Utils.capitalize(kitName.toLowerCase()));
     }
     
     /**
@@ -110,7 +109,7 @@ public class KitManager {
      * @throws KitException If the kit does not exist.
      */
     public void removeKit(String kitName) throws KitException{
-        if (kitExists(kitName)) Collections.KitList.remove(getKit(kitName));
+        if (kitExists(kitName)) plugin.getCollectionManager().removeKit(getKit(kitName));
         else throw new KitException("The kit " + kitName + " does not exist.");
     }
 
@@ -240,7 +239,7 @@ public class KitManager {
      */
     public void spawnKit(Player player, Kit kit, long delay, boolean overwrite, boolean announce){
         
-        if (Collections.getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0){
+        if (plugin.getCollectionManager().getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0){
             String message = player.getName() + " is currently delayed for kit " + kit.getName() + ". Use the -delay flag to override this.";
             plugin.getLogger().warning(message);
             return;
@@ -267,7 +266,7 @@ public class KitManager {
         player.getInventory().setArmorContents(armor);
         
         if (delay > 0)
-            Collections.getDelayedPlayer(player).addKit(kit);
+            plugin.getCollectionManager().getDelayedPlayer(player).addKit(kit);
         
         if (announce) player.sendMessage(Message.show("Kit " + kit.getName() + " spawned.", MessageType.INFO));
         

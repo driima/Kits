@@ -21,7 +21,6 @@ import org.bukkit.inventory.ItemStack;
 import com.dragonphase.kits.Kits;
 import com.dragonphase.kits.api.Kit;
 import com.dragonphase.kits.api.KitException;
-import com.dragonphase.kits.configuration.Collections;
 import com.dragonphase.kits.permissions.Permissions;
 import com.dragonphase.kits.util.Message;
 import com.dragonphase.kits.util.Time;
@@ -277,7 +276,7 @@ public class KitCommandExecutor implements CommandExecutor{
     	
     	for (String flag : flagList){
     		if (flag.isEmpty() || flag.length() < 2) continue;
-    		if (sender instanceof Player && !Permissions.checkPermission((Player)sender, Permissions.KITS_FLAGS, flag.replace("+", "").replace("-", ""))){
+    		if (sender instanceof Player && !Permissions.hasPermission((Player)sender, Permissions.KITS_FLAGS, flag.replace("+", "").replace("-", ""))){
         		sender.sendMessage(Message.show("You do not have permission to use the " + flag.replace("+", "").replace("-", "") + " flag.", MessageType.WARNING));
         		continue;
     		}
@@ -311,7 +310,7 @@ public class KitCommandExecutor implements CommandExecutor{
     
     private boolean SpawnKit(CommandSender sender, Player player, Kit kit, long delay, boolean overwrite, boolean announce){
     	
-		if (Collections.getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0 && announce){
+		if (plugin.getCollectionManager().getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0){
 		    if (announce){
 	            String message = (sender instanceof Player && ((Player)sender).getName().equalsIgnoreCase(player.getName()) ? "You are " : player.getName() + " is ") + "currently delayed for kit " + kit.getName() + "." + (sender.hasPermission(Permissions.KITS_FLAGS + ".delay") ? " Use the -delay flag to override this." : "");
 	            sender.sendMessage(Message.show(message, MessageType.WARNING));
@@ -340,7 +339,7 @@ public class KitCommandExecutor implements CommandExecutor{
     	player.getInventory().setArmorContents(armor);
     	
     	if (delay > 0)
-    		Collections.getDelayedPlayer(player).addKit(kit);
+    	    plugin.getCollectionManager().getDelayedPlayer(player).addKit(kit);
     	
 		if (announce) player.sendMessage(Message.show("Kit " + kit.getName() + " spawned.", MessageType.INFO));
 		

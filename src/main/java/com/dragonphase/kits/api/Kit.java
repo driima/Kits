@@ -7,8 +7,6 @@ import java.util.Map;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 
-import com.dragonphase.kits.configuration.Collections;
-
 public class Kit implements ConfigurationSerializable{
 	
 	private String name;
@@ -62,23 +60,6 @@ public class Kit implements ConfigurationSerializable{
 	
 	public void setItems(ItemStack[] items){
 		this.items = items;
-	}
-	
-	public static void addKit(Kit kit){
-		if (Collections.KitList == null) Collections.KitList = new ArrayList<Kit>();
-		Collections.KitList.add(kit);
-	}
-	
-	public static void removeKit(Kit kit){
-		Collections.KitList.remove(kit);
-	}
-	
-	public static Kit getKit(String name){
-		for (Kit kit : Collections.KitList){
-			if (kit.getName().equalsIgnoreCase(name))
-				return kit;
-		}
-		return null;
 	}
 
 	@Override

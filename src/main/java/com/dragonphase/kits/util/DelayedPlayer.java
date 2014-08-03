@@ -12,7 +12,7 @@ import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 
 import com.dragonphase.kits.api.Kit;
-import com.dragonphase.kits.configuration.Collections;
+import com.dragonphase.kits.configuration.CollectionManager;
 
 public class DelayedPlayer implements ConfigurationSerializable{
 
@@ -46,11 +46,11 @@ public class DelayedPlayer implements ConfigurationSerializable{
 		return delayed;
 	}
 	
-	public void sortKits(){
+	public void sortKits(CollectionManager manager){
 		Iterator<Entry<String,Long>> iter = kits.entrySet().iterator();
 		while (iter.hasNext()) {
 		    Entry<String,Long> entry = iter.next();
-		    if (Collections.getKit(entry.getKey()) == null || (System.currentTimeMillis() - entry.getValue() >= Collections.getKit(entry.getKey()).getDelay())){
+		    if (manager.getKit(entry.getKey()) == null || (System.currentTimeMillis() - entry.getValue() >= manager.getKit(entry.getKey()).getDelay())){
 		        iter.remove();
 		    }
 		}

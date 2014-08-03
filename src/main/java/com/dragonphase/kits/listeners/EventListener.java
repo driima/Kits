@@ -20,7 +20,6 @@ import org.bukkit.inventory.Inventory;
 import com.dragonphase.kits.Kits;
 import com.dragonphase.kits.api.Kit;
 import com.dragonphase.kits.api.KitException;
-import com.dragonphase.kits.configuration.Collections;
 import com.dragonphase.kits.permissions.Permissions;
 import com.dragonphase.kits.util.Message;
 import com.dragonphase.kits.util.Utils;
@@ -90,7 +89,7 @@ public class EventListener implements Listener{
     	
     	String name = Utils.capitalize(inventoryName);
     	
-    	Collections.getKit(name).setItems(inventory.getContents());
+    	plugin.getCollectionManager().getKit(name).setItems(inventory.getContents());
     	
     	player.sendMessage(Message.show("Kit " + name + " edited.", MessageType.INFO));
     	

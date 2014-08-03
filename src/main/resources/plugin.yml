@@ -1,5 +1,5 @@
 name: Kits
-main: com.dragonphase.Kits.Kits
+main: com.dragonphase.kits.Kits
 version: ${project.version}
 website: http://dragonphase.com/
 depend: []

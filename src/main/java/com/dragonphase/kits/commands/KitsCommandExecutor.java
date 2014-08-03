@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.dragonphase.kits.Kits;
 import com.dragonphase.kits.api.Kit;
-import com.dragonphase.kits.configuration.Collections;
 import com.dragonphase.kits.permissions.Permissions;
 import com.dragonphase.kits.util.CommandDescription;
 import com.dragonphase.kits.util.Message;
@@ -43,14 +42,14 @@ public class KitsCommandExecutor implements CommandExecutor{
     private void handleBaseCommand(CommandSender sender){
 		if (sender instanceof Player && !Permissions.checkPermission((Player) sender, Permissions.KITS_LIST)) return;
 		
-		if (Collections.KitList.size() < 1){
+		if (plugin.getCollectionManager().getKitList().size() < 1){
 			sender.sendMessage(Message.show("There are no available kits.", MessageType.WARNING));
 			return;
 		}
 		
 		List<CommandDescription> commands = new ArrayList<CommandDescription>();
 		
-		for (Kit kit : Collections.KitList){
+		for (Kit kit : plugin.getCollectionManager().getKitList()){
 			List<String> lines = new ArrayList<String>();
 			List<String> items = new ArrayList<String>();
 			for (ItemStack item : kit.getItems()){
