@@ -80,8 +80,14 @@ public class KitsCommandExecutor implements CommandExecutor{
     
     private void handleReload(CommandSender sender){
     	if (sender instanceof Player){
-    		if (Permissions.checkPermission((Player)sender, Permissions.KITS_ADMIN)) plugin.reload();
+    		if (Permissions.checkPermission((Player)sender, Permissions.KITS_ADMIN)){
+    		    plugin.reload();
+                sender.sendMessage(Message.show("Reloaded configurations.", MessageType.INFO));
+    		}
     	}
-    	else plugin.reload();
+    	else{
+    	    plugin.reload();
+            sender.sendMessage(Message.show("Reloaded configurations.", MessageType.INFO));
+    	}
     }
 }

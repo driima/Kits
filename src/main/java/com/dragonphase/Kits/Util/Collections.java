@@ -11,7 +11,8 @@ import org.bukkit.inventory.ItemStack;
 import com.dragonphase.Kits.Kits;
 
 public class Collections {
-	
+	//TODO: Remove static nature of this file
+    
 	public static Config KitConfig;
 	public static List<Kit> KitList;
 	

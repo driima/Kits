@@ -263,7 +263,7 @@ public class KitCommandExecutor implements CommandExecutor{
     		return false;
     	}
     	
-    	if (plugin.getKitManager().kitExists(kitName)){
+    	if (!plugin.getKitManager().kitExists(kitName)){
     		sender.sendMessage(Message.show("Kit " + kitName + " does not exist. Make sure the name is typed correctly.", MessageType.WARNING));
     		return false;
     	}
@@ -272,20 +272,16 @@ public class KitCommandExecutor implements CommandExecutor{
     }
     
     private boolean spawnKit(CommandSender sender, Player player, Kit kit, String flags){
-    	List<String> flagList = Arrays.asList(flags.split(" "));
+    	List<String> flagList = StringUtils.isEmpty(flags) ? new ArrayList<String>() : Arrays.asList(flags.split(" "));
     	HashMap<String, Boolean> Flags = new HashMap<String, Boolean>();
     	
-    	if (sender.hasPermission(Permissions.KITS_FLAGS)){
-        	for (String flag : flagList){
-        		if (flag.isEmpty() || flag.length() < 2) continue;
-        		if (sender instanceof Player && !Permissions.checkPermission((Player)sender, Permissions.KITS_FLAGS, flag.replace("+", "").replace("-", ""))){
-            		sender.sendMessage(Message.show("You do not have permission to use the " + flag.replace("+", "").replace("-", "") + " flag.", MessageType.WARNING));
-            		continue;
-        		}
-        		Flags.put(flag.replace("+", "").replace("-", ""), flag.startsWith("-") ? false : true);
-        	}
-    	}else{
-    		sender.sendMessage(Message.show("You do not have permission to use flags.", MessageType.WARNING));
+    	for (String flag : flagList){
+    		if (flag.isEmpty() || flag.length() < 2) continue;
+    		if (sender instanceof Player && !Permissions.checkPermission((Player)sender, Permissions.KITS_FLAGS, flag.replace("+", "").replace("-", ""))){
+        		sender.sendMessage(Message.show("You do not have permission to use the " + flag.replace("+", "").replace("-", "") + " flag.", MessageType.WARNING));
+        		continue;
+    		}
+    		Flags.put(flag.replace("+", "").replace("-", ""), flag.startsWith("-") ? false : true);
     	}
     	
     	return spawnKit(sender, player, kit, Flags);
