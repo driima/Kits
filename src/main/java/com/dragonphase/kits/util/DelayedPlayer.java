@@ -1,4 +1,4 @@
-package com.dragonphase.Kits.Util;
+package com.dragonphase.kits.util;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,6 +10,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
+
+import com.dragonphase.kits.api.Kit;
+import com.dragonphase.kits.configuration.Collections;
 
 public class DelayedPlayer implements ConfigurationSerializable{
 

@@ -1,4 +1,4 @@
-package com.dragonphase.Kits.Util;
+package com.dragonphase.kits.util;
 
 public class CommandDescription {
 	private String title, command;

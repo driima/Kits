@@ -1,4 +1,4 @@
-package com.dragonphase.Kits.Util;
+package com.dragonphase.kits.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
+
+import com.dragonphase.kits.configuration.Collections;
 
 public class Kit implements ConfigurationSerializable{
 	

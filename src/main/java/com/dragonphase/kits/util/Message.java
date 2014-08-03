@@ -1,4 +1,4 @@
-package com.dragonphase.Kits.Util;
+package com.dragonphase.kits.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.dragonphase.Kits.Kits;
+import com.dragonphase.kits.Kits;
 
 public class Message {
 	

@@ -1,4 +1,4 @@
-package com.dragonphase.Kits.Api;
+package com.dragonphase.kits.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,14 +11,21 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.dragonphase.Kits.Permissions.Permissions;
-import com.dragonphase.Kits.Util.Collections;
-import com.dragonphase.Kits.Util.Kit;
-import com.dragonphase.Kits.Util.Message;
-import com.dragonphase.Kits.Util.Utils;
-import com.dragonphase.Kits.Util.Message.MessageType;
+import com.dragonphase.kits.Kits;
+import com.dragonphase.kits.configuration.Collections;
+import com.dragonphase.kits.permissions.Permissions;
+import com.dragonphase.kits.util.Message;
+import com.dragonphase.kits.util.Utils;
+import com.dragonphase.kits.util.Message.MessageType;
 
 public class KitManager {
+    
+    private Kits plugin;
+    
+    public KitManager(Kits instance){
+        plugin = instance;
+    }
+    
     /**
      * Creates a new kit using default values - 
      *  delay = 0;
@@ -188,7 +195,7 @@ public class KitManager {
      * @param flags The flags to spawn the Kit with.
      */
     public void spawnKit(Player player, Kit kit, HashMap<String, Boolean> flags){
-        long delay = Permissions.hasPermission(player, Permissions.KITS_DELAY, kit.getName()) ? kit.getDelay() : 0;
+        long delay = Permissions.hasPermission(player, Permissions.KITS_NODELAY, kit.getName()) ? 0 : kit.getDelay();
         boolean overwrite = kit.getOverwrite();
         boolean announce = kit.getAnnounce();
         
@@ -232,6 +239,13 @@ public class KitManager {
      * @param announce The announce flag to spawn the Kit with.
      */
     public void spawnKit(Player player, Kit kit, long delay, boolean overwrite, boolean announce){
+        
+        if (Collections.getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0){
+            String message = player.getName() + " is currently delayed for kit " + kit.getName() + ". Use the -delay flag to override this.";
+            plugin.getLogger().warning(message);
+            return;
+        }
+        
         List<ItemStack> items = new ArrayList<ItemStack>(Arrays.asList(kit.getItems()));
         java.util.Collections.replaceAll(items, null, new ItemStack(Material.AIR));
 

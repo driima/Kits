@@ -1,4 +1,4 @@
-package com.dragonphase.Kits.Listeners;
+package com.dragonphase.kits.listeners;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,14 +17,14 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
-import com.dragonphase.Kits.Kits;
-import com.dragonphase.Kits.Api.KitException;
-import com.dragonphase.Kits.Permissions.Permissions;
-import com.dragonphase.Kits.Util.Collections;
-import com.dragonphase.Kits.Util.Kit;
-import com.dragonphase.Kits.Util.Message;
-import com.dragonphase.Kits.Util.Utils;
-import com.dragonphase.Kits.Util.Message.MessageType;
+import com.dragonphase.kits.Kits;
+import com.dragonphase.kits.api.Kit;
+import com.dragonphase.kits.api.KitException;
+import com.dragonphase.kits.configuration.Collections;
+import com.dragonphase.kits.permissions.Permissions;
+import com.dragonphase.kits.util.Message;
+import com.dragonphase.kits.util.Utils;
+import com.dragonphase.kits.util.Message.MessageType;
 
 public class EventListener implements Listener{
     public Kits plugin;
@@ -63,7 +63,7 @@ public class EventListener implements Listener{
         try {
             plugin.getKitManager().spawnKit(event.getPlayer(), arrayLines[0], Utils.trim(arrayLines));
         } catch (KitException e) {
-            Bukkit.getLogger().warning("The sign at " + Utils.getLocationationAsString(event.getClickedBlock().getLocation()) + " threw an exception " + e.getMessage());
+            Bukkit.getLogger().warning("The sign at " + Utils.getLocationationAsString(event.getClickedBlock().getLocation()) + " threw an exception: " + e.getMessage());
         }
         event.getPlayer().updateInventory();
     }

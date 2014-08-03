@@ -1,4 +1,4 @@
-package com.dragonphase.Kits.Util;
+package com.dragonphase.kits.util;
 
 import java.util.ArrayList;
 import java.util.List;

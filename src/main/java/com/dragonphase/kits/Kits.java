@@ -1,16 +1,16 @@
-package com.dragonphase.Kits;
+package com.dragonphase.kits;
 
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.dragonphase.Kits.Api.KitManager;
-import com.dragonphase.Kits.Commands.KitCommandExecutor;
-import com.dragonphase.Kits.Commands.KitsCommandExecutor;
-import com.dragonphase.Kits.Listeners.EventListener;
-import com.dragonphase.Kits.Util.Collections;
-import com.dragonphase.Kits.Util.DelayedPlayer;
-import com.dragonphase.Kits.Util.Kit;
-import com.dragonphase.Kits.Util.Message;
+import com.dragonphase.kits.api.Kit;
+import com.dragonphase.kits.api.KitManager;
+import com.dragonphase.kits.commands.KitCommandExecutor;
+import com.dragonphase.kits.commands.KitsCommandExecutor;
+import com.dragonphase.kits.configuration.Collections;
+import com.dragonphase.kits.listeners.EventListener;
+import com.dragonphase.kits.util.DelayedPlayer;
+import com.dragonphase.kits.util.Message;
 
 public class Kits extends JavaPlugin{
     
@@ -30,7 +30,7 @@ public class Kits extends JavaPlugin{
     public void onEnable(){
         Message.setParent(this);
         
-        kitManager = new KitManager();
+        kitManager = new KitManager(this);
         
         reload();
         

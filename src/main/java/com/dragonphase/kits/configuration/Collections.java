@@ -1,4 +1,4 @@
-package com.dragonphase.Kits.Util;
+package com.dragonphase.kits.configuration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,9 @@ import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.dragonphase.Kits.Kits;
+import com.dragonphase.kits.Kits;
+import com.dragonphase.kits.api.Kit;
+import com.dragonphase.kits.util.DelayedPlayer;
 
 public class Collections {
 	//TODO: Remove static nature of this file

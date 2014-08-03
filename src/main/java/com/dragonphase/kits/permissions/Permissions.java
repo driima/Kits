@@ -1,10 +1,10 @@
-package com.dragonphase.Kits.Permissions;
+package com.dragonphase.kits.permissions;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
-import com.dragonphase.Kits.Util.Message;
-import com.dragonphase.Kits.Util.Message.MessageType;
+import com.dragonphase.kits.util.Message;
+import com.dragonphase.kits.util.Message.MessageType;
 
 public class Permissions {
 	
@@ -19,7 +19,7 @@ public class Permissions {
 	
 	public static final String KITS_FLAGS			= KITS_BASE + ".flags";
 	
-	public static final String KITS_DELAY			= KITS_BASE + ".delay";
+	public static final String KITS_NODELAY			= KITS_BASE + ".nodelay";
 	
 	public static final String KITS_ADMIN			= KITS_BASE + ".admin";
     

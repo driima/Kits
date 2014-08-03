@@ -1,4 +1,4 @@
-package com.dragonphase.Kits.Commands;
+package com.dragonphase.kits.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +11,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.dragonphase.Kits.Kits;
-import com.dragonphase.Kits.Permissions.Permissions;
-import com.dragonphase.Kits.Util.Collections;
-import com.dragonphase.Kits.Util.CommandDescription;
-import com.dragonphase.Kits.Util.Kit;
-import com.dragonphase.Kits.Util.Message;
-import com.dragonphase.Kits.Util.Message.MessageType;
-import com.dragonphase.Kits.Util.Utils;
+import com.dragonphase.kits.Kits;
+import com.dragonphase.kits.api.Kit;
+import com.dragonphase.kits.configuration.Collections;
+import com.dragonphase.kits.permissions.Permissions;
+import com.dragonphase.kits.util.CommandDescription;
+import com.dragonphase.kits.util.Message;
+import com.dragonphase.kits.util.Utils;
+import com.dragonphase.kits.util.Message.MessageType;
 
 public class KitsCommandExecutor implements CommandExecutor{
     private Kits plugin;

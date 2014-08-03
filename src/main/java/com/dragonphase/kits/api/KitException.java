@@ -1,4 +1,4 @@
-package com.dragonphase.Kits.Api;
+package com.dragonphase.kits.api;
 
 public class KitException extends Exception{
     private static final long serialVersionUID = 4634639924183356239L;

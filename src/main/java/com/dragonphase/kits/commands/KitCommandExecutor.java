@@ -1,4 +1,4 @@
-package com.dragonphase.Kits.Commands;
+package com.dragonphase.kits.commands;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,15 +18,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import com.dragonphase.Kits.Kits;
-import com.dragonphase.Kits.Api.KitException;
-import com.dragonphase.Kits.Permissions.Permissions;
-import com.dragonphase.Kits.Util.Collections;
-import com.dragonphase.Kits.Util.Kit;
-import com.dragonphase.Kits.Util.Message;
-import com.dragonphase.Kits.Util.Time;
-import com.dragonphase.Kits.Util.Utils;
-import com.dragonphase.Kits.Util.Message.MessageType;
+import com.dragonphase.kits.Kits;
+import com.dragonphase.kits.api.Kit;
+import com.dragonphase.kits.api.KitException;
+import com.dragonphase.kits.configuration.Collections;
+import com.dragonphase.kits.permissions.Permissions;
+import com.dragonphase.kits.util.Message;
+import com.dragonphase.kits.util.Time;
+import com.dragonphase.kits.util.Utils;
+import com.dragonphase.kits.util.Message.MessageType;
 
 public class KitCommandExecutor implements CommandExecutor{
     private Kits plugin;
@@ -288,7 +288,7 @@ public class KitCommandExecutor implements CommandExecutor{
     }
     
     private boolean spawnKit(CommandSender sender, Player player, Kit kit, HashMap<String, Boolean> flags){
-    	long delay = Permissions.hasPermission(player, Permissions.KITS_DELAY, kit.getName()) ? kit.getDelay() : 0;
+    	long delay = Permissions.hasPermission(player, Permissions.KITS_NODELAY, kit.getName()) ? 0 : kit.getDelay();
     	boolean overwrite = kit.getOverwrite();
     	boolean announce = kit.getAnnounce();
     	
@@ -311,9 +311,11 @@ public class KitCommandExecutor implements CommandExecutor{
     
     private boolean SpawnKit(CommandSender sender, Player player, Kit kit, long delay, boolean overwrite, boolean announce){
     	
-		if (Collections.getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0){
-			String message = (sender instanceof Player && ((Player)sender).getName().equalsIgnoreCase(player.getName()) ? "You are " : player.getName() + " is ") + "currently delayed for kit " + kit.getName() + "." + (sender.hasPermission(Permissions.KITS_FLAGS + ".delay") ? " Use the -delay flag to override this." : "");
-	    	sender.sendMessage(Message.show(message, MessageType.WARNING));
+		if (Collections.getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0 && announce){
+		    if (announce){
+	            String message = (sender instanceof Player && ((Player)sender).getName().equalsIgnoreCase(player.getName()) ? "You are " : player.getName() + " is ") + "currently delayed for kit " + kit.getName() + "." + (sender.hasPermission(Permissions.KITS_FLAGS + ".delay") ? " Use the -delay flag to override this." : "");
+	            sender.sendMessage(Message.show(message, MessageType.WARNING));
+		    }
 	    	return false;
     	}
     	
