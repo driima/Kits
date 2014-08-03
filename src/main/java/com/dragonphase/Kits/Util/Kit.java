@@ -22,58 +22,58 @@ public class Kit implements ConfigurationSerializable{
 		this.items = items;
 	}
 	
-	public String GetName(){
+	public String getName(){
 		return name;
 	}
 	
-	public void SetName(String name){
+	public void setName(String name){
 		this.name = name;
 	}
 	
-	public long GetDelay(){
+	public long getDelay(){
 		return delay;
 	}
 	
-	public void SetDelay(long delay){
+	public void setDelay(long delay){
 		this.delay = delay;
 	}
 	
-	public boolean GetOverwrite(){
+	public boolean getOverwrite(){
 		return overwrite;
 	}
 	
-	public void SetOverwrite(boolean overwrite){
+	public void setOverwrite(boolean overwrite){
 		this.overwrite = overwrite;
 	}
 	
-	public boolean GetAnnounce(){
+	public boolean getAnnounce(){
 		return announce;
 	}
 	
-	public void SetAnnounce(boolean announce){
+	public void setAnnounce(boolean announce){
 		this.announce = announce;
 	}
 	
-	public ItemStack[] GetItems(){
+	public ItemStack[] getItems(){
 		return items;
 	}
 	
-	public void SetItems(ItemStack[] items){
+	public void setItems(ItemStack[] items){
 		this.items = items;
 	}
 	
-	public static void AddKit(Kit kit){
+	public static void addKit(Kit kit){
 		if (Collections.KitList == null) Collections.KitList = new ArrayList<Kit>();
 		Collections.KitList.add(kit);
 	}
 	
-	public static void RemoveKit(Kit kit){
+	public static void removeKit(Kit kit){
 		Collections.KitList.remove(kit);
 	}
 	
-	public static Kit GetKit(String name){
+	public static Kit getKit(String name){
 		for (Kit kit : Collections.KitList){
-			if (kit.GetName().equalsIgnoreCase(name))
+			if (kit.getName().equalsIgnoreCase(name))
 				return kit;
 		}
 		return null;

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import com.dragonphase.Kits.Kits;
-import com.dragonphase.Kits.Api.KitManager;
+import com.dragonphase.Kits.Api.KitException;
 import com.dragonphase.Kits.Permissions.Permissions;
 import com.dragonphase.Kits.Util.Collections;
 import com.dragonphase.Kits.Util.Kit;
@@ -52,20 +53,24 @@ public class EventListener implements Listener{
         
         if (sign.getLines().length < 2) return;
         if (!sign.getLine(0).equalsIgnoreCase("[kit]")) return;
-        if (!Permissions.CheckPermission(event.getPlayer(), Permissions.KITS_SIGN)) return;
+        if (!Permissions.checkPermission(event.getPlayer(), Permissions.KITS_SIGN)) return;
         
         List<String> lines = new ArrayList<String>(Arrays.asList(StringUtils.join(sign.getLines(), " ").split(" ")));
         lines.removeAll(Arrays.asList("", null));
         
-        String[] arrayLines = Utils.Trim(lines.toArray(new String[lines.size()]));
+        String[] arrayLines = Utils.trim(lines.toArray(new String[lines.size()]));
         
-        KitManager.spawnKit(event.getPlayer(), arrayLines[0], Utils.Trim(arrayLines));
+        try {
+            plugin.getKitManager().spawnKit(event.getPlayer(), arrayLines[0], Utils.trim(arrayLines));
+        } catch (KitException e) {
+            Bukkit.getLogger().warning("The sign at " + Utils.getLocationationAsString(event.getClickedBlock().getLocation()) + " threw an exception " + e.getMessage());
+        }
         event.getPlayer().updateInventory();
     }
     
     @EventHandler
     public void onSignChange(SignChangeEvent event){
-        if (event.getLine(0).equalsIgnoreCase("[kit]") && !Permissions.CheckPermission(event.getPlayer(), Permissions.KITS_SIGN))
+        if (event.getLine(0).equalsIgnoreCase("[kit]") && !Permissions.checkPermission(event.getPlayer(), Permissions.KITS_ADMIN))
             event.setCancelled(true);
     }
     
@@ -74,23 +79,20 @@ public class EventListener implements Listener{
     public void CreateKit(Player player, Inventory inventory){
     	String inventoryName = inventory.getName().toLowerCase().replace("new kit: ", "");
     	
-    	String name = Utils.Capitalize(inventoryName);
+    	Kit kit = plugin.getKitManager().createKit(inventoryName, inventory.getContents());
     	
-    	Kit kit = new Kit(name, inventory.getContents(), 0, true, true);
-    	Kit.AddKit(kit);
-    	
-    	player.sendMessage(Message.Show("Kit " + kit.GetName() + " created.", MessageType.INFO));
+    	player.sendMessage(Message.show("Kit " + kit.getName() + " created.", MessageType.INFO));
     	
     }
     
     public void EditKit(Player player, Inventory inventory){
     	String inventoryName = inventory.getName().toLowerCase().replace("edit kit: ", "");
     	
-    	String name = Utils.Capitalize(inventoryName);
+    	String name = Utils.capitalize(inventoryName);
     	
-    	Collections.GetKit(name).SetItems(inventory.getContents());
+    	Collections.getKit(name).setItems(inventory.getContents());
     	
-    	player.sendMessage(Message.Show("Kit " + name + " edited.", MessageType.INFO));
+    	player.sendMessage(Message.show("Kit " + name + " edited.", MessageType.INFO));
     	
     }
 }

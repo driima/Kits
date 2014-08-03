@@ -18,6 +18,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.dragonphase.Kits.Kits;
+import com.dragonphase.Kits.Api.KitException;
 import com.dragonphase.Kits.Permissions.Permissions;
 import com.dragonphase.Kits.Util.Collections;
 import com.dragonphase.Kits.Util.Kit;
@@ -27,45 +29,48 @@ import com.dragonphase.Kits.Util.Utils;
 import com.dragonphase.Kits.Util.Message.MessageType;
 
 public class KitCommandExecutor implements CommandExecutor{
+    private Kits plugin;
     
-    public KitCommandExecutor(){}
+    public KitCommandExecutor(Kits instance){
+        plugin = instance;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
 
     	if (args.length < 1){
-    		HandleBaseCommand(sender);
+    		handleBaseCommand(sender);
     		return false;
     	}
     	
-    	if (args[0].equalsIgnoreCase("create"))			CreateKit	(sender, Utils.Trim(args));
-    	else if (args[0].equalsIgnoreCase("edit"))		EditKit		(sender, Utils.Trim(args));
-    	else if (args[0].equalsIgnoreCase("remove"))	RemoveKit	(sender, Utils.Trim(args));
-    	else											SpawnKit	(sender, args);
+    	if (args[0].equalsIgnoreCase("create"))			createKit	(sender, Utils.trim(args));
+    	else if (args[0].equalsIgnoreCase("edit"))		editKit		(sender, Utils.trim(args));
+    	else if (args[0].equalsIgnoreCase("remove"))	removeKit	(sender, Utils.trim(args));
+    	else											spawnKit	(sender, args);
     	
         return false;
     }
     
-    private void HandleBaseCommand(CommandSender sender){
+    private void handleBaseCommand(CommandSender sender){
     	if (sender instanceof Player){
-            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit create " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Create a new kit with the specific name.");
-            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Edit an existing kit with the specific name.");
-            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname [flagname] <flagvalue>", MessageType.INFO), "Edit an existing kit's flags with the specific names.");
-            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit remove " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Remove an existing kit with the specific name.");
-            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Spawn the kit with the specified name.");
-            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname [flags]", MessageType.INFO), "Spawn the kit with the specified name.", "With the specified flags. Example:", "/kit basic -announce");
-            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername", MessageType.INFO), "Spawn the kit with the specified name.", "For the player with the specified name.");
-            Message.ShowMessage((Player)sender, Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername [flags]", MessageType.INFO), "Spawn the kit with the specified name.", "For the player with the specified name.", "With the specified flags. Example:", "/kit basic bob -announce");
+            Message.showMessage((Player)sender, Message.show("Usage", "/kit create " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Create a new kit with the specific name.");
+            Message.showMessage((Player)sender, Message.show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Edit an existing kit with the specific name.");
+            Message.showMessage((Player)sender, Message.show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname [flagname] <flagvalue>", MessageType.INFO), "Edit an existing kit's flags with the specific names.");
+            Message.showMessage((Player)sender, Message.show("Usage", "/kit remove " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Remove an existing kit with the specific name.");
+            Message.showMessage((Player)sender, Message.show("Usage", "/kit " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Spawn the kit with the specified name.");
+            Message.showMessage((Player)sender, Message.show("Usage", "/kit " + ChatColor.ITALIC + "kitname [flags]", MessageType.INFO), "Spawn the kit with the specified name.", "With the specified flags. Example:", "/kit basic -announce");
+            Message.showMessage((Player)sender, Message.show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername", MessageType.INFO), "Spawn the kit with the specified name.", "For the player with the specified name.");
+            Message.showMessage((Player)sender, Message.show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername [flags]", MessageType.INFO), "Spawn the kit with the specified name.", "For the player with the specified name.", "With the specified flags. Example:", "/kit basic bob -announce");
     	}
     	else{
-            sender.sendMessage(Message.Show("Usage", "/kit create " + ChatColor.ITALIC + "kitname", MessageType.INFO));
-            sender.sendMessage(Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname", MessageType.INFO));
-            sender.sendMessage(Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname [flagname] <flagvalue>", MessageType.INFO));
-            sender.sendMessage(Message.Show("Usage", "/kit remove " + ChatColor.ITALIC + "kitname", MessageType.INFO));
-            sender.sendMessage(Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname", MessageType.INFO));
-            sender.sendMessage(Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname [flags]", MessageType.INFO));
-            sender.sendMessage(Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername", MessageType.INFO));
-            sender.sendMessage(Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername [flags]", MessageType.INFO));
+            sender.sendMessage(Message.show("Usage", "/kit create " + ChatColor.ITALIC + "kitname", MessageType.INFO));
+            sender.sendMessage(Message.show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname", MessageType.INFO));
+            sender.sendMessage(Message.show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname [flagname] <flagvalue>", MessageType.INFO));
+            sender.sendMessage(Message.show("Usage", "/kit remove " + ChatColor.ITALIC + "kitname", MessageType.INFO));
+            sender.sendMessage(Message.show("Usage", "/kit " + ChatColor.ITALIC + "kitname", MessageType.INFO));
+            sender.sendMessage(Message.show("Usage", "/kit " + ChatColor.ITALIC + "kitname [flags]", MessageType.INFO));
+            sender.sendMessage(Message.show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername", MessageType.INFO));
+            sender.sendMessage(Message.show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername [flags]", MessageType.INFO));
     	}
 
         return;
@@ -73,232 +78,223 @@ public class KitCommandExecutor implements CommandExecutor{
     
     //Create Kit
     
-    private void CreateKit(CommandSender sender, String[] args){
+    private void createKit(CommandSender sender, String[] args){
     	if (!IsPlayer(sender)) return;
     	
     	Player player = (Player) sender;
     	
-    	if (!Permissions.CheckPermission(player, Permissions.KITS_ADMIN)) return;
+    	if (!Permissions.checkPermission(player, Permissions.KITS_ADMIN)) return;
     	
     	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("Usage", "/kit create " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Create a new kit with the specific name.");
+    		Message.showMessage(player, Message.show("Usage", "/kit create " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Create a new kit with the specific name.");
     		return;
     	}
     	
     	if (args.length > 1){
-    		player.sendMessage(Message.Show("Kit names cannot contain spaces.", MessageType.WARNING));
+    		player.sendMessage(Message.show("Kit names cannot contain spaces.", MessageType.WARNING));
     		return;
     	}
     	
-    	String name = Utils.Capitalize(args[0].toLowerCase());
-    	
-    	if (Collections.GetKit(name) != null){
-    		player.sendMessage(Message.Show("Kit " + name + " already exists.", MessageType.WARNING));
+    	if (plugin.getKitManager().kitExists(args[0])){
+    		player.sendMessage(Message.show("Kit " + args[0] + " already exists.", MessageType.WARNING));
     		return;
     	}
     	
-    	if (name.length() > 22){
-    		player.sendMessage(Message.Show("Kit name cannot exceed 22 characters.", MessageType.WARNING));
+    	if (args[0].length() > 22){
+    		player.sendMessage(Message.show("Kit name cannot exceed 22 characters.", MessageType.WARNING));
     		return;
     	}
 
-        Inventory inventory = Bukkit.createInventory(player, 45, "New kit: " + name);
+        Inventory inventory = Bukkit.createInventory(player, 45, "New kit: " + args[0]);
         player.openInventory(inventory);
     }
     
     //Edit Kit
     
-    private void EditKit(CommandSender sender, String[] args){
+    private void editKit(CommandSender sender, String[] args){
     	if (!IsPlayer(sender)) return;
     	
     	Player player = (Player) sender;
     	
-    	if (!Permissions.CheckPermission(player, Permissions.KITS_ADMIN)) return;
+    	if (!Permissions.checkPermission(player, Permissions.KITS_ADMIN)) return;
     	
     	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Edit an existing kit with the specific name.");
-    		Message.ShowMessage(player, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname flagname", MessageType.INFO), "Edit an existing kit's flags with the specific names.");
+    		Message.showMessage(player, Message.show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Edit an existing kit with the specific name.");
+    		Message.showMessage(player, Message.show("Usage", "/kit edit " + ChatColor.ITALIC + "kitname flagname", MessageType.INFO), "Edit an existing kit's flags with the specific names.");
     		return;
     	}
     	
-    	String name = Utils.Capitalize(args[0].toLowerCase());
-    	
-    	if (Collections.GetKit(name) == null){
-    		player.sendMessage(Message.Show("Kit " + name + " does not exist.", MessageType.WARNING));
+    	if (!plugin.getKitManager().kitExists(args[0])){
+    		player.sendMessage(Message.show("Kit " + args[0] + " does not exist.", MessageType.WARNING));
     		return;
     	}
     	
     	if (args.length > 1){
-    		EditKitFlags(player, Collections.GetKit(name), Utils.Trim(args));
+    		editKitFlags(player, plugin.getKitManager().getKit(args[0]), Utils.trim(args));
     		return;
     	}
 
-        Inventory inventory = Bukkit.createInventory(player, 45, "Edit kit: " + name);
+        Inventory inventory = Bukkit.createInventory(player, 45, "Edit kit: " + args[0]);
         
-        inventory.setContents(Collections.GetKit(name).GetItems());
+        inventory.setContents(plugin.getKitManager().getKit(args[0]).getItems());
         
         player.openInventory(inventory);
     }
     
-    public void EditKitFlags(Player player, Kit kit, String[] args){
+    public void editKitFlags(Player player, Kit kit, String[] args){
     	if (args[0].equalsIgnoreCase("overwrite")){
-    		EditKitOverwrite(player, kit, Utils.Trim(args));
+    		editKitOverwrite(player, kit, Utils.trim(args));
     		return;
     	}
     	
     	if (args[0].equalsIgnoreCase("announce")){
-    		EditKitAnnounce(player, kit, Utils.Trim(args));
+    		editKitAnnounce(player, kit, Utils.trim(args));
     		return;
     	}
     	
     	if (args[0].equalsIgnoreCase("delay")){
-    		EditKitDelay(player, kit, Utils.Trim(args));
+    		editKitDelay(player, kit, Utils.trim(args));
     		return;
     	}
     }
     
-    public void EditKitOverwrite(Player player, Kit kit, String[] args){
+    public void editKitOverwrite(Player player, Kit kit, String[] args){
     	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + kit.GetName() + " overwrite [true|false]", MessageType.INFO), "Change the overwrite flag of " + kit.GetName() + " to true or false.", "Current overwrite value: " + kit.GetOverwrite() + ".");
-    		return;
-    	}
-    	
-    	boolean value = args[0].equalsIgnoreCase("true") ? true : false;
-    	kit.SetOverwrite(value);
-		player.sendMessage(Message.Show("Overwrite for kit " + kit.GetName() + " set to " + value, MessageType.INFO));
-    }
-    
-    public void EditKitAnnounce(Player player, Kit kit, String[] args){
-    	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + kit.GetName() + " announce [true|false]", MessageType.INFO), "Change the announce flag of " + kit.GetName() + " to true or false.", "Current announce value: " + kit.GetAnnounce() + ".");
+    		Message.showMessage(player, Message.show("Usage", "/kit edit " + ChatColor.ITALIC + kit.getName() + " overwrite [true|false]", MessageType.INFO), "Change the overwrite flag of " + kit.getName() + " to true or false.", "Current overwrite value: " + kit.getOverwrite() + ".");
     		return;
     	}
     	
     	boolean value = args[0].equalsIgnoreCase("true") ? true : false;
-    	kit.SetAnnounce(value);
-		player.sendMessage(Message.Show("Announce for kit " + kit.GetName() + " set to " + value, MessageType.INFO));
+    	kit.setOverwrite(value);
+		player.sendMessage(Message.show("Overwrite for kit " + kit.getName() + " set to " + value, MessageType.INFO));
     }
     
-    public void EditKitDelay(Player player, Kit kit, String[] args){
+    public void editKitAnnounce(Player player, Kit kit, String[] args){
     	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("Usage", "/kit edit " + ChatColor.ITALIC + kit.GetName() + " delay [delay]", MessageType.INFO), "Change the delay flag of " + kit.GetName() + ".", "Example: 1h30m for 1 hour 30 minute delay.");
+    		Message.showMessage(player, Message.show("Usage", "/kit edit " + ChatColor.ITALIC + kit.getName() + " announce [true|false]", MessageType.INFO), "Change the announce flag of " + kit.getName() + " to true or false.", "Current announce value: " + kit.getAnnounce() + ".");
+    		return;
+    	}
+    	
+    	boolean value = args[0].equalsIgnoreCase("true") ? true : false;
+    	kit.setAnnounce(value);
+		player.sendMessage(Message.show("Announce for kit " + kit.getName() + " set to " + value, MessageType.INFO));
+    }
+    
+    public void editKitDelay(Player player, Kit kit, String[] args){
+    	if (args.length < 1){
+    		Message.showMessage(player, Message.show("Usage", "/kit edit " + ChatColor.ITALIC + kit.getName() + " delay [delay]", MessageType.INFO), "Change the delay flag of " + kit.getName() + ".", "Example: 1h30m for 1 hour 30 minute delay.");
     		return;
     	}
     	
     	try{
         	Time value = new Time(args[0]);
-        	kit.SetDelay(value.getMilliseconds());
-    		player.sendMessage(Message.Show("Delay for kit " + kit.GetName() + " set to " + args[0], MessageType.INFO));
+        	kit.setDelay(value.getMilliseconds());
+    		player.sendMessage(Message.show("Delay for kit " + kit.getName() + " set to " + args[0], MessageType.INFO));
     	}catch(Exception ex){
-    		player.sendMessage(Message.Show("Incorrect delay format. Example: 1h30m for 1 hour 30 minute delay.", MessageType.WARNING));
+    		player.sendMessage(Message.show("Incorrect delay format. Example: 1h30m for 1 hour 30 minute delay.", MessageType.WARNING));
     	}
     }
     
     //Remove Kit
     
-    private void RemoveKit(CommandSender sender, String[] args){
+    private void removeKit(CommandSender sender, String[] args){
     	if (!IsPlayer(sender)) return;
     	
     	Player player = (Player) sender;
     	
-    	if (!Permissions.CheckPermission(player, Permissions.KITS_ADMIN)) return;
+    	if (!Permissions.checkPermission(player, Permissions.KITS_ADMIN)) return;
     	
     	if (args.length < 1){
-    		Message.ShowMessage(player, Message.Show("Usage", "/kit remove " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Remove an existing kit with the specific name.");
+    		Message.showMessage(player, Message.show("Usage", "/kit remove " + ChatColor.ITALIC + "kitname", MessageType.INFO), "Remove an existing kit with the specific name.");
     		return;
     	}
     	
-    	String name = Utils.Capitalize(args[0].toLowerCase());
-    	
-    	if (Collections.GetKit(name) == null){
-    		player.sendMessage(Message.Show("Kit " + name + " does not exist.", MessageType.WARNING));
-    		return;
-    	}
-    	
-    	Collections.KitList.remove(Collections.GetKit(name));
-		player.sendMessage(Message.Show("Kit " + name + " removed.", MessageType.INFO));
+    	try {
+            plugin.getKitManager().removeKit(args[0]);
+            player.sendMessage(Message.show("Kit " + args[0] + " removed.", MessageType.INFO));
+        } catch (KitException e) {
+            player.sendMessage(Message.show("Kit " + args[0] + " does not exist.", MessageType.WARNING));
+        }
     }
     
     //Spawn Kit
     
-    public void SpawnKit(CommandSender sender, String[] args){
+    public void spawnKit(CommandSender sender, String[] args){
     	if (sender instanceof Player){
-    		SpawnKit((Player)sender, args);
+    		spawnKit((Player)sender, args);
     		return;
     	}
     	
     	if (args.length < 2){
-    		sender.sendMessage(Message.Show("Usage",  "kit " + ChatColor.ITALIC + "kitname playername", MessageType.WARNING));
+    		sender.sendMessage(Message.show("Usage",  "kit " + ChatColor.ITALIC + "kitname playername", MessageType.WARNING));
     		return;
     	}
     	
-    	if (SpawnKit(sender, args[0], args[1], StringUtils.join(Utils.Trim(Utils.Trim(args)), " ")))
-    	    sender.sendMessage(Message.Show("Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
+    	if (spawnKit(sender, args[0], args[1], StringUtils.join(Utils.trim(Utils.trim(args)), " ")))
+    	    sender.sendMessage(Message.show("Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
     }
     
-    private void SpawnKit(Player player, String[] args){
+    private void spawnKit(Player player, String[] args){
     	if (args.length == 0){
-    		Message.ShowMessage(player, Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname", MessageType.WARNING), "Spawn the specified kit.");
-    		Message.ShowMessage(player, Message.Show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername", MessageType.WARNING), "Spawn the specified kit for the specified player.");
+    		Message.showMessage(player, Message.show("Usage", "/kit " + ChatColor.ITALIC + "kitname", MessageType.WARNING), "Spawn the specified kit.");
+    		Message.showMessage(player, Message.show("Usage", "/kit " + ChatColor.ITALIC + "kitname playername", MessageType.WARNING), "Spawn the specified kit for the specified player.");
     		return;
     	}
     	
-    	if (!Permissions.CheckPermission(player, Permissions.KITS_SPAWN + "." + args[0].toLowerCase())) return;
+    	if (!Permissions.checkPermission(player, Permissions.KITS_SPAWN + "." + args[0].toLowerCase())) return;
     	
     	if (args.length > 1 && (!args[1].startsWith("+") && !args[1].startsWith("-"))){
-    		if (!Permissions.CheckPermission(player, Permissions.KITS_SPAWN_OTHERS + "." + args[0].toLowerCase())) return;
+    		if (!Permissions.checkPermission(player, Permissions.KITS_SPAWN_OTHERS + "." + args[0].toLowerCase())) return;
         	
-        	if (SpawnKit(player, args[0], args[1], StringUtils.join(Utils.Trim(Utils.Trim(args)), " ")))
-        		player.sendMessage(Message.Show("Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
+        	if (spawnKit(player, args[0], args[1], StringUtils.join(Utils.trim(Utils.trim(args)), " ")))
+        		player.sendMessage(Message.show("Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
         	
         	return;
     	}
     	
-    	SpawnKit(player, args[0], player.getName(), StringUtils.join(Utils.Trim(args), " "));
+    	spawnKit(player, args[0], player.getName(), StringUtils.join(Utils.trim(args), " "));
     }
     
-    private boolean SpawnKit(CommandSender sender, String kitName, String playerName, String flags){
+    private boolean spawnKit(CommandSender sender, String kitName, String playerName, String flags){
     	Player player = GetPlayer(playerName);
     	
     	if (player == null){
-    		sender.sendMessage(Message.Show(playerName + " is not online. Make sure the name is typed correctly.", MessageType.WARNING));
+    		sender.sendMessage(Message.show(playerName + " is not online. Make sure the name is typed correctly.", MessageType.WARNING));
     		return false;
     	}
     	
-    	Kit kit = Collections.GetKit(kitName);
-    	
-    	if (kit == null){
-    		sender.sendMessage(Message.Show("Kit " + kitName + " does not exist. Make sure the name is typed correctly.", MessageType.WARNING));
+    	if (plugin.getKitManager().kitExists(kitName)){
+    		sender.sendMessage(Message.show("Kit " + kitName + " does not exist. Make sure the name is typed correctly.", MessageType.WARNING));
     		return false;
     	}
     	
-    	return SpawnKit(sender, player, kit, flags);
+    	return spawnKit(sender, player, plugin.getKitManager().getKit(kitName), flags);
     }
     
-    private boolean SpawnKit(CommandSender sender, Player player, Kit kit, String flags){
+    private boolean spawnKit(CommandSender sender, Player player, Kit kit, String flags){
     	List<String> flagList = Arrays.asList(flags.split(" "));
     	HashMap<String, Boolean> Flags = new HashMap<String, Boolean>();
     	
     	if (sender.hasPermission(Permissions.KITS_FLAGS)){
         	for (String flag : flagList){
         		if (flag.isEmpty() || flag.length() < 2) continue;
-        		if (sender instanceof Player && !Permissions.CheckPermission((Player)sender, Permissions.KITS_FLAGS, flag.replace("+", "").replace("-", ""))){
-            		sender.sendMessage(Message.Show("You do not have permission to use the " + flag.replace("+", "").replace("-", "") + " flag.", MessageType.WARNING));
+        		if (sender instanceof Player && !Permissions.checkPermission((Player)sender, Permissions.KITS_FLAGS, flag.replace("+", "").replace("-", ""))){
+            		sender.sendMessage(Message.show("You do not have permission to use the " + flag.replace("+", "").replace("-", "") + " flag.", MessageType.WARNING));
             		continue;
         		}
         		Flags.put(flag.replace("+", "").replace("-", ""), flag.startsWith("-") ? false : true);
         	}
     	}else{
-    		sender.sendMessage(Message.Show("You do not have permission to use flags.", MessageType.WARNING));
+    		sender.sendMessage(Message.show("You do not have permission to use flags.", MessageType.WARNING));
     	}
     	
-    	return SpawnKit(sender, player, kit, Flags);
+    	return spawnKit(sender, player, kit, Flags);
     }
     
-    private boolean SpawnKit(CommandSender sender, Player player, Kit kit, HashMap<String, Boolean> flags){
-    	long delay = Permissions.CheckPermission(player, Permissions.KITS_DELAY, kit.GetName()) ? kit.GetDelay() : 0;
-    	boolean overwrite = kit.GetOverwrite();
-    	boolean announce = kit.GetAnnounce();
+    private boolean spawnKit(CommandSender sender, Player player, Kit kit, HashMap<String, Boolean> flags){
+    	long delay = Permissions.hasPermission(player, Permissions.KITS_DELAY, kit.getName()) ? kit.getDelay() : 0;
+    	boolean overwrite = kit.getOverwrite();
+    	boolean announce = kit.getAnnounce();
     	
     	for (String flag : flags.keySet()){
     		switch (flag){
@@ -319,13 +315,13 @@ public class KitCommandExecutor implements CommandExecutor{
     
     private boolean SpawnKit(CommandSender sender, Player player, Kit kit, long delay, boolean overwrite, boolean announce){
     	
-		if (Collections.GetDelayedPlayer(player).PlayerDelayed(kit) && kit.GetDelay() == delay && delay > 0){
-			String message = (sender instanceof Player && ((Player)sender).getName().equalsIgnoreCase(player.getName()) ? "You are " : player.getName() + " is ") + "currently delayed for kit " + kit.GetName() + "." + (sender.hasPermission(Permissions.KITS_FLAGS + ".delay") ? " Use the -delay flag to override this." : "");
-	    	sender.sendMessage(Message.Show(message, MessageType.WARNING));
+		if (Collections.getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0){
+			String message = (sender instanceof Player && ((Player)sender).getName().equalsIgnoreCase(player.getName()) ? "You are " : player.getName() + " is ") + "currently delayed for kit " + kit.getName() + "." + (sender.hasPermission(Permissions.KITS_FLAGS + ".delay") ? " Use the -delay flag to override this." : "");
+	    	sender.sendMessage(Message.show(message, MessageType.WARNING));
 	    	return false;
     	}
     	
-    	List<ItemStack> items = new ArrayList<ItemStack>(Arrays.asList(kit.GetItems()));
+    	List<ItemStack> items = new ArrayList<ItemStack>(Arrays.asList(kit.getItems()));
     	java.util.Collections.replaceAll(items, null, new ItemStack(Material.AIR));
 
     	ItemStack[] armor = new ItemStack[]{items.remove(0), items.remove(0), items.remove(0), items.remove(0)};
@@ -346,9 +342,9 @@ public class KitCommandExecutor implements CommandExecutor{
     	player.getInventory().setArmorContents(armor);
     	
     	if (delay > 0)
-    		Collections.GetDelayedPlayer(player).AddKit(kit);
+    		Collections.getDelayedPlayer(player).addKit(kit);
     	
-		if (announce) player.sendMessage(Message.Show("Kit " + kit.GetName() + " spawned.", MessageType.INFO));
+		if (announce) player.sendMessage(Message.show("Kit " + kit.getName() + " spawned.", MessageType.INFO));
 		
 		return true;
     }
@@ -357,7 +353,7 @@ public class KitCommandExecutor implements CommandExecutor{
     
     private boolean IsPlayer(CommandSender sender){
     	if (!(sender instanceof Player)){
-    		sender.sendMessage(Message.Show("Command must be issued ingame.", MessageType.WARNING));
+    		sender.sendMessage(Message.show("Command must be issued ingame.", MessageType.WARNING));
     		return false;
     	}
     	

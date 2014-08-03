@@ -31,20 +31,20 @@ public class KitsCommandExecutor implements CommandExecutor{
     public boolean onCommand(CommandSender sender, Command cmd, String command, String[] args) {
 
     	if (args.length < 1){
-    		HandleBaseCommand(sender);
+    		handleBaseCommand(sender);
     		return false;
     	}
     	
-    	if (args[0].equalsIgnoreCase("reload")) HandleReload(sender);
+    	if (args[0].equalsIgnoreCase("reload")) handleReload(sender);
     	
         return false;
     }
     
-    private void HandleBaseCommand(CommandSender sender){
-		if (sender instanceof Player && !Permissions.CheckPermission((Player) sender, Permissions.KITS_LIST)) return;
+    private void handleBaseCommand(CommandSender sender){
+		if (sender instanceof Player && !Permissions.checkPermission((Player) sender, Permissions.KITS_LIST)) return;
 		
 		if (Collections.KitList.size() < 1){
-			sender.sendMessage(Message.Show("There are no available kits.", MessageType.WARNING));
+			sender.sendMessage(Message.show("There are no available kits.", MessageType.WARNING));
 			return;
 		}
 		
@@ -53,15 +53,15 @@ public class KitsCommandExecutor implements CommandExecutor{
 		for (Kit kit : Collections.KitList){
 			List<String> lines = new ArrayList<String>();
 			List<String> items = new ArrayList<String>();
-			for (ItemStack item : kit.GetItems()){
+			for (ItemStack item : kit.getItems()){
 				if (item == null) continue;
-				items.add(item.getAmount() + " x " + (item.hasItemMeta() ? item.getItemMeta().getDisplayName() : Utils.Capitalize(item.getType().name())));
+				items.add(item.getAmount() + " x " + (item.hasItemMeta() ? item.getItemMeta().getDisplayName() : Utils.capitalize(item.getType().name())));
 			}
 			lines.add("Number of items: " + items.size());
-			lines.add("Delay: " + kit.GetDelay() + "ms");
-			lines.add("Overwrite: " + kit.GetOverwrite());
-			lines.add("Announce: " + kit.GetAnnounce());
-			commands.add(new CommandDescription(ChatColor.DARK_AQUA + kit.GetName(), "/kit " + kit.GetName(), lines.toArray(new String[lines.size()])));
+			lines.add("Delay: " + kit.getDelay() + "ms");
+			lines.add("Overwrite: " + kit.getOverwrite());
+			lines.add("Announce: " + kit.getAnnounce());
+			commands.add(new CommandDescription(ChatColor.DARK_AQUA + kit.getName(), "/kit " + kit.getName(), lines.toArray(new String[lines.size()])));
 		}
 
     	if (!(sender instanceof Player)){
@@ -73,14 +73,14 @@ public class KitsCommandExecutor implements CommandExecutor{
     		return;
     	}
     	
-		Message.ShowCommand((Player)sender, "Available kits: ", commands.toArray(new CommandDescription[commands.size()]));
+		Message.showCommand((Player)sender, "Available kits: ", commands.toArray(new CommandDescription[commands.size()]));
 
         return;
     }
     
-    private void HandleReload(CommandSender sender){
+    private void handleReload(CommandSender sender){
     	if (sender instanceof Player){
-    		if (Permissions.CheckPermission((Player)sender, Permissions.KITS_ADMIN)) plugin.reload();
+    		if (Permissions.checkPermission((Player)sender, Permissions.KITS_ADMIN)) plugin.reload();
     	}
     	else plugin.reload();
     }

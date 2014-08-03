@@ -26,28 +26,28 @@ public class DelayedPlayer implements ConfigurationSerializable{
 		this.kits = kits;
 	}
 	
-	public OfflinePlayer GetPlayer(){
+	public OfflinePlayer getPlayer(){
 		return player.isOnline() ? (Player)player.getPlayer() : player;
 	}
 	
-	public void AddKit(Kit kit){
-		kits.put(kit.GetName(), System.currentTimeMillis());
+	public void addKit(Kit kit){
+		kits.put(kit.getName(), System.currentTimeMillis());
 	}
 	
-	public boolean PlayerDelayed(Kit kit){
+	public boolean playerDelayed(Kit kit){
 		boolean delayed = false;
-		if (kits.containsKey(kit.GetName())){
-			delayed = System.currentTimeMillis() - kits.get(kit.GetName()) < kit.GetDelay();
-			if (!delayed) kits.remove(kit.GetName());
+		if (kits.containsKey(kit.getName())){
+			delayed = System.currentTimeMillis() - kits.get(kit.getName()) < kit.getDelay();
+			if (!delayed) kits.remove(kit.getName());
 		}
 		return delayed;
 	}
 	
-	public void SortKits(){
+	public void sortKits(){
 		Iterator<Entry<String,Long>> iter = kits.entrySet().iterator();
 		while (iter.hasNext()) {
 		    Entry<String,Long> entry = iter.next();
-		    if (Collections.GetKit(entry.getKey()) == null || (System.currentTimeMillis() - entry.getValue() >= Collections.GetKit(entry.getKey()).GetDelay())){
+		    if (Collections.getKit(entry.getKey()) == null || (System.currentTimeMillis() - entry.getValue() >= Collections.getKit(entry.getKey()).getDelay())){
 		        iter.remove();
 		    }
 		}
@@ -57,7 +57,7 @@ public class DelayedPlayer implements ConfigurationSerializable{
 	public Map<String, Object> serialize() {
 		Map<String, Object> result = new HashMap<String, Object>();
 
-		result.put("player", GetPlayer().getUniqueId().toString());
+		result.put("player", getPlayer().getUniqueId().toString());
 		result.put("kits", kits);
 		
 		return result;

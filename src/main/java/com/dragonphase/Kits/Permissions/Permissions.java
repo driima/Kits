@@ -23,16 +23,20 @@ public class Permissions {
 	
 	public static final String KITS_ADMIN			= KITS_BASE + ".admin";
     
-    public static boolean CheckPermission(Player player, String permission){
+    public static boolean checkPermission(Player player, String permission){
     	if (!player.hasPermission(permission)){
-    		Message.ShowMessage(player, Message.Show("Warning", "You do not have permission to perform that action.", MessageType.WARNING), permission);
+    		Message.showMessage(player, Message.show("Warning", "You do not have permission to perform that action.", MessageType.WARNING), permission);
     		//player.sendMessage(Message.Show("Warning", "You do not have permission to perform that action.", MessageType.WARNING));
     		return false;
     	}
     	return true;
     }
     
-    public static boolean CheckPermission(Player player, String permission, String...subPerms){
-    	return CheckPermission(player, permission + "." + StringUtils.join(subPerms, "."));
+    public static boolean checkPermission(Player player, String permission, String...subPerms){
+    	return checkPermission(player, permission + "." + StringUtils.join(subPerms, "."));
+    }
+    
+    public static boolean hasPermission(Player player, String permission, String...subPerms){
+        return player.hasPermission(permission + "." + StringUtils.join(subPerms, "."));
     }
 }

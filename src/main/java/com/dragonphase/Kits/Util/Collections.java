@@ -18,21 +18,21 @@ public class Collections {
 	public static Config PlayerConfig;
 	public static List<DelayedPlayer> PlayerList;
 	
-	public static void Save(){
+	public static void save(){
 		KitConfig.set("kits", KitList);
 		KitConfig.save();
 		
 		for (DelayedPlayer player : PlayerList)
-			player.SortKits();
+			player.sortKits();
 		
 		PlayerConfig.set("players", PlayerList);
 		PlayerConfig.save();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static void Load(Kits plugin){
+	public static void load(Kits plugin){
 		KitConfig = new Config(plugin, "kits");
-		MigrateOldKitsFile();
+		migrateOldKitsFile();
 		KitList = KitConfig.get("kits") == null ? new ArrayList<Kit>() : (List<Kit>) KitConfig.get("kits");
 		
 		PlayerConfig = new Config(plugin, "players");
@@ -40,7 +40,7 @@ public class Collections {
 	}
 	
 	@SuppressWarnings("unchecked")
-    private static void MigrateOldKitsFile(){
+    private static void migrateOldKitsFile(){
 	    if (KitConfig.contains("kits")) return;
 	    
 	    List<Kit> newKits = new ArrayList<Kit>();
@@ -52,27 +52,27 @@ public class Collections {
 	    }
 	    
 	    for (Kit kit : newKits)
-	        KitConfig.set(kit.GetName(), null);
+	        KitConfig.set(kit.getName(), null);
 	    
 	    KitConfig.set("kits", newKits);
 	}
 	
-	public static void Reload(Kits plugin){
-		if (KitConfig != null && PlayerConfig != null) Save();
-		Load(plugin);
+	public static void reload(Kits plugin){
+		if (KitConfig != null && PlayerConfig != null) save();
+		load(plugin);
 	}
 	
-	public static Kit GetKit(String name){
+	public static Kit getKit(String name){
 		for (Kit kit : KitList){
-			if (kit.GetName().equalsIgnoreCase(name)) return kit;
+			if (kit.getName().equalsIgnoreCase(name)) return kit;
 		}
 		return null;
 	}
 	
-	public static DelayedPlayer GetDelayedPlayer(Player player){
+	public static DelayedPlayer getDelayedPlayer(Player player){
 		for (DelayedPlayer delayedPlayer : PlayerList){
 		    try{
-	            if (delayedPlayer.GetPlayer().getUniqueId().equals(player.getUniqueId())) return delayedPlayer;
+	            if (delayedPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return delayedPlayer;
 		    }catch (Exception ex){ }
 		}
 		DelayedPlayer delayedPlayer = new DelayedPlayer(player);
