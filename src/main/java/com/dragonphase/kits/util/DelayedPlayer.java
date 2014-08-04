@@ -33,8 +33,8 @@ public class DelayedPlayer implements ConfigurationSerializable{
 		return player.isOnline() ? (Player)player.getPlayer() : player;
 	}
 	
-	public void addKit(Kit kit){
-		kits.put(kit.getName(), System.currentTimeMillis());
+	public void addKit(Kit kit, long delay){
+		kits.put(kit.getName(), System.currentTimeMillis() + delay);
 	}
 	
 	public boolean playerDelayed(Kit kit){

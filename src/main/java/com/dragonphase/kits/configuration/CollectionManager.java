@@ -17,8 +17,8 @@ public class CollectionManager {
 	public Config kitConfig;
 	public List<Kit> kitList;
 	
-	public static Config playerConfig;
-	public static List<DelayedPlayer> playerList;
+	public Config playerConfig;
+	public List<DelayedPlayer> playerList;
 	
 	public CollectionManager(){
 	    kitList = new ArrayList<Kit>();

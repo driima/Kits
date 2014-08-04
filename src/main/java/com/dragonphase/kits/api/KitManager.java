@@ -238,13 +238,6 @@ public class KitManager {
      * @param announce The announce flag to spawn the Kit with.
      */
     public void spawnKit(Player player, Kit kit, long delay, boolean overwrite, boolean announce){
-        
-        if (plugin.getCollectionManager().getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0){
-            String message = player.getName() + " is currently delayed for kit " + kit.getName() + ". Use the -delay flag to override this.";
-            plugin.getLogger().warning(message);
-            return;
-        }
-        
         List<ItemStack> items = new ArrayList<ItemStack>(Arrays.asList(kit.getItems()));
         java.util.Collections.replaceAll(items, null, new ItemStack(Material.AIR));
 
@@ -266,7 +259,7 @@ public class KitManager {
         player.getInventory().setArmorContents(armor);
         
         if (delay > 0)
-            plugin.getCollectionManager().getDelayedPlayer(player).addKit(kit);
+            plugin.getCollectionManager().getDelayedPlayer(player).addKit(kit, delay - kit.getDelay());
         
         if (announce) player.sendMessage(Message.show("Kit " + kit.getName() + " spawned.", MessageType.INFO));
         

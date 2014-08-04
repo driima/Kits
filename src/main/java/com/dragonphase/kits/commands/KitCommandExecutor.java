@@ -305,10 +305,10 @@ public class KitCommandExecutor implements CommandExecutor{
     		}
     	}
     	
-    	return SpawnKit(sender, player, kit, delay, overwrite, announce);
+    	return spawnKit(sender, player, kit, delay, overwrite, announce);
     }
     
-    private boolean SpawnKit(CommandSender sender, Player player, Kit kit, long delay, boolean overwrite, boolean announce){
+    private boolean spawnKit(CommandSender sender, Player player, Kit kit, long delay, boolean overwrite, boolean announce){
     	
 		if (plugin.getCollectionManager().getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0){
 		    if (announce){
@@ -339,7 +339,7 @@ public class KitCommandExecutor implements CommandExecutor{
     	player.getInventory().setArmorContents(armor);
     	
     	if (delay > 0)
-    	    plugin.getCollectionManager().getDelayedPlayer(player).addKit(kit);
+    	    plugin.getCollectionManager().getDelayedPlayer(player).addKit(kit, delay - kit.getDelay());
     	
 		if (announce) player.sendMessage(Message.show("Kit " + kit.getName() + " spawned.", MessageType.INFO));
 		

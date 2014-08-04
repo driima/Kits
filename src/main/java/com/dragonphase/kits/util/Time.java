@@ -1,15 +1,12 @@
 package com.dragonphase.kits.util;
-
-import java.util.ArrayList;
-import java.util.List;
  
 public class Time{
     
     private long milliseconds;
     
     public Time(String time) throws IllegalArgumentException{
-        String[] numbers = trim(time.split("[^0-9]"));
-        String[] types = trim(time.split("[0-9]"));
+        String[] numbers = Utils.clean(time.split("[^0-9]"));
+        String[] types = Utils.clean(time.split("[0-9]"));
         
         milliseconds = 0;
         
@@ -76,17 +73,5 @@ public class Time{
                 break;
         }
         return time;
-    }
-    
-    //Helper methods
-    
-    private String[] trim(String[] args){
-        List<String> list = new ArrayList<String>();
-        for(String arg : args) {
-            if(arg != null && arg.length() > 0) {
-              list.add(arg);
-            }
-        }
-        return list.toArray(new String[list.size()]);
     }
 }

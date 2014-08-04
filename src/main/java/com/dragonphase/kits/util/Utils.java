@@ -1,25 +1,29 @@
 package com.dragonphase.kits.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
 
-public class Utils {
+public final class Utils {
     
-    public static String[] trim(String[] args){
+    private Utils() { }
+    
+    public static <T> T[] trim(T[] args){
     	return Arrays.copyOfRange(args, 1, args.length);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static <T> T[] clean(T[] args){
+        List<T> list = new ArrayList<T>(Arrays.asList(args));
+        list.removeAll(Arrays.asList(null,""));
+        return (T[]) list.toArray();
     }
 	
 	public static String capitalize(String string){
-        String[] nameList = string.toLowerCase().replace("_", " ").replace("-", " ").split(" ");
-        String name = "";
-        
-        for (String word : nameList){
-            name += word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase() + " ";
-        }
-        
-        if (name.endsWith(" ")) name = name.substring(0, name.length()-1);
-        return name;
+        return WordUtils.capitalizeFully(string);
     }
 	
 	public static String getLocationationAsString(Location location){
