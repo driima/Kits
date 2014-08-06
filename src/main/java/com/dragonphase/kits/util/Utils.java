@@ -9,7 +9,7 @@ import org.bukkit.Location;
 
 public final class Utils {
     
-    private Utils() { }
+    private Utils(){}
     
     public static <T> T[] trim(T[] args){
     	return Arrays.copyOfRange(args, 1, args.length);

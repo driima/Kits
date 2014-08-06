@@ -58,12 +58,18 @@ public class EventListener implements Listener{
         lines.removeAll(Arrays.asList("", null));
         
         String[] arrayLines = Utils.trim(lines.toArray(new String[lines.size()]));
+
+        if (plugin.getCollectionManager().getDelayedPlayer(event.getPlayer()).playerDelayed(plugin.getKitManager().getKit(arrayLines[0])) && !StringUtils.join(arrayLines).toLowerCase().contains("-delay")){
+            event.getPlayer().sendMessage(Message.show("You are currently delayed for kit " + arrayLines[0] + ".", MessageType.WARNING));
+            return;
+        }
         
         try {
             plugin.getKitManager().spawnKit(event.getPlayer(), arrayLines[0], Utils.trim(arrayLines));
         } catch (KitException e) {
             Bukkit.getLogger().warning("The sign at " + Utils.getLocationationAsString(event.getClickedBlock().getLocation()) + " threw an exception: " + e.getMessage());
         }
+        
         event.getPlayer().updateInventory();
     }
     
