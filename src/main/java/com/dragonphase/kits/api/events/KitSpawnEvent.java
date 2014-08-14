@@ -1,4 +1,4 @@
-package com.dragonphase.kits.events;
+package com.dragonphase.kits.api.events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

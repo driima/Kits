@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.dragonphase.kits.Kits;
-import com.dragonphase.kits.events.KitSpawnEvent;
+import com.dragonphase.kits.api.events.KitSpawnEvent;
 import com.dragonphase.kits.permissions.Permissions;
 import com.dragonphase.kits.util.Message;
 import com.dragonphase.kits.util.Utils;
