@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -78,7 +79,7 @@ public class KitCommandExecutor implements CommandExecutor{
     //Create Kit
     
     private void createKit(CommandSender sender, String[] args){
-    	if (!IsPlayer(sender)) return;
+    	if (!isPlayer(sender)) return;
     	
     	Player player = (Player) sender;
     	
@@ -111,7 +112,7 @@ public class KitCommandExecutor implements CommandExecutor{
     //Edit Kit
     
     private void editKit(CommandSender sender, String[] args){
-    	if (!IsPlayer(sender)) return;
+    	if (!isPlayer(sender)) return;
     	
     	Player player = (Player) sender;
     	
@@ -197,7 +198,7 @@ public class KitCommandExecutor implements CommandExecutor{
     //Remove Kit
     
     private void removeKit(CommandSender sender, String[] args){
-    	if (!IsPlayer(sender)) return;
+    	if (!isPlayer(sender)) return;
     	
     	Player player = (Player) sender;
     	
@@ -255,7 +256,7 @@ public class KitCommandExecutor implements CommandExecutor{
     }
     
     private boolean spawnKit(CommandSender sender, String kitName, String playerName, String flags){
-    	Player player = GetPlayer(playerName);
+    	Player player = getPlayer(playerName);
     	
     	if (player == null){
     		sender.sendMessage(Message.show(playerName + " is not online. Make sure the name is typed correctly.", MessageType.WARNING));
@@ -348,7 +349,7 @@ public class KitCommandExecutor implements CommandExecutor{
     
     //Helper methods
     
-    private boolean IsPlayer(CommandSender sender){
+    private boolean isPlayer(CommandSender sender){
     	if (!(sender instanceof Player)){
     		sender.sendMessage(Message.show("Command must be issued ingame.", MessageType.WARNING));
     		return false;
@@ -357,10 +358,10 @@ public class KitCommandExecutor implements CommandExecutor{
     	return true;
     }
     
-	@SuppressWarnings("deprecation")
-    private Player GetPlayer(String name){
-    	for (Player player : Bukkit.getOnlinePlayers()){
-    		if (player.getName().equalsIgnoreCase(name)) return player;
+    private Player getPlayer(String name){
+    	for (OfflinePlayer player : Bukkit.getOfflinePlayers()){
+    	    if (!player.isOnline()) continue;
+    		if (player.getName().equalsIgnoreCase(name)) return player.getPlayer();
     	}
     	return null;
     }

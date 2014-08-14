@@ -14,6 +14,8 @@ import com.dragonphase.kits.util.Message;
 
 public class Kits extends JavaPlugin{
     
+    private static Kits instance;
+    
     private KitManager kitManager;
     private CollectionManager collectionManager;
     
@@ -40,6 +42,8 @@ public class Kits extends JavaPlugin{
         
         getCommand("kits").setExecutor(new KitsCommandExecutor(this));
         getCommand("kit").setExecutor(new KitCommandExecutor(this));
+        
+        instance = this;
     }
     
     public void reload(){
@@ -64,5 +68,9 @@ public class Kits extends JavaPlugin{
     
     public CollectionManager getCollectionManager(){
         return collectionManager;
+    }
+    
+    public static Kits getInstance(){
+        return instance;
     }
 }
