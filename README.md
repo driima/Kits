@@ -41,3 +41,18 @@ public void onEnable() {
     }
 }
 ```
+
+You can also use the KitSpawnEvent to handle and modify the spawning of kits. Here's a really basic example:
+
+```java
+@EventHandler
+public void onKitSpawn(KitSpawnEvent event){
+    if (event.getPlayer().hasPermission("my.custom.permission")) {
+        event.setDelay(0);
+        event.getPlayer().sendMessage("You have special privileges!");
+    } else {
+        event.getPlayer().sendMessage("You don't have special privileges!");
+        event.setCancelled(true);
+    }
+}
+```
