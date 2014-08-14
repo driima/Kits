@@ -22,14 +22,15 @@ Use Maven. Add the Kits repository and dependency entries to your `pom.xml`.
     <groupId>com.dragonphase</groupId>
     <artifactId>Kits</artifactId>
     <version>2.0</version>
+    <scope>provided</scope>
 </dependency>
 ```
 
 Usage
 --------
-Use maven-shade-plugin to exclude Kits from your project. Add Kits as a dependency inside your `plugin.yml` file. Retrieve the Kits instance inside your onEnable method and use the methods provided within KitManager:
+Add Kits as a dependency inside your `plugin.yml` file. Retrieve the Kits instance inside your onEnable method and use the methods provided within KitManager:
 
-```xml
+```java
 private KitManager kitManager;
 
 public void onEnable() {

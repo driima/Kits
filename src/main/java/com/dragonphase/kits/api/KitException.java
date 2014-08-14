@@ -1,29 +1,29 @@
 package com.dragonphase.kits.api;
 
-public class KitException extends Exception{
+public class KitException extends Exception {
     private static final long serialVersionUID = 4634639924183356239L;
     private final Throwable cause;
-    
-    public KitException(Throwable throwable){
+
+    public KitException(Throwable throwable) {
         cause = throwable;
     }
-    
-    public KitException(){
+
+    public KitException() {
         cause = null;
     }
-    
-    public KitException(Throwable cause, String message){
+
+    public KitException(Throwable cause, String message) {
         super(message);
         this.cause = cause;
     }
 
-    public KitException(String message){
-       super(message);
-       cause = null;
+    public KitException(String message) {
+        super(message);
+        cause = null;
     }
-    
+
     @Override
-    public Throwable getCause(){
+    public Throwable getCause() {
         return cause;
     }
 }

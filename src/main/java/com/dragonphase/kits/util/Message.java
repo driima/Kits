@@ -15,90 +15,90 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.dragonphase.kits.Kits;
 
 public class Message {
-	
-	public enum MessageType{
-		MESSAGE,
-		INFO,
-		WARNING
-	}
-	
+
+    public enum MessageType {
+        MESSAGE,
+        INFO,
+        WARNING
+    }
+
     private static Kits plugin;
-    
-    public static void setParent(Kits instance){
+
+    public static void setParent(Kits instance) {
         plugin = instance;
     }
-    
-    public static String show(String message, MessageType type){
-    	return show(plugin.getName(), message, type);
+
+    public static String show(String message, MessageType type) {
+        return show(plugin.getName(), message, type);
     }
-    
-    public static String show(String prefix, String message, MessageType type){
-    	return ChatColor.DARK_GRAY + prefix + ": " + (type == MessageType.MESSAGE ? ChatColor.GRAY : type == MessageType.INFO ? ChatColor.DARK_AQUA : ChatColor.RED) + message;
+
+    public static String show(String prefix, String message, MessageType type) {
+        return ChatColor.DARK_GRAY + prefix + ": " + (type == MessageType.MESSAGE ? ChatColor.GRAY : type == MessageType.INFO ? ChatColor.DARK_AQUA : ChatColor.RED) + message;
     }
-    
+
     //FancyMessage commands
-    
-    public static void showMessage(Player player, String title, String...args){
-    	if (args.length < 1){
-    		player.sendMessage(title);
-    		return;
-    	}
-    	
-    	FancyMessage message = new FancyMessage("").then(title).itemTooltip(getMessage(args));
-    	
-    	sendJSONMessage(player, message);
-    }
-    
-    public static void showCommand(Player player, CommandDescription command){
-    	if (command.getArgs().length < 1){
-    		player.sendMessage(command.getTitle());
-    		return;
-    	}
-    	
-    	FancyMessage message = new FancyMessage("").then(command.getTitle()).itemTooltip(getMessage(command.getArgs())).command(command.getCommand());
 
-    	sendJSONMessage(player, message);
-    }
-    
-    public static void showCommand(Player player, String prefix, CommandDescription...commands){
-    	FancyMessage message = new FancyMessage(prefix).color(ChatColor.DARK_GRAY);
+    public static void showMessage(Player player, String title, String... args) {
+        if (args.length < 1) {
+            player.sendMessage(title);
+            return;
+        }
 
-    	List<CommandDescription> commandList = new ArrayList<CommandDescription>(Arrays.asList(commands));
-    	
-    	for (CommandDescription command : commandList){
-        	if (command.getArgs().length < 1){
-        		player.sendMessage(command.getTitle());
-        		return;
-        	}
-        	
-        	message = message.then(command.getTitle())
-        				.itemTooltip(getMessage(command.getArgs()))
-        				.command(command.getCommand());
-        	
-        	if (commandList.get(commandList.size()-1) != command)
-        		message = message.then(", ").color(ChatColor.GRAY);
-        	
-    	}
-    	
-    	sendJSONMessage(player, message);
+        FancyMessage message = new FancyMessage("").then(title).itemTooltip(getMessage(args));
+
+        sendJSONMessage(player, message);
     }
-    
-    public static ItemStack getMessage(String...args){
-    	ItemStack item = new ItemStack(Material.STONE);
-    	ItemMeta meta = item.getItemMeta();
-    	meta.setDisplayName(ChatColor.RESET + args[0]);
-    	
-    	List<String> lore = new ArrayList<String>(Arrays.asList(Utils.trim(args)));
-    	for (String line : lore)
-    		lore.set(lore.indexOf(line), ChatColor.RESET + line);
-    	
-    	meta.setLore(lore);
-    	item.setItemMeta(meta);
-    	
-    	return item;
+
+    public static void showCommand(Player player, CommandDescription command) {
+        if (command.getArgs().length < 1) {
+            player.sendMessage(command.getTitle());
+            return;
+        }
+
+        FancyMessage message = new FancyMessage("").then(command.getTitle()).itemTooltip(getMessage(command.getArgs())).command(command.getCommand());
+
+        sendJSONMessage(player, message);
     }
-    
-	public static void sendJSONMessage(Player player, FancyMessage message){
-	    message.send(player);
-	}
+
+    public static void showCommand(Player player, String prefix, CommandDescription... commands) {
+        FancyMessage message = new FancyMessage(prefix).color(ChatColor.DARK_GRAY);
+
+        List<CommandDescription> commandList = new ArrayList<>(Arrays.asList(commands));
+
+        for (CommandDescription command : commandList) {
+            if (command.getArgs().length < 1) {
+                player.sendMessage(command.getTitle());
+                return;
+            }
+
+            message = message.then(command.getTitle())
+                    .itemTooltip(getMessage(command.getArgs()))
+                    .command(command.getCommand());
+
+            if (commandList.get(commandList.size() - 1) != command)
+                message = message.then(", ").color(ChatColor.GRAY);
+
+        }
+
+        sendJSONMessage(player, message);
+    }
+
+    public static ItemStack getMessage(String... args) {
+        ItemStack item = new ItemStack(Material.STONE);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(ChatColor.RESET + args[0]);
+
+        List<String> lore = new ArrayList<>(Arrays.asList(Utils.trim(args)));
+        for (String line : lore)
+            lore.set(lore.indexOf(line), ChatColor.RESET + line);
+
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+
+        return item;
+    }
+
+    public static void sendJSONMessage(Player player, FancyMessage message) {
+        message.send(player);
+    }
 }

@@ -1,36 +1,36 @@
 package com.dragonphase.kits.util;
 
 public class CommandDescription {
-	private String title, command;
-	private String[] args;
-	
-	public CommandDescription(String title, String command, String...args){
-		setTitle(title);
-		setCommand(command);
-		setArgs(args);
-	}
+    private String title, command;
+    private String[] args;
 
-	public String[] getArgs() {
-		return args;
-	}
+    public CommandDescription(String title, String command, String... args) {
+        setTitle(title);
+        setCommand(command);
+        setArgs(args);
+    }
 
-	public void setArgs(String[] args) {
-		this.args = args;
-	}
+    public String[] getArgs() {
+        return args;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public void setArgs(String[] args) {
+        this.args = args;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getCommand() {
-		return command;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setCommand(String command) {
-		this.command = command;
-	}
+    public String getCommand() {
+        return command;
+    }
+
+    public void setCommand(String command) {
+        this.command = command;
+    }
 }
