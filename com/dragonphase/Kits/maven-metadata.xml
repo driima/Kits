@@ -3,10 +3,10 @@
   <groupId>com.dragonphase</groupId>
   <artifactId>Kits</artifactId>
   <versioning>
-    <release>2.0</release>
+    <release>2.0.1</release>
     <versions>
-      <version>2.0</version>
+      <version>2.0.1</version>
     </versions>
-    <lastUpdated>20140814144233</lastUpdated>
+    <lastUpdated>20140817123824</lastUpdated>
   </versioning>
 </metadata>
