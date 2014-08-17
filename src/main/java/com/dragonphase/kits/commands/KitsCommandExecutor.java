@@ -49,17 +49,18 @@ public class KitsCommandExecutor implements CommandExecutor {
             return;
         }
 
-        List<CommandDescription> commands = new ArrayList<>();
+        List<CommandDescription> commands = new ArrayList<CommandDescription>();
 
         for (Kit kit : plugin.getCollectionManager().getKitList()) {
-            List<String> lines = new ArrayList<>();
-            List<String> items = new ArrayList<>();
+            List<String> lines = new ArrayList<String>();
+            List<String> items = new ArrayList<String>();
             for (ItemStack item : kit.getItems()) {
                 if (item == null) continue;
                 items.add(item.getAmount() + " x " + (item.hasItemMeta() ? item.getItemMeta().getDisplayName() : Utils.capitalize(item.getType().name())));
             }
             lines.add("Number of items: " + items.size());
             lines.add("Delay: " + kit.getDelay() + "ms");
+            lines.add("Clear: " + kit.getClear());
             lines.add("Overwrite: " + kit.getOverwrite());
             lines.add("Announce: " + kit.getAnnounce());
             commands.add(new CommandDescription(ChatColor.DARK_AQUA + kit.getName(), "/kit " + kit.getName(), lines.toArray(new String[lines.size()])));

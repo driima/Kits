@@ -2,6 +2,7 @@ package com.dragonphase.kits;
 
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 
 import com.dragonphase.kits.api.Kit;
 import com.dragonphase.kits.api.KitManager;
@@ -34,20 +35,38 @@ public class Kits extends JavaPlugin {
         Message.setParent(this);
 
         kitManager = new KitManager(this);
-        collectionManager = new CollectionManager();
+        collectionManager = new CollectionManager(this);
 
         reload();
 
-        getServer().getPluginManager().registerEvents(new EventListener(this), this);
-
-        getCommand("kits").setExecutor(new KitsCommandExecutor(this));
-        getCommand("kit").setExecutor(new KitCommandExecutor(this));
+        registerEvents();
+        registerCommands();
+        registerMetrics();
 
         instance = this;
     }
+    
+    private void registerEvents(){
+        getServer().getPluginManager().registerEvents(new EventListener(this), this);
+    }
+    
+    private void registerCommands(){
+        getCommand("kits").setExecutor(new KitsCommandExecutor(this));
+        getCommand("kit").setExecutor(new KitCommandExecutor(this));
+    }
+    
+    private void registerMetrics(){
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Failed to submit the stats :-(
+        }
+    }
 
     public void reload() {
-        getCollectionManager().reload(this);
+        getCollectionManager().reload();
     }
 
     public String getPluginDetails() {

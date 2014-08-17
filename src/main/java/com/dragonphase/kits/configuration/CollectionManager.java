@@ -13,6 +13,8 @@ import com.dragonphase.kits.api.Kit;
 import com.dragonphase.kits.util.DelayedPlayer;
 
 public class CollectionManager {
+    
+    private Kits plugin;
 
     public Config kitConfig;
     public List<Kit> kitList;
@@ -20,7 +22,9 @@ public class CollectionManager {
     public Config playerConfig;
     public List<DelayedPlayer> playerList;
 
-    public CollectionManager() {
+    public CollectionManager(Kits instance) {
+        plugin = instance;
+        
         kitList = new ArrayList<>();
         playerList = new ArrayList<>();
     }
@@ -28,16 +32,15 @@ public class CollectionManager {
     public void save() {
         kitConfig.set("kits", kitList);
         kitConfig.save();
-
-        for (DelayedPlayer player : playerList)
-            player.sortKits(this);
+        
+        sortDelayedPlayers();
 
         playerConfig.set("players", playerList);
         playerConfig.save();
     }
 
     @SuppressWarnings("unchecked")
-    public void load(Kits plugin) {
+    public void load() {
         kitConfig = new Config(plugin, "kits");
         migrateOldKitsFile();
         kitList = kitConfig.get("kits") == null ? new ArrayList<Kit>() : (List<Kit>) kitConfig.get("kits");
@@ -55,7 +58,7 @@ public class CollectionManager {
         for (String key : kitConfig.getKeys(false)) {
             ItemStack[] items = ((ArrayList<ItemStack>) kitConfig.get(key + ".kit")).toArray(new ItemStack[((ArrayList<ItemStack>) kitConfig.get(key + ".kit")).size()]);
             ArrayUtils.reverse(items);
-            newKits.add(new Kit(key, items, kitConfig.getLong(key + ".delay"), kitConfig.getBoolean(key + ".overwrite"), true));
+            newKits.add(new Kit(key, items, kitConfig.getLong(key + ".delay"), true, kitConfig.getBoolean(key + ".overwrite"), true));
         }
 
         for (Kit kit : newKits)
@@ -64,9 +67,9 @@ public class CollectionManager {
         kitConfig.set("kits", newKits);
     }
 
-    public void reload(Kits plugin) {
+    public void reload() {
         if (kitConfig != null && playerConfig != null) save();
-        load(plugin);
+        load();
     }
 
     public Kit getKit(String name) {
@@ -102,5 +105,10 @@ public class CollectionManager {
 
     public List<DelayedPlayer> getDelayedPlayers() {
         return playerList;
+    }
+    
+    public void sortDelayedPlayers() {
+        for (DelayedPlayer player : playerList)
+            player.sortKits(this);
     }
 }

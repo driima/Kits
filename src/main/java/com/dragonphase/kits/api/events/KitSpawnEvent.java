@@ -13,17 +13,18 @@ public class KitSpawnEvent extends Event implements Cancellable {
     private Kit kit;
     private Player player;
 
-    private boolean overwrite, announce;
+    private boolean clear, overwrite, announce;
     private long delay;
 
     private boolean cancelled;
 
-    public KitSpawnEvent(Kit kit, Player player, boolean overwrite, boolean announce, long delay) {
+    public KitSpawnEvent(Kit kit, Player player, boolean clear, boolean overwrite, boolean announce, long delay) {
         this.kit = kit;
         this.player = player;
-        this.overwrite = overwrite;
-        this.announce = announce;
-        this.delay = delay;
+        setClear(clear);
+        setOverwrite(overwrite);
+        setAnnounce(announce);
+        setDelay(delay);
     }
 
     @Override
@@ -53,6 +54,14 @@ public class KitSpawnEvent extends Event implements Cancellable {
 
     public Player getPlayer() {
         return player;
+    }
+    
+    public boolean getClear() {
+        return clear;
+    }
+    
+    public void setClear(boolean clear) {
+        this.clear = clear;
     }
 
     public boolean getOverwrite() {

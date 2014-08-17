@@ -28,10 +28,23 @@ permissions:
   kits.sign:
     description: Gives players permission to use Kit signs
     default: op
-  kits.flags:
+  kits.flags.*:
     description: Gives players permission to Kit flags
     default: op
     children:
       kits.flags.overwrite: true
       kits.flags.announce: true
+      kits.flags.clear: true
       kits.flags.delay: true
+  kits.flags.overwrite:
+    description: Gives players permission to use the Overwrite flag
+    default: op
+  kits.flags.announce:
+    description: Gives players permission to use the Announce flag
+    default: op
+  kits.flags.clear:
+    description: Gives players permission to use the Clear flag
+    default: op
+  kits.flags.delay:
+    description: Gives players permission to use the Delay flag
+    default: op

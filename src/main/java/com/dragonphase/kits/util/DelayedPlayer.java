@@ -21,33 +21,43 @@ public class DelayedPlayer implements ConfigurationSerializable {
 
     public DelayedPlayer(Player player) {
         this.player = player;
-        this.kits = new HashMap<>();
+        this.kits = new HashMap<String, Long>();
     }
 
     public DelayedPlayer(UUID player, HashMap<String, Long> kits) {
-        this.player = Bukkit.getPlayer(player);
-        this.kits = kits;
+        this.player = Bukkit.getOfflinePlayer(player);
+        this.kits = new HashMap<String, Long>(kits);
     }
 
     public OfflinePlayer getPlayer() {
         return player.isOnline() ? player.getPlayer() : player;
     }
+    
+    public HashMap<String, Long> getKits() {
+        return kits;
+    }
 
     public void addKit(Kit kit, long delay) {
-        kits.put(kit.getName(), System.currentTimeMillis() + delay);
+        getKits().put(kit.getName(), System.currentTimeMillis() + delay);
     }
 
     public boolean playerDelayed(Kit kit) {
         boolean delayed = false;
-        if (kits.containsKey(kit.getName())) {
-            delayed = System.currentTimeMillis() - kits.get(kit.getName()) < kit.getDelay();
-            if (!delayed) kits.remove(kit.getName());
+        if (getKits().containsKey(kit.getName())) {
+            delayed = System.currentTimeMillis() - getKits().get(kit.getName()) < kit.getDelay();
+            if (!delayed) getKits().remove(kit.getName());
         }
         return delayed;
     }
+    
+    public String getRemainingTime(Kit kit){
+        if (!playerDelayed(kit)) return "";
+        
+        return Time.getTime(kit.getDelay() - (System.currentTimeMillis() - getKits().get(kit.getName())), false, false);
+    }
 
     public void sortKits(CollectionManager manager) {
-        Iterator<Entry<String, Long>> iter = kits.entrySet().iterator();
+        Iterator<Entry<String, Long>> iter = getKits().entrySet().iterator();
         while (iter.hasNext()) {
             Entry<String, Long> entry = iter.next();
             if (manager.getKit(entry.getKey()) == null || (System.currentTimeMillis() - entry.getValue() >= manager.getKit(entry.getKey()).getDelay())) {
@@ -61,7 +71,7 @@ public class DelayedPlayer implements ConfigurationSerializable {
         Map<String, Object> result = new HashMap<>();
 
         result.put("player", getPlayer().getUniqueId().toString());
-        result.put("kits", kits);
+        result.put("kits", getKits());
 
         return result;
     }

@@ -24,7 +24,7 @@ public class Permissions {
     public static final String KITS_ADMIN = KITS_BASE + ".admin";
 
     public static boolean checkPermission(Player player, String permission) {
-        if (!player.hasPermission(permission)) {
+        if (!player.hasPermission(permission.toLowerCase())) {
             Message.showMessage(player, Message.show("Warning", "You do not have permission to perform that action.", MessageType.WARNING), permission);
             return false;
         }
@@ -36,6 +36,6 @@ public class Permissions {
     }
 
     public static boolean hasPermission(Player player, String permission, String... subPerms) {
-        return player.hasPermission(permission + "." + StringUtils.join(subPerms, "."));
+        return player.hasPermission((permission + "." + StringUtils.join(subPerms, ".")).toLowerCase());
     }
 }

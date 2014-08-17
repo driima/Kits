@@ -5,18 +5,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
-
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 import com.dragonphase.kits.Kits;
 import com.dragonphase.kits.api.Kit;
@@ -152,6 +148,10 @@ public class KitCommandExecutor implements CommandExecutor {
             editKitAnnounce(player, kit, Utils.trim(args));
             return;
         }
+        
+        if (args[0].equalsIgnoreCase("clear")) {
+            editKitClear(player, kit, Utils.trim(args));
+        }
 
         if (args[0].equalsIgnoreCase("delay")) {
             editKitDelay(player, kit, Utils.trim(args));
@@ -166,7 +166,7 @@ public class KitCommandExecutor implements CommandExecutor {
         }
 
         boolean value = args[0].equalsIgnoreCase("true");
-        kit.setOverwrite(value);
+        plugin.getKitManager().editKit(kit, kit.getItems(), kit.getDelay(), kit.getClear(), value, kit.getAnnounce());
         player.sendMessage(Message.show("Overwrite for kit " + kit.getName() + " set to " + value, MessageType.INFO));
     }
 
@@ -177,8 +177,19 @@ public class KitCommandExecutor implements CommandExecutor {
         }
 
         boolean value = args[0].equalsIgnoreCase("true");
-        kit.setAnnounce(value);
+        plugin.getKitManager().editKit(kit, kit.getItems(), kit.getDelay(), kit.getClear(), kit.getOverwrite(), value);
         player.sendMessage(Message.show("Announce for kit " + kit.getName() + " set to " + value, MessageType.INFO));
+    }
+
+    public void editKitClear(Player player, Kit kit, String[] args) {
+        if (args.length < 1) {
+            Message.showMessage(player, Message.show("Usage", "/kit edit " + ChatColor.ITALIC + kit.getName() + " clear [true|false]", MessageType.INFO), "Change the clear flag of " + kit.getName() + " to true or false.", "Current clear value: " + kit.getClear() + ".");
+            return;
+        }
+
+        boolean value = args[0].equalsIgnoreCase("true");
+        plugin.getKitManager().editKit(kit, kit.getItems(), kit.getDelay(), value, kit.getOverwrite(), kit.getAnnounce());
+        player.sendMessage(Message.show("Clear for kit " + kit.getName() + " set to " + value, MessageType.INFO));
     }
 
     public void editKitDelay(Player player, Kit kit, String[] args) {
@@ -189,7 +200,7 @@ public class KitCommandExecutor implements CommandExecutor {
 
         try {
             Time value = new Time(args[0]);
-            kit.setDelay(value.getMilliseconds());
+            plugin.getKitManager().editKit(kit, kit.getItems(), value.getMilliseconds(), kit.getClear(), kit.getOverwrite(), kit.getAnnounce());
             player.sendMessage(Message.show("Delay for kit " + kit.getName() + " set to " + args[0], MessageType.INFO));
         } catch (Exception ex) {
             player.sendMessage(Message.show("Incorrect delay format. Example: 1h30m for 1 hour 30 minute delay.", MessageType.WARNING));
@@ -291,6 +302,7 @@ public class KitCommandExecutor implements CommandExecutor {
 
     private boolean spawnKit(CommandSender sender, Player player, Kit kit, HashMap<String, Boolean> flags) {
         long delay = Permissions.hasPermission(player, Permissions.KITS_NODELAY, kit.getName()) ? 0 : kit.getDelay();
+        boolean clear = kit.getClear();
         boolean overwrite = kit.getOverwrite();
         boolean announce = kit.getAnnounce();
 
@@ -305,23 +317,27 @@ public class KitCommandExecutor implements CommandExecutor {
                 case "delay":
                     delay = flags.get(flag) ? delay : 0;
                     break;
+                case "clear":
+                    clear = flags.get(flag);
             }
         }
 
-        return spawnKit(sender, player, kit, delay, overwrite, announce);
+        return spawnKit(sender, player, kit, delay, clear, overwrite, announce);
     }
 
-    private boolean spawnKit(CommandSender sender, Player player, Kit kit, long delay, boolean overwrite, boolean announce) {
+    private boolean spawnKit(CommandSender sender, Player player, Kit kit, long delay, boolean clear, boolean overwrite, boolean announce) {
 
         if (plugin.getCollectionManager().getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0) {
             if (announce) {
-                String message = (sender instanceof Player && sender.getName().equalsIgnoreCase(player.getName()) ? "You are " : player.getName() + " is ") + "currently delayed for kit " + kit.getName() + "." + (sender.hasPermission(Permissions.KITS_FLAGS + ".delay") ? " Use the -delay flag to override this." : "");
+                String message = (sender instanceof Player && sender.getName().equalsIgnoreCase(player.getName()) ? "You are " : player.getName() + " is ")
+                        + "currently delayed for kit " + kit.getName() + ". Remaining time:\n "
+                        + plugin.getCollectionManager().getDelayedPlayer(player).getRemainingTime(kit);
                 sender.sendMessage(Message.show(message, MessageType.WARNING));
             }
             return false;
         }
         
-        plugin.getKitManager().spawnKit(player, kit, delay, overwrite, announce);
+        plugin.getKitManager().spawnKit(player, kit, delay, clear, overwrite, announce);
 
         return true;
     }

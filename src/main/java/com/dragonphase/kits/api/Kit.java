@@ -11,12 +11,13 @@ public class Kit implements ConfigurationSerializable {
 
     private String name;
     private long delay;
-    private boolean overwrite, announce;
+    private boolean clear, overwrite, announce;
     private ItemStack[] items;
 
-    public Kit(String name, ItemStack[] items, long delay, boolean overwrite, boolean announce) {
+    public Kit(String name, ItemStack[] items, long delay, boolean clear, boolean overwrite, boolean announce) {
         this.name = name;
         this.delay = delay;
+        this.clear = clear;
         this.overwrite = overwrite;
         this.announce = announce;
         this.items = items;
@@ -36,6 +37,14 @@ public class Kit implements ConfigurationSerializable {
 
     public void setDelay(long delay) {
         this.delay = delay;
+    }
+    
+    public boolean getClear() {
+        return clear;
+    }
+    
+    public void setClear(boolean clear) {
+        this.clear = clear;
     }
 
     public boolean getOverwrite() {
@@ -66,17 +75,31 @@ public class Kit implements ConfigurationSerializable {
     public Map<String, Object> serialize() {
         Map<String, Object> result = new HashMap<>();
 
-        result.put("name", name);
-        result.put("delay", delay);
-        result.put("overwrite", overwrite);
-        result.put("announce", announce);
-        result.put("items", items);
+        result.put("name", getName());
+        result.put("delay", getDelay());
+        result.put("clear", getClear());
+        result.put("overwrite", getOverwrite());
+        result.put("announce", getAnnounce());
+        result.put("items", getItems());
 
         return result;
     }
 
     @SuppressWarnings("unchecked")
     public static Kit deserialize(Map<String, Object> args) {
-        return new Kit((String) args.get("name"), ((ArrayList<ItemStack>) args.get("items")).toArray(new ItemStack[((ArrayList<ItemStack>) args.get("items")).size()]), (Integer) args.get("delay"), (Boolean) args.get("overwrite"), (Boolean) args.get("announce"));
+        String name = (String) args.get("name");
+        ItemStack[] items = ((ArrayList<ItemStack>) args.get("items")).toArray(new ItemStack[((ArrayList<ItemStack>) args.get("items")).size()]);
+        boolean clear = (boolean) (args.containsKey("clear") ? args.get("clear") : true);
+        boolean overwrite = (boolean) (args.containsKey("overwrite") ? args.get("overwrite") : true);
+        boolean announce = (boolean) (args.containsKey("announce") ? args.get("announce") : true);
+        
+        try{
+            long delay = (long) (args.containsKey("delay") ? args.get("delay") : 0);
+            return new Kit(name, items, delay, clear, overwrite, announce);
+        }catch (Exception ex){
+            int delay = (int) (args.containsKey("delay") ? args.get("delay") : 0);
+            return new Kit(name, items, delay, clear, overwrite, announce);
+        }
+        
     }
 }
