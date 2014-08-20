@@ -13,8 +13,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import com.dragonphase.kits.Kits;
-import com.dragonphase.kits.api.events.KitSpawnEvent;
+import com.dragonphase.kits.api.events.PlayerSpawnKitEvent;
 import com.dragonphase.kits.permissions.Permissions;
+import com.dragonphase.kits.util.FlagType;
 import com.dragonphase.kits.util.Message;
 import com.dragonphase.kits.util.Utils;
 import com.dragonphase.kits.util.Message.MessageType;
@@ -235,7 +236,7 @@ public class KitManager {
      */
     public void spawnKit(Player player, Kit kit, String... flags) {
         List<String> flagList = Arrays.asList(flags);
-        HashMap<String, Boolean> flagMap = new HashMap<>();
+        HashMap<String, Boolean> flagMap = new HashMap<String, Boolean>();
 
         for (String flag : flagList) {
             if (flag.isEmpty() || flag.length() < 2) continue;
@@ -259,19 +260,18 @@ public class KitManager {
         boolean announce = kit.getAnnounce();
 
         for (String flag : flags.keySet()) {
-            switch (flag) {
-                case "overwrite":
+            switch (FlagType.match(flag)) {
+                case OVERWRITE:
                     overwrite = flags.get(flag);
                     break;
-                case "announce":
+                case ANNOUNCE:
                     announce = flags.get(flag);
                     break;
-                case "delay":
+                case DELAY:
                     delay = flags.get(flag) ? delay : 0;
                     break;
-                case "clear":
+                case CLEAR:
                     clear = flags.get(flag);
-                    break;
             }
         }
 
@@ -304,7 +304,7 @@ public class KitManager {
      */
     public void spawnKit(Player player, Kit kit, long delay, boolean clear, boolean overwrite, boolean announce) {
         
-        KitSpawnEvent event = new KitSpawnEvent(kit, player, clear, overwrite, announce, delay);
+        PlayerSpawnKitEvent event = new PlayerSpawnKitEvent(kit, player, clear, overwrite, announce, delay);
         
         Bukkit.getServer().getPluginManager().callEvent(event);
         
@@ -352,7 +352,7 @@ public class KitManager {
             plugin.getCollectionManager().getDelayedPlayer(player).addKit(kit, event.getDelay() - kit.getDelay());
 
         if (event.getAnnounce()) {
-            player.sendMessage(Message.show("Kit " + kit.getName() + " spawned.", MessageType.INFO));
+            player.sendMessage(Message.show("", "Kit " + kit.getName() + " spawned.", MessageType.INFO));
         }
 
     }

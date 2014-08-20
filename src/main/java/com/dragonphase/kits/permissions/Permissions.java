@@ -25,7 +25,7 @@ public class Permissions {
 
     public static boolean checkPermission(Player player, String permission) {
         if (!player.hasPermission(permission.toLowerCase())) {
-            Message.showMessage(player, Message.show("Warning", "You do not have permission to perform that action.", MessageType.WARNING), permission);
+            Message.showMessage(player, Message.show("", "You do not have permission to perform that action.", MessageType.WARNING), permission);
             return false;
         }
         return true;

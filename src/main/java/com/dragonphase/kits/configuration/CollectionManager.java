@@ -17,25 +17,25 @@ public class CollectionManager {
     private Kits plugin;
 
     public Config kitConfig;
-    public List<Kit> kitList;
+    public List<Kit> kits;
 
     public Config playerConfig;
-    public List<DelayedPlayer> playerList;
+    public List<DelayedPlayer> delayedPlayers;
 
     public CollectionManager(Kits instance) {
         plugin = instance;
         
-        kitList = new ArrayList<>();
-        playerList = new ArrayList<>();
+        kits = new ArrayList<Kit>();
+        delayedPlayers = new ArrayList<DelayedPlayer>();
     }
 
     public void save() {
-        kitConfig.set("kits", kitList);
+        kitConfig.set("kits", kits);
         kitConfig.save();
         
         sortDelayedPlayers();
 
-        playerConfig.set("players", playerList);
+        playerConfig.set("players", delayedPlayers);
         playerConfig.save();
     }
 
@@ -43,17 +43,64 @@ public class CollectionManager {
     public void load() {
         kitConfig = new Config(plugin, "kits");
         migrateOldKitsFile();
-        kitList = kitConfig.get("kits") == null ? new ArrayList<Kit>() : (List<Kit>) kitConfig.get("kits");
+        kits = kitConfig.get("kits") == null ? new ArrayList<Kit>() : (List<Kit>) kitConfig.get("kits");
 
         playerConfig = new Config(plugin, "players");
-        playerList = playerConfig.get("players") == null ? new ArrayList<DelayedPlayer>() : (List<DelayedPlayer>) playerConfig.getList("players");
+        delayedPlayers = playerConfig.get("players") == null ? new ArrayList<DelayedPlayer>() : (List<DelayedPlayer>) playerConfig.getList("players");
     }
+
+    public void reload() {
+        if (kitConfig != null && playerConfig != null) save();
+        load();
+    }
+
+    public Kit getKit(String name) {
+        for (Kit kit : kits) {
+            if (kit.getName().equalsIgnoreCase(name)) return kit;
+        }
+        return null;
+    }
+
+    public void addKit(Kit kit) {
+        kits.add(kit);
+    }
+
+    public void removeKit(Kit kit) {
+        kits.remove(kit);
+    }
+
+    public DelayedPlayer getDelayedPlayer(Player player) {
+        for (DelayedPlayer delayedPlayer : delayedPlayers) {
+            try {
+                if (delayedPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return delayedPlayer;
+            } catch (Exception ignored) {
+            }
+        }
+        DelayedPlayer delayedPlayer = new DelayedPlayer(player);
+        delayedPlayers.add(delayedPlayer);
+        return delayedPlayer;
+    }
+
+    public List<Kit> getKits() {
+        return kits;
+    }
+
+    public List<DelayedPlayer> getDelayedPlayers() {
+        return delayedPlayers;
+    }
+    
+    public void sortDelayedPlayers() {
+        for (DelayedPlayer player : delayedPlayers)
+            player.sortKits(this);
+    }
+    
+    //Migrate kits from pre-Kits 1.7. Resulting inventories are somewhat buggy but can easily be edited ingame.
 
     @SuppressWarnings("unchecked")
     private void migrateOldKitsFile() {
         if (kitConfig.contains("kits")) return;
 
-        List<Kit> newKits = new ArrayList<>();
+        List<Kit> newKits = new ArrayList<Kit>();
 
         for (String key : kitConfig.getKeys(false)) {
             ItemStack[] items = ((ArrayList<ItemStack>) kitConfig.get(key + ".kit")).toArray(new ItemStack[((ArrayList<ItemStack>) kitConfig.get(key + ".kit")).size()]);
@@ -65,50 +112,5 @@ public class CollectionManager {
             kitConfig.set(kit.getName(), null);
 
         kitConfig.set("kits", newKits);
-    }
-
-    public void reload() {
-        if (kitConfig != null && playerConfig != null) save();
-        load();
-    }
-
-    public Kit getKit(String name) {
-        for (Kit kit : kitList) {
-            if (kit.getName().equalsIgnoreCase(name)) return kit;
-        }
-        return null;
-    }
-
-    public void addKit(Kit kit) {
-        kitList.add(kit);
-    }
-
-    public void removeKit(Kit kit) {
-        kitList.remove(kit);
-    }
-
-    public DelayedPlayer getDelayedPlayer(Player player) {
-        for (DelayedPlayer delayedPlayer : playerList) {
-            try {
-                if (delayedPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return delayedPlayer;
-            } catch (Exception ignored) {
-            }
-        }
-        DelayedPlayer delayedPlayer = new DelayedPlayer(player);
-        playerList.add(delayedPlayer);
-        return delayedPlayer;
-    }
-
-    public List<Kit> getKitList() {
-        return kitList;
-    }
-
-    public List<DelayedPlayer> getDelayedPlayers() {
-        return playerList;
-    }
-    
-    public void sortDelayedPlayers() {
-        for (DelayedPlayer player : playerList)
-            player.sortKits(this);
     }
 }

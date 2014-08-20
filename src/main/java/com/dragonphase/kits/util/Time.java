@@ -17,7 +17,7 @@ public class Time {
 
         try {
             for (int i = 0; i < types.length; i++)
-                milliseconds += getTime(Integer.parseInt(numbers[i]), types[i]);
+                milliseconds += getTime(Integer.parseInt(numbers[i]), TimeType.match(types[i]));
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
@@ -93,27 +93,27 @@ public class Time {
 
     //Recursive time translation to seconds
 
-    private long getTime(long number, String type) {
+    private long getTime(long number, TimeType type) {
         long time = number;
         switch (type) {
-            case "y":
-                time = getTime(time * 12, "mo");
+            case YEARS:
+                time = getTime(time * 12, TimeType.MONTHS);
                 break;
-            case "mo":
-                time = getTime(time * 30, "d");
+            case MONTHS:
+                time = getTime(time * 30, TimeType.DAYS);
                 break;
-            case "d":
-                time = getTime(time * 24, "h");
+            case DAYS:
+                time = getTime(time * 24, TimeType.HOURS);
                 break;
-            case "h":
-                time = getTime(time * 60, "m");
+            case HOURS:
+                time = getTime(time * 60, TimeType.MINUTES);
                 break;
-            case "m":
-                time = getTime(time * 60, "s");
+            case MINUTES:
+                time = getTime(time * 60, TimeType.SECONDS);
                 break;
-            case "s":
-                time = getTime(time * 1000, "ms");
-            case "ms":
+            case SECONDS:
+                time = getTime(time * 1000, TimeType.MILLISECONDS);
+            case MILLISECONDS:
             default:
                 break;
         }

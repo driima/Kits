@@ -18,6 +18,7 @@ import com.dragonphase.kits.Kits;
 import com.dragonphase.kits.api.Kit;
 import com.dragonphase.kits.api.KitException;
 import com.dragonphase.kits.permissions.Permissions;
+import com.dragonphase.kits.util.FlagType;
 import com.dragonphase.kits.util.Message;
 import com.dragonphase.kits.util.Time;
 import com.dragonphase.kits.util.Utils;
@@ -88,17 +89,17 @@ public class KitCommandExecutor implements CommandExecutor {
         }
 
         if (args.length > 1) {
-            player.sendMessage(Message.show("Kit names cannot contain spaces.", MessageType.WARNING));
+            player.sendMessage(Message.show("", "Kit names cannot contain spaces.", MessageType.WARNING));
             return;
         }
 
         if (plugin.getKitManager().kitExists(args[0])) {
-            player.sendMessage(Message.show("Kit " + args[0] + " already exists.", MessageType.WARNING));
+            player.sendMessage(Message.show("", "Kit " + args[0] + " already exists.", MessageType.WARNING));
             return;
         }
 
         if (args[0].length() > 22) {
-            player.sendMessage(Message.show("Kit name cannot exceed 22 characters.", MessageType.WARNING));
+            player.sendMessage(Message.show("", "Kit name cannot exceed 22 characters.", MessageType.WARNING));
             return;
         }
 
@@ -122,7 +123,7 @@ public class KitCommandExecutor implements CommandExecutor {
         }
 
         if (!plugin.getKitManager().kitExists(args[0])) {
-            player.sendMessage(Message.show("Kit " + args[0] + " does not exist.", MessageType.WARNING));
+            player.sendMessage(Message.show("", "Kit " + args[0] + " does not exist.", MessageType.WARNING));
             return;
         }
 
@@ -167,7 +168,7 @@ public class KitCommandExecutor implements CommandExecutor {
 
         boolean value = args[0].equalsIgnoreCase("true");
         plugin.getKitManager().editKit(kit, kit.getItems(), kit.getDelay(), kit.getClear(), value, kit.getAnnounce());
-        player.sendMessage(Message.show("Overwrite for kit " + kit.getName() + " set to " + value, MessageType.INFO));
+        player.sendMessage(Message.show("", "Overwrite for kit " + kit.getName() + " set to " + value, MessageType.INFO));
     }
 
     public void editKitAnnounce(Player player, Kit kit, String[] args) {
@@ -178,7 +179,7 @@ public class KitCommandExecutor implements CommandExecutor {
 
         boolean value = args[0].equalsIgnoreCase("true");
         plugin.getKitManager().editKit(kit, kit.getItems(), kit.getDelay(), kit.getClear(), kit.getOverwrite(), value);
-        player.sendMessage(Message.show("Announce for kit " + kit.getName() + " set to " + value, MessageType.INFO));
+        player.sendMessage(Message.show("", "Announce for kit " + kit.getName() + " set to " + value, MessageType.INFO));
     }
 
     public void editKitClear(Player player, Kit kit, String[] args) {
@@ -189,7 +190,7 @@ public class KitCommandExecutor implements CommandExecutor {
 
         boolean value = args[0].equalsIgnoreCase("true");
         plugin.getKitManager().editKit(kit, kit.getItems(), kit.getDelay(), value, kit.getOverwrite(), kit.getAnnounce());
-        player.sendMessage(Message.show("Clear for kit " + kit.getName() + " set to " + value, MessageType.INFO));
+        player.sendMessage(Message.show("", "Clear for kit " + kit.getName() + " set to " + value, MessageType.INFO));
     }
 
     public void editKitDelay(Player player, Kit kit, String[] args) {
@@ -201,9 +202,9 @@ public class KitCommandExecutor implements CommandExecutor {
         try {
             Time value = new Time(args[0]);
             plugin.getKitManager().editKit(kit, kit.getItems(), value.getMilliseconds(), kit.getClear(), kit.getOverwrite(), kit.getAnnounce());
-            player.sendMessage(Message.show("Delay for kit " + kit.getName() + " set to " + args[0], MessageType.INFO));
+            player.sendMessage(Message.show("", "Delay for kit " + kit.getName() + " set to " + args[0], MessageType.INFO));
         } catch (Exception ex) {
-            player.sendMessage(Message.show("Incorrect delay format. Example: 1h30m for 1 hour 30 minute delay.", MessageType.WARNING));
+            player.sendMessage(Message.show("", "Incorrect delay format. Example: 1h30m for 1 hour 30 minute delay.", MessageType.WARNING));
         }
     }
 
@@ -223,9 +224,9 @@ public class KitCommandExecutor implements CommandExecutor {
 
         try {
             plugin.getKitManager().removeKit(args[0]);
-            player.sendMessage(Message.show("Kit " + args[0] + " removed.", MessageType.INFO));
+            player.sendMessage(Message.show("", "Kit " + args[0] + " removed.", MessageType.INFO));
         } catch (KitException e) {
-            player.sendMessage(Message.show("Kit " + args[0] + " does not exist.", MessageType.WARNING));
+            player.sendMessage(Message.show("", "Kit " + args[0] + " does not exist.", MessageType.WARNING));
         }
     }
 
@@ -243,7 +244,7 @@ public class KitCommandExecutor implements CommandExecutor {
         }
 
         if (spawnKit(sender, args[0], args[1], StringUtils.join(Utils.trim(Utils.trim(args)), " ")))
-            sender.sendMessage(Message.show("Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
+            sender.sendMessage(Message.show("", "Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
     }
 
     private void spawnKit(Player player, String[] args) {
@@ -260,7 +261,7 @@ public class KitCommandExecutor implements CommandExecutor {
                 return;
 
             if (spawnKit(player, args[0], args[1], StringUtils.join(Utils.trim(Utils.trim(args)), " ")))
-                player.sendMessage(Message.show("Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
+                player.sendMessage(Message.show("", "Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
 
             return;
         }
@@ -272,12 +273,12 @@ public class KitCommandExecutor implements CommandExecutor {
         Player player = getPlayer(playerName);
 
         if (player == null) {
-            sender.sendMessage(Message.show(playerName + " is not online. Make sure the name is typed correctly.", MessageType.WARNING));
+            sender.sendMessage(Message.show("", playerName + " is not online. Make sure the name is typed correctly.", MessageType.WARNING));
             return false;
         }
 
         if (!plugin.getKitManager().kitExists(kitName)) {
-            sender.sendMessage(Message.show("Kit " + kitName + " does not exist. Make sure the name is typed correctly.", MessageType.WARNING));
+            sender.sendMessage(Message.show("", "Kit " + kitName + " does not exist. Make sure the name is typed correctly.", MessageType.WARNING));
             return false;
         }
 
@@ -286,12 +287,12 @@ public class KitCommandExecutor implements CommandExecutor {
 
     private boolean spawnKit(CommandSender sender, Player player, Kit kit, String flags) {
         List<String> flagList = StringUtils.isEmpty(flags) ? new ArrayList<String>() : Arrays.asList(flags.split(" "));
-        HashMap<String, Boolean> Flags = new HashMap<>();
+        HashMap<String, Boolean> Flags = new HashMap<String, Boolean>();
 
         for (String flag : flagList) {
             if (flag.isEmpty() || flag.length() < 2) continue;
             if (sender instanceof Player && !Permissions.hasPermission((Player) sender, Permissions.KITS_FLAGS, flag.replace("+", "").replace("-", ""))) {
-                sender.sendMessage(Message.show("You do not have permission to use the " + flag.replace("+", "").replace("-", "") + " flag.", MessageType.WARNING));
+                sender.sendMessage(Message.show("", "You do not have permission to use the " + flag.replace("+", "").replace("-", "") + " flag.", MessageType.WARNING));
                 continue;
             }
             Flags.put(flag.replace("+", "").replace("-", ""), !flag.startsWith("-"));
@@ -307,17 +308,17 @@ public class KitCommandExecutor implements CommandExecutor {
         boolean announce = kit.getAnnounce();
 
         for (String flag : flags.keySet()) {
-            switch (flag) {
-                case "overwrite":
+            switch (FlagType.match(flag)) {
+                case OVERWRITE:
                     overwrite = flags.get(flag);
                     break;
-                case "announce":
+                case ANNOUNCE:
                     announce = flags.get(flag);
                     break;
-                case "delay":
+                case DELAY:
                     delay = flags.get(flag) ? delay : 0;
                     break;
-                case "clear":
+                case CLEAR:
                     clear = flags.get(flag);
             }
         }
@@ -332,7 +333,7 @@ public class KitCommandExecutor implements CommandExecutor {
                 String message = (sender instanceof Player && sender.getName().equalsIgnoreCase(player.getName()) ? "You are " : player.getName() + " is ")
                         + "currently delayed for kit " + kit.getName() + ". Remaining time:\n "
                         + plugin.getCollectionManager().getDelayedPlayer(player).getRemainingTime(kit);
-                sender.sendMessage(Message.show(message, MessageType.WARNING));
+                sender.sendMessage(Message.show("", message, MessageType.WARNING));
             }
             return false;
         }
@@ -346,7 +347,7 @@ public class KitCommandExecutor implements CommandExecutor {
 
     private boolean isPlayer(CommandSender sender) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage(Message.show("Command must be issued ingame.", MessageType.WARNING));
+            sender.sendMessage(Message.show("", "Command must be issued ingame.", MessageType.WARNING));
             return false;
         }
 

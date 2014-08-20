@@ -2,25 +2,22 @@ package com.dragonphase.kits.api.events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
 
 import com.dragonphase.kits.api.Kit;
 
-public class KitSpawnEvent extends Event implements Cancellable {
+public class PlayerSpawnKitEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
     private Kit kit;
-    private Player player;
-
     private boolean clear, overwrite, announce;
     private long delay;
-
     private boolean cancelled;
 
-    public KitSpawnEvent(Kit kit, Player player, boolean clear, boolean overwrite, boolean announce, long delay) {
+    public PlayerSpawnKitEvent(Kit kit, Player player, boolean clear, boolean overwrite, boolean announce, long delay) {
+        super(player);
         this.kit = kit;
-        this.player = player;
         setClear(clear);
         setOverwrite(overwrite);
         setAnnounce(announce);
@@ -50,10 +47,6 @@ public class KitSpawnEvent extends Event implements Cancellable {
 
     public Kit getKit() {
         return kit;
-    }
-
-    public Player getPlayer() {
-        return player;
     }
     
     public boolean getClear() {

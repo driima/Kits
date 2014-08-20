@@ -68,7 +68,7 @@ public class DelayedPlayer implements ConfigurationSerializable {
 
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<String, Object>();
 
         result.put("player", getPlayer().getUniqueId().toString());
         result.put("kits", getKits());

@@ -33,7 +33,7 @@ public class Message {
     }
 
     public static String show(String prefix, String message, MessageType type) {
-        return ChatColor.DARK_GRAY + prefix + ": " + (type == MessageType.MESSAGE ? ChatColor.GRAY : type == MessageType.INFO ? ChatColor.DARK_AQUA : ChatColor.RED) + message;
+        return ChatColor.DARK_GRAY + (prefix.isEmpty() ? "" : prefix + ": ") + (type == MessageType.MESSAGE ? ChatColor.GRAY : type == MessageType.INFO ? ChatColor.DARK_AQUA : ChatColor.RED) + message;
     }
 
     //FancyMessage commands
@@ -63,7 +63,7 @@ public class Message {
     public static void showCommand(Player player, String prefix, CommandDescription... commands) {
         FancyMessage message = new FancyMessage(prefix).color(ChatColor.DARK_GRAY);
 
-        List<CommandDescription> commandList = new ArrayList<>(Arrays.asList(commands));
+        List<CommandDescription> commandList = new ArrayList<CommandDescription>(Arrays.asList(commands));
 
         for (CommandDescription command : commandList) {
             if (command.getArgs().length < 1) {
@@ -72,8 +72,10 @@ public class Message {
             }
 
             message = message.then(command.getTitle())
-                    .itemTooltip(getMessage(command.getArgs()))
-                    .command(command.getCommand());
+                    .itemTooltip(getMessage(command.getArgs()));
+            
+            if (!command.getCommand().isEmpty())
+                message = message.command(command.getCommand());
 
             if (commandList.get(commandList.size() - 1) != command)
                 message = message.then(", ").color(ChatColor.GRAY);
@@ -88,7 +90,7 @@ public class Message {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.RESET + args[0]);
 
-        List<String> lore = new ArrayList<>(Arrays.asList(Utils.trim(args)));
+        List<String> lore = new ArrayList<String>(Arrays.asList(Utils.trim(args)));
         for (String line : lore)
             lore.set(lore.indexOf(line), ChatColor.RESET + line);
 

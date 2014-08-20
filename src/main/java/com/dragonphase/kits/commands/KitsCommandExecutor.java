@@ -16,6 +16,7 @@ import com.dragonphase.kits.api.Kit;
 import com.dragonphase.kits.permissions.Permissions;
 import com.dragonphase.kits.util.CommandDescription;
 import com.dragonphase.kits.util.Message;
+import com.dragonphase.kits.util.Time;
 import com.dragonphase.kits.util.Utils;
 import com.dragonphase.kits.util.Message.MessageType;
 
@@ -44,38 +45,53 @@ public class KitsCommandExecutor implements CommandExecutor {
     private void handleBaseCommand(CommandSender sender) {
         if (sender instanceof Player && !Permissions.checkPermission((Player) sender, Permissions.KITS_LIST)) return;
 
-        if (plugin.getCollectionManager().getKitList().size() < 1) {
+        if (plugin.getCollectionManager().getKits().size() < 1) {
             sender.sendMessage(Message.show("There are no available kits.", MessageType.WARNING));
             return;
         }
 
-        List<CommandDescription> commands = new ArrayList<CommandDescription>();
-
-        for (Kit kit : plugin.getCollectionManager().getKitList()) {
-            List<String> lines = new ArrayList<String>();
-            List<String> items = new ArrayList<String>();
-            for (ItemStack item : kit.getItems()) {
-                if (item == null) continue;
-                items.add(item.getAmount() + " x " + (item.hasItemMeta() ? item.getItemMeta().getDisplayName() : Utils.capitalize(item.getType().name())));
-            }
-            lines.add("Number of items: " + items.size());
-            lines.add("Delay: " + kit.getDelay() + "ms");
-            lines.add("Clear: " + kit.getClear());
-            lines.add("Overwrite: " + kit.getOverwrite());
-            lines.add("Announce: " + kit.getAnnounce());
-            commands.add(new CommandDescription(ChatColor.DARK_AQUA + kit.getName(), "/kit " + kit.getName(), lines.toArray(new String[lines.size()])));
-        }
-
         if (!(sender instanceof Player)) {
             String message = "Available kits: ";
-            for (CommandDescription command : commands) {
-                message += ChatColor.GRAY + ", " + command.getTitle();
+            for (Kit kit : plugin.getCollectionManager().getKits()) {
+                message += ChatColor.GRAY + ", " + ChatColor.DARK_AQUA + kit.getName();
             }
             sender.sendMessage(message.replaceFirst(Pattern.quote(", "), ""));
             return;
         }
+        
+        Player player = (Player) sender;
 
-        Message.showCommand((Player) sender, "Available kits: ", commands.toArray(new CommandDescription[commands.size()]));
+        List<CommandDescription> commands = new ArrayList<CommandDescription>();
+
+        for (Kit kit : plugin.getCollectionManager().getKits()) {
+            if (!Permissions.hasPermission(player, Permissions.KITS_SPAWN, kit.getName())) continue;
+            
+            boolean delayed = plugin.getCollectionManager().getDelayedPlayer(player).playerDelayed(kit);
+            
+            List<String> lines = new ArrayList<String>();
+            List<String> items = new ArrayList<String>();
+            
+            for (ItemStack item : kit.getItems()) {
+                if (item == null) continue;
+                items.add(item.getAmount() + " x " + (item.hasItemMeta() ? item.getItemMeta().getDisplayName() : Utils.capitalize(item.getType().name())));
+            }
+            
+            lines.add(ChatColor.DARK_AQUA + "Number of items: " + ChatColor.GRAY + items.size());
+            lines.add(ChatColor.DARK_AQUA + "Delay: " + (kit.getDelay() <= 0 ? ChatColor.GRAY + "no delay" : ChatColor.GRAY + Time.getTime(kit.getDelay(), false, false)));
+            lines.add(ChatColor.DARK_AQUA + "Clear: " + ChatColor.GRAY + kit.getClear());
+            lines.add(ChatColor.DARK_AQUA + "Overwrite: " + ChatColor.GRAY + kit.getOverwrite());
+            lines.add(ChatColor.DARK_AQUA + "Announce: " + ChatColor.GRAY + kit.getAnnounce());
+            
+            if (delayed) {
+                lines.add(" ");
+                lines.add(ChatColor.DARK_AQUA + "Remaining time: " + ChatColor.RED + plugin.getCollectionManager().getDelayedPlayer(player).getRemainingTime(kit));
+            }
+            
+            commands.add(new CommandDescription((delayed ? ChatColor.RED + "" + ChatColor.STRIKETHROUGH : ChatColor.DARK_AQUA + "") + kit.getName(), delayed ? "" : "/kit " + kit.getName(), lines.toArray(new String[lines.size()])));
+        }
+
+        player.sendMessage(ChatColor.DARK_GRAY + "Kits available to you:");
+        Message.showCommand(player, " ", commands.toArray(new CommandDescription[commands.size()]));
     }
 
     private void handleReload(CommandSender sender) {

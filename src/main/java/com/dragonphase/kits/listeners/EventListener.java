@@ -55,13 +55,15 @@ public class EventListener implements Listener {
         if (!sign.getLine(0).equalsIgnoreCase("[kit]")) return;
         if (!Permissions.checkPermission(event.getPlayer(), Permissions.KITS_SIGN)) return;
 
-        List<String> lines = new ArrayList<>(Arrays.asList(StringUtils.join(sign.getLines(), " ").split(" ")));
+        List<String> lines = new ArrayList<String>(Arrays.asList(StringUtils.join(sign.getLines(), " ").split(" ")));
         lines.removeAll(Arrays.asList("", null));
 
         String[] arrayLines = Utils.trim(lines.toArray(new String[lines.size()]));
 
         if (plugin.getCollectionManager().getDelayedPlayer(event.getPlayer()).playerDelayed(plugin.getKitManager().getKit(arrayLines[0])) && !StringUtils.join(arrayLines).toLowerCase().contains("-delay")) {
-            event.getPlayer().sendMessage(Message.show("You are currently delayed for kit " + arrayLines[0] + ".", MessageType.WARNING));
+            String message = "You are currently delayed for kit " + arrayLines[0] + ". Remaining time:\n "
+                    + plugin.getCollectionManager().getDelayedPlayer(event.getPlayer()).getRemainingTime(plugin.getKitManager().getKit(arrayLines[0]));
+            event.getPlayer().sendMessage(Message.show("", message, MessageType.WARNING));
             return;
         }
 

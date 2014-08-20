@@ -73,7 +73,7 @@ public class Kit implements ConfigurationSerializable {
 
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<String, Object>();
 
         result.put("name", getName());
         result.put("delay", getDelay());
@@ -89,15 +89,15 @@ public class Kit implements ConfigurationSerializable {
     public static Kit deserialize(Map<String, Object> args) {
         String name = (String) args.get("name");
         ItemStack[] items = ((ArrayList<ItemStack>) args.get("items")).toArray(new ItemStack[((ArrayList<ItemStack>) args.get("items")).size()]);
-        boolean clear = (boolean) (args.containsKey("clear") ? args.get("clear") : true);
-        boolean overwrite = (boolean) (args.containsKey("overwrite") ? args.get("overwrite") : true);
-        boolean announce = (boolean) (args.containsKey("announce") ? args.get("announce") : true);
+        boolean clear = (Boolean) (args.containsKey("clear") ? args.get("clear") : true);
+        boolean overwrite = (Boolean) (args.containsKey("overwrite") ? args.get("overwrite") : true);
+        boolean announce = (Boolean) (args.containsKey("announce") ? args.get("announce") : true);
         
         try{
-            long delay = (long) (args.containsKey("delay") ? args.get("delay") : 0);
+            long delay = (Long) (args.containsKey("delay") ? args.get("delay") : 0);
             return new Kit(name, items, delay, clear, overwrite, announce);
         }catch (Exception ex){
-            int delay = (int) (args.containsKey("delay") ? args.get("delay") : 0);
+            int delay = (Integer) (args.containsKey("delay") ? args.get("delay") : 0);
             return new Kit(name, items, delay, clear, overwrite, announce);
         }
         
