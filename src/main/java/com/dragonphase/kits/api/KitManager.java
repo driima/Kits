@@ -333,7 +333,6 @@ public class KitManager {
                 }
             }
             
-
             for (int i = 0; i < items.size(); i++) {
                 if (player.getInventory().getItem(i + 9 < 36 ? i + 9 : i - 27) != null
                         && items.get(i).getType() == Material.AIR) continue;

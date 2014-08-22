@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.entity.Player;
 
@@ -16,21 +14,21 @@ import com.dragonphase.kits.configuration.CollectionManager;
 
 public class DelayedPlayer implements ConfigurationSerializable {
 
-    private OfflinePlayer player;
+    private UUID playerUniqueId;
     private HashMap<String, Long> kits;
 
     public DelayedPlayer(Player player) {
-        this.player = player;
+        playerUniqueId = player.getUniqueId();
         this.kits = new HashMap<String, Long>();
     }
 
-    public DelayedPlayer(UUID player, HashMap<String, Long> kits) {
-        this.player = Bukkit.getOfflinePlayer(player);
+    public DelayedPlayer(UUID uuid, HashMap<String, Long> kits) {
+        this.playerUniqueId = uuid;
         this.kits = new HashMap<String, Long>(kits);
     }
-
-    public OfflinePlayer getPlayer() {
-        return player.isOnline() ? player.getPlayer() : player;
+    
+    public UUID getUniqueId() {
+        return playerUniqueId;
     }
     
     public HashMap<String, Long> getKits() {
@@ -70,7 +68,7 @@ public class DelayedPlayer implements ConfigurationSerializable {
     public Map<String, Object> serialize() {
         Map<String, Object> result = new HashMap<String, Object>();
 
-        result.put("player", getPlayer().getUniqueId().toString());
+        result.put("player", getUniqueId().toString());
         result.put("kits", getKits());
 
         return result;

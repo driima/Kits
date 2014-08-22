@@ -1,6 +1,7 @@
 package com.dragonphase.kits.permissions;
 
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.dragonphase.kits.util.Message;
@@ -25,7 +26,7 @@ public class Permissions {
 
     public static boolean checkPermission(Player player, String permission) {
         if (!player.hasPermission(permission.toLowerCase())) {
-            Message.showMessage(player, Message.show("", "You do not have permission to perform that action.", MessageType.WARNING), permission);
+            Message.showMessage(player, Message.show("", "You do not have permission to perform that action.", MessageType.WARNING), ChatColor.DARK_AQUA + "Required Permission node: " + ChatColor.GRAY + permission);
             return false;
         }
         return true;

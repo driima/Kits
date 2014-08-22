@@ -72,7 +72,7 @@ public class CollectionManager {
     public DelayedPlayer getDelayedPlayer(Player player) {
         for (DelayedPlayer delayedPlayer : delayedPlayers) {
             try {
-                if (delayedPlayer.getPlayer().getUniqueId().equals(player.getUniqueId())) return delayedPlayer;
+                if (delayedPlayer.getUniqueId().equals(player.getUniqueId())) return delayedPlayer;
             } catch (Exception ignored) {
             }
         }
