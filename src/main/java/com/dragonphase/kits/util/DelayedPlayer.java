@@ -27,6 +27,11 @@ public class DelayedPlayer implements ConfigurationSerializable {
         this.kits = new HashMap<String, Long>(kits);
     }
     
+    @SuppressWarnings("unchecked")
+    public DelayedPlayer(Map<String, Object> args) {
+        this(UUID.fromString((String) args.get("player")), (HashMap<String, Long>) args.get("kits"));
+    }
+    
     public UUID getUniqueId() {
         return playerUniqueId;
     }
@@ -73,10 +78,4 @@ public class DelayedPlayer implements ConfigurationSerializable {
 
         return result;
     }
-
-    @SuppressWarnings("unchecked")
-    public static DelayedPlayer deserialize(Map<String, Object> args) {
-        return new DelayedPlayer(UUID.fromString((String) args.get("player")), (HashMap<String, Long>) args.get("kits"));
-    }
-
 }

@@ -29,28 +29,28 @@ public class KitManager {
     }
 
     /**
-     * Creates a new kit using default values -
-     * delay = 0;
-     * overwrite = true;
-     * announce = true.
+     * Creates a new kit using default values:
+     * delay = 0
+     * overwrite = true
+     * announce = true
      *
-     * @param kitName The name of the kit to create.
-     * @param contents The contents of the kit.
-     * @return The created Kit.
+     * @param kitName The name of the kit to create
+     * @param contents The contents of the kit
+     * @return The created Kit
      */
     public Kit createKit(String kitName, ItemStack[] contents) {
         return createKit(kitName, contents, 0, true, true, true);
     }
 
     /**
-     * Creates a new Kit.
+     * Creates a new Kit
      *
-     * @param kitName The name of the Kit to create.
-     * @param contents The contents of the Kit.
-     * @param delay The default delay value of the Kit.
-     * @param overwrite The default overwrite value of the Kit.
-     * @param announce The default announce value of the Kit.
-     * @return The created Kit.
+     * @param kitName The name of the Kit to create
+     * @param contents The contents of the Kit
+     * @param delay The default delay value of the Kit
+     * @param overwrite The default overwrite value of the Kit
+     * @param announce The default announce value of the Kit
+     * @return The created Kit
      */
     public Kit createKit(String kitName, ItemStack[] contents, long delay, boolean clear, boolean overwrite, boolean announce) {
         String name = Utils.capitalize(kitName);
@@ -60,15 +60,15 @@ public class KitManager {
     }
 
     /**
-     * Edits the Kit with the specified name.
+     * Edits the Kit with the specified name
      *
-     * @param kitName The name of the Kit to edit.
-     * @param contents The contents of the kit to set.
-     * @param delay The delay to edit.
-     * @param clear The clear to edit.
-     * @param overwrite The overwrite to edit.
-     * @param announce The announce to edit.
-     * @throws KitException If the kit does not exist.
+     * @param kitName The name of the Kit to edit
+     * @param contents The contents of the kit to set
+     * @param delay The delay to edit
+     * @param clear The clear to edit
+     * @param overwrite The overwrite to edit
+     * @param announce The announce to edit
+     * @throws KitException If the kit does not exist
      */
     public void editKit(String kitName, ItemStack[] contents, long delay, boolean clear, boolean overwrite, boolean announce) throws KitException {
         if (!kitExists(kitName)) throw new KitException("The kit " + kitName + " does not exist.");
@@ -77,14 +77,14 @@ public class KitManager {
     }
 
     /**
-     * Edits the specified Kit.
+     * Edits the specified Kit
      *
-     * @param kit The Kit to edit.
-     * @param contents The contents of the kit to set.
-     * @param delay The delay to edit.
-     * @param clear The clear to edit.
-     * @param overwrite The overwrite to edit.
-     * @param announce The announce to edit.
+     * @param kit The Kit to edit
+     * @param contents The contents of the kit to set
+     * @param delay The delay to edit
+     * @param clear The clear to edit
+     * @param overwrite The overwrite to edit
+     * @param announce The announce to edit
      */
     public void editKit(Kit kit, ItemStack[] contents, long delay, boolean clear, boolean overwrite, boolean announce) {
         kit.setItems(contents);
@@ -97,8 +97,8 @@ public class KitManager {
     /**
      * Edits the specified Kit's clear value
      * 
-     * @param kit The Kit to edit.
-     * @param clear The clear to edit.
+     * @param kit The Kit to edit
+     * @param clear The clear to edit
      */
     public void editKitClear(Kit kit, boolean clear){
         kit.setClear(clear);
@@ -107,8 +107,8 @@ public class KitManager {
     /**
      * Edits the specified Kit's overwrite value
      * 
-     * @param kit The Kit to edit.
-     * @param overwrite The overwrite to edit.
+     * @param kit The Kit to edit
+     * @param overwrite The overwrite to edit
      */
     public void editKitOverwrite(Kit kit, boolean overwrite){
         kit.setOverwrite(overwrite);
@@ -117,8 +117,8 @@ public class KitManager {
     /**
      * Edits the specified Kit's announce value
      * 
-     * @param kit The Kit to edit.
-     * @param announce The announce to edit.
+     * @param kit The Kit to edit
+     * @param announce The announce to edit
      */
     public void editKitAnnounce(Kit kit, boolean announce){
         kit.setAnnounce(announce);
@@ -127,8 +127,8 @@ public class KitManager {
     /**
      * Edits the specified Kit's delay value
      * 
-     * @param kit The Kit to edit.
-     * @param delay The delay to edit.
+     * @param kit The Kit to edit
+     * @param delay The delay to edit
      */
     public void editKitDelay(Kit kit, long delay){
         plugin.getCollectionManager().sortDelayedPlayers();
@@ -136,30 +136,39 @@ public class KitManager {
     }
 
     /**
-     * Gets the Kit with the specified name.
+     * Gets the Kit with the specified name
      *
-     * @param kitName The name of the Kit to retrieve.
-     * @return The Kit value or null if the Kit does not exist.
+     * @param kitName The name of the Kit to retrieve
+     * @return The Kit value or null if the Kit does not exist
      */
     public Kit getKit(String kitName) {
         return plugin.getCollectionManager().getKit(Utils.capitalize(kitName.toLowerCase()));
     }
+    
+    /**
+     * Gets all Kits available on the server
+     * 
+     * @return The list of Kits available on the server
+     */
+    public List<Kit> getKits() {
+        return plugin.getCollectionManager().getKits();
+    }
 
     /**
-     * Gets whether the Kit with the specified name exists.
+     * Gets whether the Kit with the specified name exists
      *
-     * @param kitName The Kit to find.
-     * @return true if the Kit exists, otherwise false.
+     * @param kitName The Kit to find
+     * @return true if the Kit exists, otherwise false
      */
     public boolean kitExists(String kitName) {
         return getKit(kitName) != null;
     }
 
     /**
-     * Removes the Kit with the specified name.
+     * Removes the Kit with the specified name
      *
-     * @param kitName The name of the Kit to remove.
-     * @throws KitException If the kit does not exist.
+     * @param kitName The name of the Kit to remove
+     * @throws KitException If the kit does not exist
      */
     public void removeKit(String kitName) throws KitException {
         if (kitExists(kitName)) plugin.getCollectionManager().removeKit(getKit(kitName));
@@ -167,23 +176,23 @@ public class KitManager {
     }
 
     /**
-     * Spawns the Kit with the specified name for the specified player.
+     * Spawns the Kit with the specified name for the specified player
      *
-     * @param player The player to spawn the kit for.
-     * @param kitName The name of the Kit to spawn.
-     * @throws KitException If the kit does not exist.
+     * @param player The player to spawn the kit for
+     * @param kitName The name of the Kit to spawn
+     * @throws KitException If the kit does not exist
      */
     public void spawnKit(Player player, String kitName) throws KitException {
         spawnKit(player, kitName, "");
     }
 
     /**
-     * Spawns the Kit with the specified name for the specified player with the specified flags.
+     * Spawns the Kit with the specified name for the specified player with the specified flags
      *
-     * @param player The player to spawn the kit for.
-     * @param kitName The name of the Kit to spawn.
-     * @param flags The flags to spawn the Kit with.
-     * @throws KitException If the kit does not exist.
+     * @param player The player to spawn the kit for
+     * @param kitName The name of the Kit to spawn
+     * @param flags The flags to spawn the Kit with
+     * @throws KitException If the kit does not exist
      */
     public void spawnKit(Player player, String kitName, String flags) throws KitException {
         if (kitExists(kitName)) spawnKit(player, getKit(kitName), flags);
@@ -191,12 +200,12 @@ public class KitManager {
     }
 
     /**
-     * Spawns the Kit with the specified name for the specified player with the specified flags.
+     * Spawns the Kit with the specified name for the specified player with the specified flags
      *
-     * @param player The player to spawn the kit for.
-     * @param kitName The name of the Kit to spawn.
-     * @param flags The flags to spawn the Kit with.
-     * @throws KitException If the kit does not exist.
+     * @param player The player to spawn the kit for
+     * @param kitName The name of the Kit to spawn
+     * @param flags The flags to spawn the Kit with
+     * @throws KitException If the kit does not exist
      */
     public void spawnKit(Player player, String kitName, String... flags) throws KitException {
         if (kitExists(kitName)) spawnKit(player, getKit(kitName), flags);
@@ -204,12 +213,12 @@ public class KitManager {
     }
 
     /**
-     * Spawns the Kit with the specified name for the specified player with the specified flags.
+     * Spawns the Kit with the specified name for the specified player with the specified flags
      *
-     * @param player The player to spawn the kit for.
-     * @param kitName The name of the Kit to spawn.
-     * @param flags The flags to spawn the Kit with.
-     * @throws KitException If the kit does not exist.
+     * @param player The player to spawn the kit for
+     * @param kitName The name of the Kit to spawn
+     * @param flags The flags to spawn the Kit with
+     * @throws KitException If the kit does not exist
      */
     public void spawnKit(Player player, String kitName, HashMap<String, Boolean> flags) throws KitException {
         if (kitExists(kitName)) spawnKit(player, getKit(kitName), flags);
@@ -217,22 +226,22 @@ public class KitManager {
     }
 
     /**
-     * Spawns the Kit with the specified name for the specified player with the specified flags.
+     * Spawns the Kit with the specified name for the specified player with the specified flags
      *
-     * @param player The player to spawn the kit for.
-     * @param kit The Kit to spawn.
-     * @param flags The flags to spawn the Kit with.
+     * @param player The player to spawn the kit for
+     * @param kit The Kit to spawn
+     * @param flags The flags to spawn the Kit with
      */
     public void spawnKit(Player player, Kit kit, String flags) {
         spawnKit(player, kit, flags.split(" "));
     }
 
     /**
-     * Spawns the Kit with the specified name for the specified player with the specified flags.
+     * Spawns the Kit with the specified name for the specified player with the specified flags
      *
-     * @param player The player to spawn the kit for.
-     * @param kit The Kit to spawn.
-     * @param flags The flags to spawn the Kit with.
+     * @param player The player to spawn the kit for
+     * @param kit The Kit to spawn
+     * @param flags The flags to spawn the Kit with
      */
     public void spawnKit(Player player, Kit kit, String... flags) {
         List<String> flagList = Arrays.asList(flags);
@@ -247,11 +256,11 @@ public class KitManager {
     }
 
     /**
-     * Spawns the Kit with the specified name for the specified player with the specified flags.
+     * Spawns the Kit with the specified name for the specified player with the specified flags
      *
-     * @param player The player to spawn the kit for.
-     * @param kit The Kit to spawn.
-     * @param flags The flags to spawn the Kit with.
+     * @param player The player to spawn the kit for
+     * @param kit The Kit to spawn
+     * @param flags The flags to spawn the Kit with
      */
     public void spawnKit(Player player, Kit kit, HashMap<String, Boolean> flags) {
         long delay = Permissions.hasPermission(player, Permissions.KITS_NODELAY, kit.getName()) ? 0 : kit.getDelay();
@@ -279,14 +288,14 @@ public class KitManager {
     }
 
     /**
-     * Spawns the Kit with the specified name for the specified player with the specified flags.
+     * Spawns the Kit with the specified name for the specified player with the specified flags
      *
-     * @param player The player to spawn the kit for.
-     * @param kitName The name of the Kit to spawn.
-     * @param delay The delay flag to spawn the Kit with.
-     * @param overwrite The overwrite flag to spawn the Kit with.
-     * @param announce The announce flag to spawn the Kit with.
-     * @throws KitException If the kit does not exist.
+     * @param player The player to spawn the kit for
+     * @param kitName The name of the Kit to spawn
+     * @param delay The delay flag to spawn the Kit with
+     * @param overwrite The overwrite flag to spawn the Kit with
+     * @param announce The announce flag to spawn the Kit with
+     * @throws KitException If the kit does not exist
      */
     public void spawnKit(Player player, String kitName, long delay, boolean clear, boolean overwrite, boolean announce) throws KitException {
         if (kitExists(kitName)) spawnKit(player, getKit(kitName), delay, clear, overwrite, announce);
@@ -294,13 +303,13 @@ public class KitManager {
     }
 
     /**
-     * Spawns the Kit for the specified player with the specified flags.
+     * Spawns the Kit for the specified player with the specified flags
      *
-     * @param player The player to spawn the kit for.
-     * @param kit The Kit to spawn.
-     * @param delay The delay flag to spawn the Kit with.
-     * @param overwrite The overwrite flag to spawn the Kit with.
-     * @param announce The announce flag to spawn the Kit with.
+     * @param player The player to spawn the kit for
+     * @param kit The Kit to spawn
+     * @param delay The delay flag to spawn the Kit with
+     * @param overwrite The overwrite flag to spawn the Kit with
+     * @param announce The announce flag to spawn the Kit with
      */
     public void spawnKit(Player player, Kit kit, long delay, boolean clear, boolean overwrite, boolean announce) {
         

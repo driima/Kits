@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
@@ -60,6 +59,11 @@ public class EventListener implements Listener {
 
         String[] arrayLines = Utils.trim(lines.toArray(new String[lines.size()]));
 
+        if (!plugin.getKitManager().kitExists(arrayLines[0])) {
+            event.getPlayer().sendMessage(Message.show("", "The kit " + arrayLines[0] + " does not exist.", MessageType.WARNING));
+            return;
+        }
+
         if (plugin.getCollectionManager().getDelayedPlayer(event.getPlayer()).playerDelayed(plugin.getKitManager().getKit(arrayLines[0])) && !StringUtils.join(arrayLines).toLowerCase().contains("-delay")) {
             String message = "You are currently delayed for kit " + arrayLines[0] + ". Remaining time:\n "
                     + plugin.getCollectionManager().getDelayedPlayer(event.getPlayer()).getRemainingTime(plugin.getKitManager().getKit(arrayLines[0]));
@@ -70,7 +74,7 @@ public class EventListener implements Listener {
         try {
             plugin.getKitManager().spawnKit(event.getPlayer(), arrayLines[0], Utils.trim(arrayLines));
         } catch (KitException e) {
-            Bukkit.getLogger().warning("The sign at " + Utils.getLocationationAsString(event.getClickedBlock().getLocation()) + " threw an exception: " + e.getMessage());
+            plugin.getLogger().warning("The sign at " + Utils.getLocationationAsString(event.getClickedBlock().getLocation()) + " threw an exception: " + e.getMessage());
         }
 
         event.getPlayer().updateInventory();

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.dragonphase</groupId>
+    <groupId>com.dragonphase.kits</groupId>
     <artifactId>Kits</artifactId>
     <packaging>jar</packaging>
     <version>2.0.1</version>
@@ -61,7 +61,6 @@
 		                    <minimizeJar>true</minimizeJar>
 		                    <artifactSet>
 				                <excludes>
-				                  <exclude>org.bukkit:bukkit</exclude>
 				                  <exclude>org.bukkit:craftbukkit</exclude>
 				                </excludes>
 		                    </artifactSet>
@@ -144,8 +143,9 @@
     <dependencies>
         <dependency>
             <groupId>org.bukkit</groupId>
-            <artifactId>craftbukkit</artifactId>
+            <artifactId>bukkit</artifactId>
             <version>1.7.10-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>mkremins</groupId>

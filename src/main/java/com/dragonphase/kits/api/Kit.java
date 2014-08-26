@@ -15,12 +15,27 @@ public class Kit implements ConfigurationSerializable {
     private ItemStack[] items;
 
     public Kit(String name, ItemStack[] items, long delay, boolean clear, boolean overwrite, boolean announce) {
-        this.name = name;
-        this.delay = delay;
-        this.clear = clear;
-        this.overwrite = overwrite;
-        this.announce = announce;
-        this.items = items;
+        setName(name);
+        setDelay(delay);
+        setClear(clear);
+        setOverwrite(overwrite);
+        setAnnounce(announce);
+        setItems(items);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public Kit(Map<String, Object> args) {
+        setName((String) args.get("name"));
+        setItems(((ArrayList<ItemStack>) args.get("items")).toArray(new ItemStack[((ArrayList<ItemStack>) args.get("items")).size()]));
+        setClear((Boolean) (args.containsKey("clear") ? args.get("clear") : true));
+        setOverwrite((Boolean) (args.containsKey("overwrite") ? args.get("overwrite") : true));
+        setAnnounce((Boolean) (args.containsKey("announce") ? args.get("announce") : true));
+        
+        try{
+            setDelay((Long) (args.containsKey("delay") ? args.get("delay") : 0));
+        }catch (Exception ex){
+            setDelay((Integer) (args.containsKey("delay") ? args.get("delay") : 0));
+        }
     }
 
     public String getName() {
@@ -83,23 +98,5 @@ public class Kit implements ConfigurationSerializable {
         result.put("items", getItems());
 
         return result;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static Kit deserialize(Map<String, Object> args) {
-        String name = (String) args.get("name");
-        ItemStack[] items = ((ArrayList<ItemStack>) args.get("items")).toArray(new ItemStack[((ArrayList<ItemStack>) args.get("items")).size()]);
-        boolean clear = (Boolean) (args.containsKey("clear") ? args.get("clear") : true);
-        boolean overwrite = (Boolean) (args.containsKey("overwrite") ? args.get("overwrite") : true);
-        boolean announce = (Boolean) (args.containsKey("announce") ? args.get("announce") : true);
-        
-        try{
-            long delay = (Long) (args.containsKey("delay") ? args.get("delay") : 0);
-            return new Kit(name, items, delay, clear, overwrite, announce);
-        }catch (Exception ex){
-            int delay = (Integer) (args.containsKey("delay") ? args.get("delay") : 0);
-            return new Kit(name, items, delay, clear, overwrite, announce);
-        }
-        
     }
 }

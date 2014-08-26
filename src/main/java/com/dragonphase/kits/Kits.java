@@ -3,6 +3,7 @@ package com.dragonphase.kits;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
+import org.mcstats.Metrics.Plotter;
 
 import com.dragonphase.kits.api.Kit;
 import com.dragonphase.kits.api.KitManager;
@@ -20,11 +21,6 @@ public class Kits extends JavaPlugin {
     private KitManager kitManager;
     private CollectionManager collectionManager;
 
-    static {
-        ConfigurationSerialization.registerClass(Kit.class);
-        ConfigurationSerialization.registerClass(DelayedPlayer.class);
-    }
-
     @Override
     public void onDisable() {
         getCollectionManager().save();
@@ -41,27 +37,40 @@ public class Kits extends JavaPlugin {
 
         registerEvents();
         registerCommands();
+        registerConfigurationSerializables();
+        
         registerMetrics();
 
         instance = this;
     }
     
-    private void registerEvents(){
+    private void registerEvents() {
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
     }
     
-    private void registerCommands(){
+    private void registerCommands() {
         getCommand("kits").setExecutor(new KitsCommandExecutor(this));
         getCommand("kit").setExecutor(new KitCommandExecutor(this));
     }
     
-    private void registerMetrics(){
+    private void registerConfigurationSerializables() {
+        ConfigurationSerialization.registerClass(Kit.class);
+        ConfigurationSerialization.registerClass(DelayedPlayer.class);
+    }
+    
+    private void registerMetrics() {
         try {
             Metrics metrics = new Metrics(this);
+            
+            metrics.createGraph("Kits").addPlotter(new Plotter("Number of kits created") {
+                public int getValue() {
+                    return getCollectionManager().getKits().size();
+                }
+            });
+            
             metrics.start();
         } catch (Exception e) {
             e.printStackTrace();
-            // Failed to submit the stats :-(
         }
     }
 
