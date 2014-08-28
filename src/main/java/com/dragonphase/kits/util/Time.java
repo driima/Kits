@@ -51,11 +51,11 @@ public class Time {
         return getMonths() / 12;
     }
     
-    public String getTime(boolean formatted, boolean showMillis) {
-        return getTime(getMilliseconds(), formatted, showMillis);
+    public String toReadableFormat(boolean formatted, boolean showMillis) {
+        return toReadableFormat(getMilliseconds(), formatted, showMillis);
     }
     
-    public static String getTime(long ms, boolean formatted, boolean showMillis) {
+    public static String toReadableFormat(long ms, boolean formatted, boolean showMillis) {
         String result[] = new String[7];
         
         Date time = new Date(ms);

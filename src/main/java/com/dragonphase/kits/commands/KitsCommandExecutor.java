@@ -77,7 +77,7 @@ public class KitsCommandExecutor implements CommandExecutor {
             }
             
             lines.add(ChatColor.DARK_AQUA + "Number of items: " + ChatColor.GRAY + items.size());
-            lines.add(ChatColor.DARK_AQUA + "Delay: " + (kit.getDelay() <= 0 ? ChatColor.GRAY + "no delay" : ChatColor.GRAY + Time.getTime(kit.getDelay(), false, false)));
+            lines.add(ChatColor.DARK_AQUA + "Delay: " + (kit.getDelay() <= 0 ? ChatColor.GRAY + "no delay" : ChatColor.GRAY + Time.toReadableFormat(kit.getDelay(), false, false)));
             lines.add(ChatColor.DARK_AQUA + "Clear: " + ChatColor.GRAY + kit.getClear());
             lines.add(ChatColor.DARK_AQUA + "Overwrite: " + ChatColor.GRAY + kit.getOverwrite());
             lines.add(ChatColor.DARK_AQUA + "Announce: " + ChatColor.GRAY + kit.getAnnounce());

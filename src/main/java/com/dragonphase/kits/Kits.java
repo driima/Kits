@@ -1,5 +1,8 @@
 package com.dragonphase.kits;
 
+import net.gravitydevelopment.updater.Updater;
+import net.gravitydevelopment.updater.Updater.UpdateType;
+
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
@@ -7,16 +10,21 @@ import org.mcstats.Metrics.Plotter;
 
 import com.dragonphase.kits.api.Kit;
 import com.dragonphase.kits.api.KitManager;
+import com.dragonphase.kits.autosave.AutoSave;
 import com.dragonphase.kits.commands.KitCommandExecutor;
 import com.dragonphase.kits.commands.KitsCommandExecutor;
 import com.dragonphase.kits.configuration.CollectionManager;
+import com.dragonphase.kits.configuration.Config;
 import com.dragonphase.kits.listeners.EventListener;
 import com.dragonphase.kits.util.DelayedPlayer;
 import com.dragonphase.kits.util.Message;
+import com.dragonphase.kits.util.Time;
 
 public class Kits extends JavaPlugin {
 
     private static Kits instance;
+    
+    private Config config;
 
     private KitManager kitManager;
     private CollectionManager collectionManager;
@@ -29,19 +37,29 @@ public class Kits extends JavaPlugin {
     @Override
     public void onEnable() {
         Message.setParent(this);
-
-        kitManager = new KitManager(this);
-        collectionManager = new CollectionManager(this);
-
-        reload();
-
+        
+        registerConfig();
+        registerManagers();
         registerEvents();
         registerCommands();
         registerConfigurationSerializables();
-        
         registerMetrics();
-
+        registerAutoSave();
+        
+        checkForUpdates();
+        
+        reload();
+        
         instance = this;
+    }
+    
+    private void registerConfig() {
+        config = new Config(this, "config");
+    }
+    
+    private void registerManagers() {
+        kitManager = new KitManager(this);
+        collectionManager = new CollectionManager(this);
     }
     
     private void registerEvents() {
@@ -73,8 +91,35 @@ public class Kits extends JavaPlugin {
             e.printStackTrace();
         }
     }
+    
+    private void registerAutoSave() {
+        if (!config.getBoolean("autosave.enabled")) {
+            return;
+        }
+        
+        long interval = new Time(config.getString("autosave.interval")).getMilliseconds();
+        
+        new AutoSave(this).runTaskTimer(this, (interval*20)/1000, (interval*20)/1000);
+    }
+    
+    private void checkForUpdates() {
+        if (!config.getBoolean("updater.enabled")) {
+            return;
+        }
+        
+        UpdateType type = config.getString("updater.type").equalsIgnoreCase("default")
+                ? UpdateType.DEFAULT
+                : config.getString("updater.type").equalsIgnoreCase("force")
+                ? UpdateType.NO_VERSION_CHECK
+                : UpdateType.NO_DOWNLOAD;
+        
+        boolean silent = !config.getBoolean("updater.silent");
+        
+        new Updater(this, 51690, this.getFile(), type, silent);
+    }
 
     public void reload() {
+        registerConfig();
         getCollectionManager().reload();
     }
 

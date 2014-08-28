@@ -4,7 +4,7 @@
     <groupId>com.dragonphase.kits</groupId>
     <artifactId>Kits</artifactId>
     <packaging>jar</packaging>
-    <version>2.0.1</version>
+    <version>2.1</version>
     <name>Kits</name>
     <url>http://www.dragonphase.com</url>
 
@@ -61,7 +61,7 @@
 		                    <minimizeJar>true</minimizeJar>
 		                    <artifactSet>
 				                <excludes>
-				                  <exclude>org.bukkit:craftbukkit</exclude>
+                                  <exclude>org.bukkit:craftbukkit</exclude>
 				                </excludes>
 		                    </artifactSet>
 		                    <relocations>
@@ -69,6 +69,10 @@
 		                            <pattern>org.mcstats</pattern>
 		                            <shadedPattern>com.dragonphase.metrics</shadedPattern>
 		                        </relocation>
+                                <relocation>
+                                    <pattern>net.gravitydevelopment.updater</pattern>
+                                    <shadedPattern>com.dragonphase.updater</shadedPattern>
+                                </relocation>
 		                    </relocations>
 		                </configuration>
                     </execution>
@@ -87,23 +91,16 @@
                 <version>0.9</version>
                 <configuration>
                     <message>Maven artifacts for ${project.version}</message>
-                    <!-- git commit message -->
                     <noJekyll>true</noJekyll>
-                    <!-- disable webpage processing -->
                     <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-                    <!-- matches distribution management repository url above -->
                     <branch>refs/heads/mvn-repo</branch>
-                    <!-- remote branch name -->
                     <includes>
                         <include>**/*</include>
                     </includes>
                     <repositoryName>Kits</repositoryName>
-                    <!-- github repo name -->
                     <repositoryOwner>Dragonphase</repositoryOwner>
-                    <!-- github username  -->
                 </configuration>
                 <executions>
-                    <!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
                     <execution>
                         <goals>
                             <goal>site</goal>
@@ -138,6 +135,10 @@
             <id>Plugin Metrics</id>
             <url>http://repo.mcstats.org/content/repositories/public</url>
         </repository>
+        <repository>
+            <id>gravity-repo</id>
+            <url>http://repo.gravitydevelopment.net</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -162,6 +163,11 @@
             <artifactId>metrics</artifactId>
             <version>R7</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.gravitydevelopment.updater</groupId>
+            <artifactId>updater</artifactId>
+            <version>2.2</version>
         </dependency>
     </dependencies>
 

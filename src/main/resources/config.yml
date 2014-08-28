@@ -1,0 +1,23 @@
+# -------------------------------------------------------------------
+# Updater
+# -------------------------------------------------------------------
+# This will check dev.bukkit.org for any available updates.
+# To disable updates, simply set enabled to false.
+# To set download display progress, set silent to false.
+# The type of updates available:
+#   default - automatically update if current version is out of date.
+#   force   - automatically update regardless of current version.
+#   check   - don't download, only check the latest version.
+# -------------------------------------------------------------------
+# AutoSave
+# -------------------------------------------------------------------
+# This will enable Kits autosave feature.
+# The interval between saves accepts a time expression such as 1h30m (1 hour, 30 minutes).
+# It is advised that you do not set the interval too low, like every second.
+updater:
+  enabled: true
+  silent: true
+  type: default
+autosave:
+  enabled: true
+  interval: 30m
