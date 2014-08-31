@@ -1,20 +1,17 @@
-Kits
-====
+# Kits
 
 Source code is provided by Dragonphase. You may modify this in anyway you like as long as you do not publish this as your own or make this your own in any way.
 
-Overview
-====
+## Overview
 
 Kits is a simple yet deceptively powerful plugin allowing you to create, edit and spawn custom kits in-game. When creating and editing a kit, you are provided an inventory in which you will be able to place any item into; changes are made when this inventory is closed.
 
 If you want to contribute to the development of Kits, fork the repository and commit new changes. Don't forget to submit a pull request.
 
-API
-====
+## API
 
-Installation
---------
+### Installation
+
 Use Maven. Add the Kits repository and dependency entries to your `pom.xml`.
 
 ```xml
@@ -31,8 +28,8 @@ Use Maven. Add the Kits repository and dependency entries to your `pom.xml`.
 </dependency>
 ```
 
-Usage
---------
+### Usage
+
 Add Kits as a dependency inside your `plugin.yml` file. Retrieve the Kits instance inside your onEnable method and use the methods provided within KitManager:
 
 ```java

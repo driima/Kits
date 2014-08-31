@@ -94,7 +94,6 @@ public class EventListener implements Listener {
         Kit kit = plugin.getKitManager().createKit(inventoryName, inventory.getContents());
 
         player.sendMessage(Message.show("Kit " + kit.getName() + " created.", MessageType.INFO));
-
     }
 
     public void EditKit(Player player, Inventory inventory) {
