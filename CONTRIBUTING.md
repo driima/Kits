@@ -17,6 +17,7 @@ Ensure that you follow the appropriate coding conventions used throughout the co
 - Always use braces, even if your if statement has one execution statement.
 - Use spaces between your method declaration and the first brace: `public void someMethod() {`
 - Try to avoid nested if statements where they can be avoided.
+- Ensure there is a new line at the end of every file.
 
 ## Notes
 
