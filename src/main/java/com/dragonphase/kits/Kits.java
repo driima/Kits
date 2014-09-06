@@ -32,6 +32,11 @@ public class Kits extends JavaPlugin {
     @Override
     public void onDisable() {
         getCollectionManager().save();
+
+        // Nullify static references to the plugin
+        Message.setParent(null);
+
+        instance = null;
     }
 
     @Override
