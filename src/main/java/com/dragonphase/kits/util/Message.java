@@ -12,8 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.dragonphase.kits.Kits;
-
 public class Message {
 
     public enum MessageType {
@@ -22,14 +20,8 @@ public class Message {
         WARNING
     }
 
-    private static Kits plugin;
-
-    public static void setParent(Kits instance) {
-        plugin = instance;
-    }
-
     public static String show(String message, MessageType type) {
-        return show(plugin.getName(), message, type);
+        return show("", message, type);
     }
 
     public static String show(String prefix, String message, MessageType type) {

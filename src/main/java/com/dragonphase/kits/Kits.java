@@ -17,7 +17,6 @@ import com.dragonphase.kits.configuration.CollectionManager;
 import com.dragonphase.kits.configuration.Config;
 import com.dragonphase.kits.listeners.EventListener;
 import com.dragonphase.kits.util.DelayedPlayer;
-import com.dragonphase.kits.util.Message;
 import com.dragonphase.kits.util.Time;
 
 public class Kits extends JavaPlugin {
@@ -34,15 +33,12 @@ public class Kits extends JavaPlugin {
         getCollectionManager().save();
 
         // Nullify static references to the plugin
-        Message.setParent(null);
 
         instance = null;
     }
 
     @Override
     public void onEnable() {
-        Message.setParent(this);
-        
         registerConfig();
         registerManagers();
         registerEvents();

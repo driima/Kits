@@ -2,8 +2,8 @@ package com.dragonphase.kits.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -43,7 +43,9 @@ public class KitsCommandExecutor implements CommandExecutor {
     }
 
     private void handleBaseCommand(CommandSender sender) {
-        if (sender instanceof Player && !Permissions.checkPermission((Player) sender, Permissions.KITS_LIST)) return;
+        if (sender instanceof Player && !Permissions.checkPermission((Player) sender, Permissions.KITS_LIST)) {
+            return;
+        }
 
         if (plugin.getCollectionManager().getKits().size() < 1) {
             sender.sendMessage(Message.show("There are no available kits.", MessageType.WARNING));
@@ -52,10 +54,14 @@ public class KitsCommandExecutor implements CommandExecutor {
 
         if (!(sender instanceof Player)) {
             String message = "Available kits: ";
+            
+            List<String> kitNames = new ArrayList<String>();
             for (Kit kit : plugin.getCollectionManager().getKits()) {
-                message += ChatColor.GRAY + ", " + ChatColor.DARK_AQUA + kit.getName();
+                kitNames.add(ChatColor.DARK_AQUA + kit.getName());
             }
-            sender.sendMessage(message.replaceFirst(Pattern.quote(", "), ""));
+            
+            sender.sendMessage(message + StringUtils.join(kitNames, ", "));
+            
             return;
         }
         
@@ -95,14 +101,11 @@ public class KitsCommandExecutor implements CommandExecutor {
     }
 
     private void handleReload(CommandSender sender) {
-        if (sender instanceof Player) {
-            if (Permissions.checkPermission((Player) sender, Permissions.KITS_ADMIN)) {
-                plugin.reload();
-                sender.sendMessage(Message.show("Reloaded configurations.", MessageType.INFO));
-            }
-        } else {
-            plugin.reload();
-            sender.sendMessage(Message.show("Reloaded configurations.", MessageType.INFO));
+        if (sender instanceof Player && !Permissions.checkPermission((Player) sender, Permissions.KITS_ADMIN)) {
+            return;
         }
+        
+        plugin.reload();
+        sender.sendMessage(Message.show("Reloaded configurations.", MessageType.INFO));
     }
 }
