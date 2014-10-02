@@ -56,7 +56,7 @@ public class DelayedPlayer implements ConfigurationSerializable {
     public String getRemainingTime(Kit kit){
         if (!playerDelayed(kit)) return "";
         
-        return Time.toReadableFormat(kit.getDelay() - (System.currentTimeMillis() - getKits().get(kit.getName())), false, false);
+        return Time.fromMilliseconds(kit.getDelay() - (System.currentTimeMillis() - getKits().get(kit.getName()))).toReadableFormat(false);
     }
 
     public void sortKits(CollectionManager manager) {

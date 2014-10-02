@@ -32,8 +32,6 @@ public class Kits extends JavaPlugin {
     public void onDisable() {
         getCollectionManager().save();
 
-        // Nullify static references to the plugin
-
         instance = null;
     }
 
@@ -56,6 +54,7 @@ public class Kits extends JavaPlugin {
     
     private void registerConfig() {
         config = new Config(this, "config");
+        config.copyDefaults();
     }
     
     private void registerManagers() {
@@ -98,9 +97,13 @@ public class Kits extends JavaPlugin {
             return;
         }
         
-        long interval = new Time(config.getString("autosave.interval")).getMilliseconds();
+        Time time = Time.fromExpression(config.getString("autosave.interval"));
+        
+        long interval = time.getTotalMilliseconds();
         
         new AutoSave(this).runTaskTimer(this, (interval*20)/1000, (interval*20)/1000);
+        
+        getLogger().info("AutoSave set to execute every " + time.toReadableFormat(false));
     }
     
     private void checkForUpdates() {

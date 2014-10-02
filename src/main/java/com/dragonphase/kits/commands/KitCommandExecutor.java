@@ -200,9 +200,9 @@ public class KitCommandExecutor implements CommandExecutor {
         }
 
         try {
-            Time value = new Time(args[0]);
-            plugin.getKitManager().editKit(kit, kit.getItems(), value.getMilliseconds(), kit.getClear(), kit.getOverwrite(), kit.getAnnounce());
-            player.sendMessage(Message.show("", "Delay for kit " + kit.getName() + " set to " + args[0], MessageType.INFO));
+            Time value = Time.fromExpression(StringUtils.join(args, " "));
+            plugin.getKitManager().editKit(kit, kit.getItems(), value.getTotalMilliseconds(), kit.getClear(), kit.getOverwrite(), kit.getAnnounce());
+            player.sendMessage(Message.show("", "Delay for kit " + kit.getName() + " set to " + StringUtils.join(args, " "), MessageType.INFO));
         } catch (Exception ex) {
             player.sendMessage(Message.show("", "Incorrect delay format. Example: 1h30m for 1 hour 30 minute delay.", MessageType.WARNING));
         }
