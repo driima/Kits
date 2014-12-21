@@ -74,7 +74,7 @@ public class KitCommandExecutor implements CommandExecutor {
         }
     }
 
-    //Create Kit
+    // Create Kit
 
     private void createKit(CommandSender sender, String[] args) {
         if (!isPlayer(sender)) return;
@@ -107,7 +107,7 @@ public class KitCommandExecutor implements CommandExecutor {
         player.openInventory(inventory);
     }
 
-    //Edit Kit
+    // Edit Kit
 
     private void editKit(CommandSender sender, String[] args) {
         if (!isPlayer(sender)) return;
@@ -149,7 +149,7 @@ public class KitCommandExecutor implements CommandExecutor {
             editKitAnnounce(player, kit, Utils.trim(args));
             return;
         }
-        
+
         if (args[0].equalsIgnoreCase("clear")) {
             editKitClear(player, kit, Utils.trim(args));
         }
@@ -208,7 +208,7 @@ public class KitCommandExecutor implements CommandExecutor {
         }
     }
 
-    //Remove Kit
+    // Remove Kit
 
     private void removeKit(CommandSender sender, String[] args) {
         if (!isPlayer(sender)) return;
@@ -230,7 +230,7 @@ public class KitCommandExecutor implements CommandExecutor {
         }
     }
 
-    //Spawn Kit
+    // Spawn Kit
 
     public void spawnKit(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
@@ -243,8 +243,7 @@ public class KitCommandExecutor implements CommandExecutor {
             return;
         }
 
-        if (spawnKit(sender, args[0], args[1], StringUtils.join(Utils.trim(Utils.trim(args)), " ")))
-            sender.sendMessage(Message.show("", "Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
+        if (spawnKit(sender, args[0], args[1], StringUtils.join(Utils.trim(Utils.trim(args)), " "))) sender.sendMessage(Message.show("", "Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
     }
 
     private void spawnKit(Player player, String[] args) {
@@ -257,11 +256,9 @@ public class KitCommandExecutor implements CommandExecutor {
         if (!Permissions.checkPermission(player, Permissions.KITS_SPAWN + "." + args[0].toLowerCase())) return;
 
         if (args.length > 1 && (!args[1].startsWith("+") && !args[1].startsWith("-"))) {
-            if (!Permissions.checkPermission(player, Permissions.KITS_SPAWN_OTHERS + "." + args[0].toLowerCase()))
-                return;
+            if (!Permissions.checkPermission(player, Permissions.KITS_SPAWN_OTHERS + "." + args[0].toLowerCase())) return;
 
-            if (spawnKit(player, args[0], args[1], StringUtils.join(Utils.trim(Utils.trim(args)), " ")))
-                player.sendMessage(Message.show("", "Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
+            if (spawnKit(player, args[0], args[1], StringUtils.join(Utils.trim(Utils.trim(args)), " "))) player.sendMessage(Message.show("", "Kit " + args[0] + " spawned for " + args[1] + ".", MessageType.INFO));
 
             return;
         }
@@ -330,20 +327,18 @@ public class KitCommandExecutor implements CommandExecutor {
 
         if (plugin.getCollectionManager().getDelayedPlayer(player).playerDelayed(kit) && kit.getDelay() == delay && delay > 0) {
             if (announce) {
-                String message = (sender instanceof Player && sender.getName().equalsIgnoreCase(player.getName()) ? "You are " : player.getName() + " is ")
-                        + "currently delayed for kit " + kit.getName() + ". Remaining time:\n "
-                        + plugin.getCollectionManager().getDelayedPlayer(player).getRemainingTime(kit);
+                String message = (sender instanceof Player && sender.getName().equalsIgnoreCase(player.getName()) ? "You are " : player.getName() + " is ") + "currently delayed for kit " + kit.getName() + ". Remaining time:\n " + plugin.getCollectionManager().getDelayedPlayer(player).getRemainingTime(kit);
                 sender.sendMessage(Message.show("", message, MessageType.WARNING));
             }
             return false;
         }
-        
+
         plugin.getKitManager().spawnKit(player, kit, delay, clear, overwrite, announce);
 
         return true;
     }
 
-    //Helper methods
+    // Helper methods
 
     private boolean isPlayer(CommandSender sender) {
         if (!(sender instanceof Player)) {

@@ -2,10 +2,9 @@ package com.dragonphase.kits.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -17,8 +16,8 @@ import com.dragonphase.kits.api.events.PlayerSpawnKitEvent;
 import com.dragonphase.kits.permissions.Permissions;
 import com.dragonphase.kits.util.FlagType;
 import com.dragonphase.kits.util.Message;
-import com.dragonphase.kits.util.Utils;
 import com.dragonphase.kits.util.Message.MessageType;
+import com.dragonphase.kits.util.Utils;
 
 public class KitManager {
 
@@ -29,10 +28,7 @@ public class KitManager {
     }
 
     /**
-     * Creates a new kit using default values:
-     * delay = 0
-     * overwrite = true
-     * announce = true
+     * Creates a new kit using default values: delay = 0 overwrite = true announce = true
      *
      * @param kitName The name of the kit to create
      * @param contents The contents of the kit
@@ -93,44 +89,44 @@ public class KitManager {
         editKitOverwrite(kit, overwrite);
         editKitAnnounce(kit, announce);
     }
-    
+
     /**
      * Edits the specified Kit's clear value
      * 
      * @param kit The Kit to edit
      * @param clear The clear to edit
      */
-    public void editKitClear(Kit kit, boolean clear){
+    public void editKitClear(Kit kit, boolean clear) {
         kit.setClear(clear);
     }
-    
+
     /**
      * Edits the specified Kit's overwrite value
      * 
      * @param kit The Kit to edit
      * @param overwrite The overwrite to edit
      */
-    public void editKitOverwrite(Kit kit, boolean overwrite){
+    public void editKitOverwrite(Kit kit, boolean overwrite) {
         kit.setOverwrite(overwrite);
     }
-    
+
     /**
      * Edits the specified Kit's announce value
      * 
      * @param kit The Kit to edit
      * @param announce The announce to edit
      */
-    public void editKitAnnounce(Kit kit, boolean announce){
+    public void editKitAnnounce(Kit kit, boolean announce) {
         kit.setAnnounce(announce);
     }
-    
+
     /**
      * Edits the specified Kit's delay value
      * 
      * @param kit The Kit to edit
      * @param delay The delay to edit
      */
-    public void editKitDelay(Kit kit, long delay){
+    public void editKitDelay(Kit kit, long delay) {
         plugin.getCollectionManager().sortDelayedPlayers();
         kit.setDelay(delay);
     }
@@ -144,7 +140,7 @@ public class KitManager {
     public Kit getKit(String kitName) {
         return plugin.getCollectionManager().getKit(Utils.capitalize(kitName.toLowerCase()));
     }
-    
+
     /**
      * Gets all Kits available on the server
      * 
@@ -312,20 +308,23 @@ public class KitManager {
      * @param announce The announce flag to spawn the Kit with
      */
     public void spawnKit(Player player, Kit kit, long delay, boolean clear, boolean overwrite, boolean announce) {
-        
+
         PlayerSpawnKitEvent event = new PlayerSpawnKitEvent(kit, player, clear, overwrite, announce, delay);
-        
+
         Bukkit.getServer().getPluginManager().callEvent(event);
-        
+
         if (event.isCancelled()) {
             return;
         }
-        
+
         List<ItemStack> items = new ArrayList<ItemStack>(Arrays.asList(event.getKit().getItems()));
         java.util.Collections.replaceAll(items, null, new ItemStack(Material.AIR));
 
-        ItemStack[] armor = new ItemStack[]{items.remove(0), items.remove(0), items.remove(0), items.remove(0)};
-        ArrayUtils.reverse(armor);
+        ItemStack[] armor = new ItemStack[] {items.remove(0), items.remove(0), items.remove(0), items.remove(0)};
+        // ArrayUtils.reverse(armor);
+        System.out.println(armor);
+        Collections.reverse(Arrays.asList(armor)); // TODO: Test this!
+        System.out.println(armor);
 
         for (int i = 0; i < 5; i++)
             items.remove(0);
@@ -335,29 +334,26 @@ public class KitManager {
                 player.getInventory().clear();
                 player.getInventory().setArmorContents(armor);
             } else {
-                for (int i = 0; i < armor.length; i ++) {
+                for (int i = 0; i < armor.length; i++) {
                     if (armor[i] == null || armor[i].getType() == Material.AIR) continue;
-                    
+
                     player.getInventory().setItem(player.getInventory().getSize() + i, armor[i]);
                 }
             }
-            
+
             for (int i = 0; i < items.size(); i++) {
-                if (player.getInventory().getItem(i + 9 < 36 ? i + 9 : i - 27) != null
-                        && items.get(i).getType() == Material.AIR) continue;
+                if (player.getInventory().getItem(i + 9 < 36 ? i + 9 : i - 27) != null && items.get(i).getType() == Material.AIR) continue;
                 player.getInventory().setItem(i + 9 < 36 ? i + 9 : i - 27, items.get(i));
             }
         } else {
             player.getInventory().addItem(items.toArray(new ItemStack[items.size()]));
-            
-            for (int i = 0; i < armor.length; i ++) {
-                if (player.getInventory().getArmorContents()[i] == null || player.getInventory().getArmorContents()[i].getType() == Material.AIR)
-                    player.getInventory().setItem(player.getInventory().getSize() + i, armor[i]);
+
+            for (int i = 0; i < armor.length; i++) {
+                if (player.getInventory().getArmorContents()[i] == null || player.getInventory().getArmorContents()[i].getType() == Material.AIR) player.getInventory().setItem(player.getInventory().getSize() + i, armor[i]);
             }
         }
 
-        if (event.getDelay() > 0)
-            plugin.getCollectionManager().getDelayedPlayer(player).addKit(kit, event.getDelay() - kit.getDelay());
+        if (event.getDelay() > 0) plugin.getCollectionManager().getDelayedPlayer(player).addKit(kit, event.getDelay() - kit.getDelay());
 
         if (event.getAnnounce()) {
             player.sendMessage(Message.show("", "Kit " + kit.getName() + " spawned.", MessageType.INFO));

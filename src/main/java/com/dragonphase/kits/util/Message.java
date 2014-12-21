@@ -28,7 +28,7 @@ public class Message {
         return ChatColor.DARK_GRAY + (prefix.isEmpty() ? "" : prefix + ": ") + (type == MessageType.MESSAGE ? ChatColor.GRAY : type == MessageType.INFO ? ChatColor.DARK_AQUA : ChatColor.RED) + message;
     }
 
-    //FancyMessage commands
+    // FancyMessage commands
 
     public static void showMessage(Player player, String title, String... args) {
         if (args.length < 1) {
@@ -63,14 +63,11 @@ public class Message {
                 return;
             }
 
-            message = message.then(command.getTitle())
-                    .itemTooltip(getMessage(command.getArgs()));
-            
-            if (!command.getCommand().isEmpty())
-                message = message.command(command.getCommand());
+            message = message.then(command.getTitle()).itemTooltip(getMessage(command.getArgs()));
 
-            if (commandList.get(commandList.size() - 1) != command)
-                message = message.then(", ").color(ChatColor.GRAY);
+            if (!command.getCommand().isEmpty()) message = message.command(command.getCommand());
+
+            if (commandList.get(commandList.size() - 1) != command) message = message.then(", ").color(ChatColor.GRAY);
 
         }
 

@@ -1,9 +1,9 @@
 package com.dragonphase.kits.configuration;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-
-import net.minecraft.util.org.apache.commons.lang3.ArrayUtils;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -13,7 +13,7 @@ import com.dragonphase.kits.api.Kit;
 import com.dragonphase.kits.util.DelayedPlayer;
 
 public class CollectionManager {
-    
+
     private Kits plugin;
 
     public Config kitConfig;
@@ -24,7 +24,7 @@ public class CollectionManager {
 
     public CollectionManager(Kits instance) {
         plugin = instance;
-        
+
         kits = new ArrayList<Kit>();
         delayedPlayers = new ArrayList<DelayedPlayer>();
     }
@@ -32,7 +32,7 @@ public class CollectionManager {
     public void save() {
         kitConfig.set("kits", kits);
         kitConfig.save();
-        
+
         sortDelayedPlayers();
 
         playerConfig.set("players", delayedPlayers);
@@ -88,13 +88,13 @@ public class CollectionManager {
     public List<DelayedPlayer> getDelayedPlayers() {
         return delayedPlayers;
     }
-    
+
     public void sortDelayedPlayers() {
         for (DelayedPlayer player : delayedPlayers)
             player.sortKits(this);
     }
-    
-    //Migrate kits from pre-Kits 1.7. Resulting inventories are somewhat buggy but can easily be edited ingame.
+
+    // Migrate kits from pre-Kits 1.7. Resulting inventories are somewhat buggy but can easily be edited ingame.
 
     @SuppressWarnings("unchecked")
     private void migrateOldKitsFile() {
@@ -104,7 +104,10 @@ public class CollectionManager {
 
         for (String key : kitConfig.getKeys(false)) {
             ItemStack[] items = ((ArrayList<ItemStack>) kitConfig.get(key + ".kit")).toArray(new ItemStack[((ArrayList<ItemStack>) kitConfig.get(key + ".kit")).size()]);
-            ArrayUtils.reverse(items);
+            // ArrayUtils.reverse(items);
+            System.out.println(items);
+            Collections.reverse(Arrays.asList(items)); //TODO: Test this!
+            System.out.println(items);
             newKits.add(new Kit(key, items, kitConfig.getLong(key + ".delay"), true, kitConfig.getBoolean(key + ".overwrite"), true));
         }
 
