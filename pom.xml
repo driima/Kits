@@ -130,14 +130,9 @@
     </build>
     <distributionManagement>
         <repository>
-            <id>server</id>
+            <id>franga2000-public</id>
             <name>public-releases</name>
             <url>http://repo.franga2000.com/artifactory/public</url>
         </repository>
-        <snapshotRepository>
-            <id>server</id>
-            <name>public-snapshots</name>
-            <url>http://repo.franga2000.com/artifactory/public</url>
-        </snapshotRepository>
     </distributionManagement>
 </project>
