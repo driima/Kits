@@ -12,12 +12,11 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
 
 public final class Utils {
-    
+
     public static final DateFormat timeFormat = new SimpleDateFormat("yyyy:MM:dd:kk:mm:ss:SSSS");
     public static final Date initialDate = new Date(0);
 
-    private Utils() {
-    }
+    private Utils() {}
 
     public static <T> T[] trim(T[] args) {
         return Arrays.copyOfRange(args, 1, args.length);
@@ -29,7 +28,7 @@ public final class Utils {
         list.removeAll(Arrays.asList(null, "", 0, 0.0, 0.0f, 0L));
         return list.toArray((T[]) Array.newInstance(clazz, list.size()));
     }
-    
+
     public static String[] clean(String[] args) {
         return clean(args, String.class);
     }

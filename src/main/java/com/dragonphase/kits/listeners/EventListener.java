@@ -33,11 +33,9 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
-        if (event.getInventory().getName().toLowerCase().startsWith("new kit: "))
-            CreateKit((Player) event.getPlayer(), event.getInventory());
+        if (event.getInventory().getName().toLowerCase().startsWith("new kit: ")) CreateKit((Player) event.getPlayer(), event.getInventory());
 
-        if (event.getInventory().getName().toLowerCase().startsWith("edit kit: "))
-            EditKit((Player) event.getPlayer(), event.getInventory());
+        if (event.getInventory().getName().toLowerCase().startsWith("edit kit: ")) EditKit((Player) event.getPlayer(), event.getInventory());
     }
 
     @SuppressWarnings("deprecation")
@@ -45,8 +43,7 @@ public class EventListener implements Listener {
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.RIGHT_CLICK_AIR) return;
         if (event.isBlockInHand()) return;
-        if (event.getClickedBlock() == null || (event.getClickedBlock().getType() != Material.SIGN_POST && event.getClickedBlock().getType() != Material.WALL_SIGN))
-            return;
+        if (event.getClickedBlock() == null || (event.getClickedBlock().getType() != Material.SIGN_POST && event.getClickedBlock().getType() != Material.WALL_SIGN)) return;
 
         Sign sign = (Sign) event.getClickedBlock().getState();
 
@@ -65,8 +62,7 @@ public class EventListener implements Listener {
         }
 
         if (plugin.getCollectionManager().getDelayedPlayer(event.getPlayer()).playerDelayed(plugin.getKitManager().getKit(arrayLines[0])) && !StringUtils.join(arrayLines).toLowerCase().contains("-delay")) {
-            String message = "You are currently delayed for kit " + arrayLines[0] + ". Remaining time:\n "
-                    + plugin.getCollectionManager().getDelayedPlayer(event.getPlayer()).getRemainingTime(plugin.getKitManager().getKit(arrayLines[0]));
+            String message = "You are currently delayed for kit " + arrayLines[0] + ". Remaining time:\n " + plugin.getCollectionManager().getDelayedPlayer(event.getPlayer()).getRemainingTime(plugin.getKitManager().getKit(arrayLines[0]));
             event.getPlayer().sendMessage(Message.show("", message, MessageType.WARNING));
             return;
         }
@@ -82,11 +78,10 @@ public class EventListener implements Listener {
 
     @EventHandler
     public void onSignChange(SignChangeEvent event) {
-        if (event.getLine(0).equalsIgnoreCase("[kit]") && !Permissions.checkPermission(event.getPlayer(), Permissions.KITS_ADMIN))
-            event.setCancelled(true);
+        if (event.getLine(0).equalsIgnoreCase("[kit]") && !Permissions.checkPermission(event.getPlayer(), Permissions.KITS_ADMIN)) event.setCancelled(true);
     }
 
-    //Helper methods
+    // Helper methods
 
     public void CreateKit(Player player, Inventory inventory) {
         String inventoryName = inventory.getName().toLowerCase().replace("new kit: ", "");

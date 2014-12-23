@@ -26,16 +26,16 @@ public class DelayedPlayer implements ConfigurationSerializable {
         this.playerUniqueId = uuid;
         this.kits = new HashMap<String, Long>(kits);
     }
-    
+
     @SuppressWarnings("unchecked")
     public DelayedPlayer(Map<String, Object> args) {
         this(UUID.fromString((String) args.get("player")), (HashMap<String, Long>) args.get("kits"));
     }
-    
+
     public UUID getUniqueId() {
         return playerUniqueId;
     }
-    
+
     public HashMap<String, Long> getKits() {
         return kits;
     }
@@ -52,10 +52,10 @@ public class DelayedPlayer implements ConfigurationSerializable {
         }
         return delayed;
     }
-    
-    public String getRemainingTime(Kit kit){
+
+    public String getRemainingTime(Kit kit) {
         if (!playerDelayed(kit)) return "";
-        
+
         return Time.fromMilliseconds(kit.getDelay() - (System.currentTimeMillis() - getKits().get(kit.getName()))).toReadableFormat(false);
     }
 
