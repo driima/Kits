@@ -321,10 +321,7 @@ public class KitManager {
         java.util.Collections.replaceAll(items, null, new ItemStack(Material.AIR));
 
         ItemStack[] armor = new ItemStack[] {items.remove(0), items.remove(0), items.remove(0), items.remove(0)};
-        // ArrayUtils.reverse(armor);
-        System.out.println(armor);
-        Collections.reverse(Arrays.asList(armor)); // TODO: Test this!
-        System.out.println(armor);
+        Collections.reverse(Arrays.asList(armor));
 
         for (int i = 0; i < 5; i++)
             items.remove(0);

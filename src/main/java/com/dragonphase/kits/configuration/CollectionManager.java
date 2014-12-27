@@ -104,10 +104,7 @@ public class CollectionManager {
 
         for (String key : kitConfig.getKeys(false)) {
             ItemStack[] items = ((ArrayList<ItemStack>) kitConfig.get(key + ".kit")).toArray(new ItemStack[((ArrayList<ItemStack>) kitConfig.get(key + ".kit")).size()]);
-            // ArrayUtils.reverse(items);
-            System.out.println(items);
-            Collections.reverse(Arrays.asList(items)); //TODO: Test this!
-            System.out.println(items);
+            Collections.reverse(Arrays.asList(items));
             newKits.add(new Kit(key, items, kitConfig.getLong(key + ".delay"), true, kitConfig.getBoolean(key + ".overwrite"), true));
         }
 
