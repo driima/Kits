@@ -10,7 +10,7 @@ import com.dragonphase.kits.api.Kit;
 public class PlayerSpawnKitEvent extends PlayerEvent implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
 
-    private Kit kit;
+    private final Kit kit;
     private boolean clear, overwrite, announce;
     private long delay;
     private boolean cancelled;

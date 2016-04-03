@@ -1,11 +1,11 @@
 package com.dragonphase.kits.api;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Kit implements ConfigurationSerializable {
 
@@ -26,7 +26,7 @@ public class Kit implements ConfigurationSerializable {
     @SuppressWarnings("unchecked")
     public Kit(Map<String, Object> args) {
         setName((String) args.get("name"));
-        setItems(((ArrayList<ItemStack>) args.get("items")).toArray(new ItemStack[((ArrayList<ItemStack>) args.get("items")).size()]));
+        setItems(((List<ItemStack>) args.get("items")).toArray(new ItemStack[((List<ItemStack>) args.get("items")).size()]));
         setClear((Boolean) (args.containsKey("clear") ? args.get("clear") : true));
         setOverwrite((Boolean) (args.containsKey("overwrite") ? args.get("overwrite") : true));
         setAnnounce((Boolean) (args.containsKey("announce") ? args.get("announce") : true));

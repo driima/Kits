@@ -55,7 +55,7 @@ public class Message {
     public static void showCommand(Player player, String prefix, CommandDescription... commands) {
         FancyMessage message = new FancyMessage(prefix).color(ChatColor.DARK_GRAY);
 
-        List<CommandDescription> commandList = new ArrayList<CommandDescription>(Arrays.asList(commands));
+        List<CommandDescription> commandList = new ArrayList<>(Arrays.asList(commands));
 
         for (CommandDescription command : commandList) {
             if (command.getArgs().length < 1) {
@@ -79,7 +79,7 @@ public class Message {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.RESET + args[0]);
 
-        List<String> lore = new ArrayList<String>(Arrays.asList(Utils.trim(args)));
+        List<String> lore = new ArrayList<>(Arrays.asList(Utils.trim(args)));
         for (String line : lore)
             lore.set(lore.indexOf(line), ChatColor.RESET + line);
 

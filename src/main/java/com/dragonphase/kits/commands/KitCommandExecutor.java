@@ -1,10 +1,14 @@
 package com.dragonphase.kits.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
+import com.dragonphase.kits.Kits;
+import com.dragonphase.kits.api.Kit;
+import com.dragonphase.kits.api.KitException;
+import com.dragonphase.kits.permissions.Permissions;
+import com.dragonphase.kits.util.FlagType;
+import com.dragonphase.kits.util.Message;
+import com.dragonphase.kits.util.Message.MessageType;
+import com.dragonphase.kits.util.Time;
+import com.dragonphase.kits.util.Utils;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,18 +18,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import com.dragonphase.kits.Kits;
-import com.dragonphase.kits.api.Kit;
-import com.dragonphase.kits.api.KitException;
-import com.dragonphase.kits.permissions.Permissions;
-import com.dragonphase.kits.util.FlagType;
-import com.dragonphase.kits.util.Message;
-import com.dragonphase.kits.util.Time;
-import com.dragonphase.kits.util.Utils;
-import com.dragonphase.kits.util.Message.MessageType;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KitCommandExecutor implements CommandExecutor {
-    private Kits plugin;
+    private final Kits plugin;
 
     public KitCommandExecutor(Kits instance) {
         plugin = instance;
@@ -156,7 +156,6 @@ public class KitCommandExecutor implements CommandExecutor {
 
         if (args[0].equalsIgnoreCase("delay")) {
             editKitDelay(player, kit, Utils.trim(args));
-            return;
         }
     }
 
@@ -284,7 +283,7 @@ public class KitCommandExecutor implements CommandExecutor {
 
     private boolean spawnKit(CommandSender sender, Player player, Kit kit, String flags) {
         List<String> flagList = StringUtils.isEmpty(flags) ? new ArrayList<String>() : Arrays.asList(flags.split(" "));
-        HashMap<String, Boolean> Flags = new HashMap<>();
+        Map<String, Boolean> Flags = new HashMap<>();
 
         for (String flag : flagList) {
             if (flag.isEmpty() || flag.length() < 2) continue;
@@ -298,7 +297,7 @@ public class KitCommandExecutor implements CommandExecutor {
         return spawnKit(sender, player, kit, Flags);
     }
 
-    private boolean spawnKit(CommandSender sender, Player player, Kit kit, HashMap<String, Boolean> flags) {
+    private boolean spawnKit(CommandSender sender, Player player, Kit kit, Map<String, Boolean> flags) {
         long delay = Permissions.hasPermission(player, Permissions.KITS_NODELAY, kit.getName()) ? 0 : kit.getDelay();
         boolean clear = kit.getClear();
         boolean overwrite = kit.getOverwrite();

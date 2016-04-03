@@ -1,16 +1,5 @@
 package com.dragonphase.kits.api;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
 import com.dragonphase.kits.Kits;
 import com.dragonphase.kits.api.events.PlayerSpawnKitEvent;
 import com.dragonphase.kits.permissions.Permissions;
@@ -18,10 +7,21 @@ import com.dragonphase.kits.util.FlagType;
 import com.dragonphase.kits.util.Message;
 import com.dragonphase.kits.util.Message.MessageType;
 import com.dragonphase.kits.util.Utils;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class KitManager {
 
-    private Kits plugin;
+    private final Kits plugin;
 
     public KitManager(Kits instance) {
         plugin = instance;
@@ -216,7 +216,7 @@ public class KitManager {
      * @param flags The flags to spawn the Kit with
      * @throws KitException If the kit does not exist
      */
-    public void spawnKit(Player player, String kitName, HashMap<String, Boolean> flags) throws KitException {
+    public void spawnKit(Player player, String kitName, Map<String, Boolean> flags) throws KitException {
         if (kitExists(kitName)) spawnKit(player, getKit(kitName), flags);
         else throw new KitException("The kit " + kitName + " does not exist.");
     }
@@ -241,7 +241,7 @@ public class KitManager {
      */
     public void spawnKit(Player player, Kit kit, String... flags) {
         List<String> flagList = Arrays.asList(flags);
-        HashMap<String, Boolean> flagMap = new HashMap<>();
+        Map<String, Boolean> flagMap = new HashMap<>();
 
         for (String flag : flagList) {
             if (flag.isEmpty() || flag.length() < 2) continue;
@@ -258,7 +258,7 @@ public class KitManager {
      * @param kit The Kit to spawn
      * @param flags The flags to spawn the Kit with
      */
-    public void spawnKit(Player player, Kit kit, HashMap<String, Boolean> flags) {
+    public void spawnKit(Player player, Kit kit, Map<String, Boolean> flags) {
         long delay = Permissions.hasPermission(player, Permissions.KITS_NODELAY, kit.getName()) ? 0 : kit.getDelay();
         boolean clear = kit.getClear();
         boolean overwrite = kit.getOverwrite();

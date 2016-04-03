@@ -21,7 +21,7 @@ import com.dragonphase.kits.util.Utils;
 import com.dragonphase.kits.util.Message.MessageType;
 
 public class KitsCommandExecutor implements CommandExecutor {
-    private Kits plugin;
+    private final Kits plugin;
 
     public KitsCommandExecutor(Kits instance) {
         plugin = instance;

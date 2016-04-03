@@ -14,7 +14,7 @@ public enum TimeType {
 
     private final String value;
 
-    private TimeType(String value) {
+    TimeType(String value) {
         this.value = value;
     }
 

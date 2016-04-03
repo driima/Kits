@@ -14,13 +14,13 @@ import com.dragonphase.kits.util.DelayedPlayer;
 
 public class CollectionManager {
 
-    private Kits plugin;
+    private final Kits plugin;
 
     public Config kitConfig;
-    public List<Kit> kits;
+    public final List<Kit> kits;
 
     public Config playerConfig;
-    public List<DelayedPlayer> delayedPlayers;
+    public final List<DelayedPlayer> delayedPlayers;
 
     public CollectionManager(Kits instance) {
         plugin = instance;
@@ -43,10 +43,18 @@ public class CollectionManager {
     public void load() {
         kitConfig = new Config(plugin, "kits");
         migrateOldKitsFile();
-        kits = kitConfig.get("kits") == null ? new ArrayList<Kit>() : (List<Kit>) kitConfig.get("kits");
-
         playerConfig = new Config(plugin, "players");
-        delayedPlayers = playerConfig.get("players") == null ? new ArrayList<DelayedPlayer>() : (List<DelayedPlayer>) playerConfig.getList("players");
+
+        kits.clear();
+        delayedPlayers.clear();
+
+        if(kitConfig.get("kits") != null) {
+            kits.addAll((List<Kit>) kitConfig.getList("kits"));
+        }
+
+        if(playerConfig.get("players") != null) {
+            delayedPlayers.addAll((List<DelayedPlayer>) playerConfig.getList("players"));
+        }
     }
 
     public void reload() {
