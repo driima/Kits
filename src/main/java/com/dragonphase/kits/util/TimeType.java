@@ -14,7 +14,7 @@ public enum TimeType {
 
     private final String value;
 
-    private TimeType(String value) {
+    TimeType(String value) {
         this.value = value;
     }
 
@@ -22,7 +22,7 @@ public enum TimeType {
         return value;
     }
 
-    private static final Map<String, TimeType> BY_VALUE = new HashMap<String, TimeType>();
+    private static final Map<String, TimeType> BY_VALUE = new HashMap<>();
 
     public static TimeType match(String value) {
         return BY_VALUE.containsKey(value.toLowerCase()) ? BY_VALUE.get(value.toLowerCase()) : TimeType.valueOf((value + (value.toLowerCase().endsWith("s") ? "" : "s")).toUpperCase());

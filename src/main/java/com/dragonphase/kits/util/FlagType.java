@@ -1,8 +1,7 @@
 package com.dragonphase.kits.util;
 
+import java.util.HashMap;
 import java.util.Map;
-
-import com.google.common.collect.Maps;
 
 public enum FlagType {
     OVERWRITE,
@@ -10,7 +9,7 @@ public enum FlagType {
     DELAY,
     CLEAR;
 
-    private static final Map<String, FlagType> BY_NAME = Maps.newHashMap();
+    private static final Map<String, FlagType> BY_NAME = new HashMap<>();
 
     public static FlagType match(String name) {
         return BY_NAME.get(name.toLowerCase());

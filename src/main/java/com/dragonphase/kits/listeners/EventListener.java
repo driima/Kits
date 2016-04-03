@@ -25,7 +25,7 @@ import com.dragonphase.kits.util.Utils;
 import com.dragonphase.kits.util.Message.MessageType;
 
 public class EventListener implements Listener {
-    public Kits plugin;
+    public final Kits plugin;
 
     public EventListener(Kits instance) {
         plugin = instance;
@@ -51,7 +51,7 @@ public class EventListener implements Listener {
         if (!sign.getLine(0).equalsIgnoreCase("[kit]")) return;
         if (!Permissions.checkPermission(event.getPlayer(), Permissions.KITS_SIGN)) return;
 
-        List<String> lines = new ArrayList<String>(Arrays.asList(StringUtils.join(sign.getLines(), " ").split(" ")));
+        List<String> lines = new ArrayList<>(Arrays.asList(StringUtils.join(sign.getLines(), " ").split(" ")));
         lines.removeAll(Arrays.asList("", null));
 
         String[] arrayLines = Utils.trim(lines.toArray(new String[lines.size()]));
@@ -70,7 +70,7 @@ public class EventListener implements Listener {
         try {
             plugin.getKitManager().spawnKit(event.getPlayer(), arrayLines[0], Utils.trim(arrayLines));
         } catch (KitException e) {
-            plugin.getLogger().warning("The sign at " + Utils.getLocationationAsString(event.getClickedBlock().getLocation()) + " threw an exception: " + e.getMessage());
+            plugin.getLogger().warning("The sign at " + Utils.getLocationAsString(event.getClickedBlock().getLocation()) + " threw an exception: " + e.getMessage());
         }
 
         event.getPlayer().updateInventory();
