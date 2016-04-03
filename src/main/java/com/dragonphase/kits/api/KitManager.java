@@ -241,7 +241,7 @@ public class KitManager {
      */
     public void spawnKit(Player player, Kit kit, String... flags) {
         List<String> flagList = Arrays.asList(flags);
-        HashMap<String, Boolean> flagMap = new HashMap<String, Boolean>();
+        HashMap<String, Boolean> flagMap = new HashMap<>();
 
         for (String flag : flagList) {
             if (flag.isEmpty() || flag.length() < 2) continue;
@@ -317,7 +317,7 @@ public class KitManager {
             return;
         }
 
-        List<ItemStack> items = new ArrayList<ItemStack>(Arrays.asList(event.getKit().getItems()));
+        List<ItemStack> items = new ArrayList<>(Arrays.asList(event.getKit().getItems()));
         java.util.Collections.replaceAll(items, null, new ItemStack(Material.AIR));
 
         ItemStack[] armor = new ItemStack[] {items.remove(0), items.remove(0), items.remove(0), items.remove(0)};

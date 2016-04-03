@@ -284,7 +284,7 @@ public class KitCommandExecutor implements CommandExecutor {
 
     private boolean spawnKit(CommandSender sender, Player player, Kit kit, String flags) {
         List<String> flagList = StringUtils.isEmpty(flags) ? new ArrayList<String>() : Arrays.asList(flags.split(" "));
-        HashMap<String, Boolean> Flags = new HashMap<String, Boolean>();
+        HashMap<String, Boolean> Flags = new HashMap<>();
 
         for (String flag : flagList) {
             if (flag.isEmpty() || flag.length() < 2) continue;

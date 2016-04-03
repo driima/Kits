@@ -88,7 +88,7 @@ public class Kit implements ConfigurationSerializable {
 
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, Object> result = new HashMap<>();
 
         result.put("name", getName());
         result.put("delay", getDelay());

@@ -19,12 +19,12 @@ public class DelayedPlayer implements ConfigurationSerializable {
 
     public DelayedPlayer(Player player) {
         playerUniqueId = player.getUniqueId();
-        this.kits = new HashMap<String, Long>();
+        this.kits = new HashMap<>();
     }
 
     public DelayedPlayer(UUID uuid, HashMap<String, Long> kits) {
         this.playerUniqueId = uuid;
-        this.kits = new HashMap<String, Long>(kits);
+        this.kits = new HashMap<>(kits);
     }
 
     @SuppressWarnings("unchecked")
@@ -71,7 +71,7 @@ public class DelayedPlayer implements ConfigurationSerializable {
 
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, Object> result = new HashMap<>();
 
         result.put("player", getUniqueId().toString());
         result.put("kits", getKits());

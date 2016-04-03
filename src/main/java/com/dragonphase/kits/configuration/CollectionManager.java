@@ -25,8 +25,8 @@ public class CollectionManager {
     public CollectionManager(Kits instance) {
         plugin = instance;
 
-        kits = new ArrayList<Kit>();
-        delayedPlayers = new ArrayList<DelayedPlayer>();
+        kits = new ArrayList<>();
+        delayedPlayers = new ArrayList<>();
     }
 
     public void save() {
@@ -100,7 +100,7 @@ public class CollectionManager {
     private void migrateOldKitsFile() {
         if (kitConfig.contains("kits")) return;
 
-        List<Kit> newKits = new ArrayList<Kit>();
+        List<Kit> newKits = new ArrayList<>();
 
         for (String key : kitConfig.getKeys(false)) {
             ItemStack[] items = ((ArrayList<ItemStack>) kitConfig.get(key + ".kit")).toArray(new ItemStack[((ArrayList<ItemStack>) kitConfig.get(key + ".kit")).size()]);
